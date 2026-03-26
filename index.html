@@ -143,12 +143,112 @@
   .user-name{font-size:14px;font-weight:600}
   .user-email{font-size:12px;color:var(--text2)}
 
+  /* LOGIN TYPE SELECT */
+  .login-type-select{display:flex;gap:12px;margin-bottom:24px}
+  .login-type-btn{flex:1;padding:16px;border-radius:12px;background:var(--surface2);border:2px solid var(--border);color:var(--text);font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;text-align:center}
+  .login-type-btn:hover{border-color:var(--accent);background:var(--surface)}
+  .login-type-btn.selected{border-color:var(--accent);background:var(--accent);color:#fff}
+  .login-type-btn .login-type-icon{font-size:28px;display:block;margin-bottom:6px}
+  .login-form-area{display:none}
+  .login-form-area.show{display:block}
+  .login-back{background:none;border:none;color:var(--text2);font-size:13px;cursor:pointer;margin-bottom:16px;font-family:'DM Sans',sans-serif;padding:0}
+  .login-back:hover{color:var(--text)}
+
+  /* PATIENT AREA */
+  #patient-screen{display:none;min-height:100vh;background:var(--bg)}
+  .patient-header{display:flex;justify-content:space-between;align-items:center;padding:20px 32px;border-bottom:1px solid var(--border);background:var(--surface)}
+  .patient-header .logo{margin-bottom:0}
+  .patient-greeting{font-size:18px;font-weight:600;margin-bottom:4px}
+  .patient-greeting-sub{font-size:13px;color:var(--text2);margin-bottom:28px}
+  .patient-body{padding:32px;max-width:960px;margin:0 auto}
+  .patient-cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;margin-bottom:28px}
+  .patient-cat-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px 20px;text-align:center;cursor:pointer;transition:all .2s}
+  .patient-cat-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .patient-cat-card.active{border-color:var(--accent);background:var(--surface2)}
+  .patient-cat-icon{font-size:36px;margin-bottom:8px}
+  .patient-cat-name{font-size:15px;font-weight:600}
+  .patient-cat-count{font-size:12px;color:var(--text2);margin-top:4px}
+  .patient-materials{display:flex;flex-direction:column;gap:14px}
+  .patient-mat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;transition:border-color .15s}
+  .patient-mat-card:hover{border-color:var(--accent)}
+  .patient-mat-title{font-size:16px;font-weight:600;margin-bottom:6px}
+  .patient-mat-type{font-size:12px;color:var(--text2);margin-bottom:12px;font-family:'DM Mono',monospace}
+  .patient-mat-video{width:100%;aspect-ratio:16/9;border-radius:8px;border:none;background:#000}
+  .patient-mat-text{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:16px;font-size:14px;line-height:1.7;white-space:pre-wrap;max-height:400px;overflow-y:auto}
+  .patient-mat-link{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--accent);color:#fff;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;transition:background .15s}
+  .patient-mat-link:hover{background:#2563eb}
+
+  /* MATERIAIS SECTION (PROFISSIONAL) */
+  .mat-cat-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  .mat-cat-title{font-size:16px;font-weight:700;text-transform:capitalize}
+  .mat-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border)}
+  .mat-item:last-child{border-bottom:none}
+  .mat-item-icon{font-size:20px;flex-shrink:0}
+  .mat-item-info{flex:1}
+  .mat-item-title{font-size:14px;font-weight:600}
+  .mat-item-meta{font-size:12px;color:var(--text2)}
+  .mat-liberados-grid{display:flex;flex-direction:column;gap:6px;max-height:300px;overflow-y:auto}
+  .mat-liberado-item{display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--surface2);border-radius:6px;font-size:13px}
+  .mat-liberado-item input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px;cursor:pointer}
+  .mat-liberado-cat{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace}
+
+  /* QUESTIONARIO */
+  .quiz-banner{background:linear-gradient(135deg,#1a2d4a,#1e2535);border:2px solid var(--accent);border-radius:14px;padding:20px 24px;margin-bottom:24px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:16px}
+  .quiz-banner:hover{border-color:#60a5fa;transform:translateY(-1px)}
+  .quiz-banner-icon{font-size:36px;flex-shrink:0}
+  .quiz-banner-text{flex:1}
+  .quiz-banner-title{font-size:16px;font-weight:700;margin-bottom:2px}
+  .quiz-banner-sub{font-size:13px;color:var(--text2)}
+  .quiz-banner-btn{padding:10px 20px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
+  .quiz-banner-btn:hover{background:#2563eb}
+  .quiz-form{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px;margin-bottom:24px}
+  .quiz-bloco{margin-bottom:28px}
+  .quiz-bloco-title{font-size:15px;font-weight:700;color:var(--accent);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+  .quiz-pergunta{margin-bottom:20px}
+  .quiz-pergunta-label{font-size:14px;font-weight:600;margin-bottom:8px;line-height:1.4}
+  .quiz-pergunta-num{color:var(--accent);font-family:'DM Mono',monospace;margin-right:6px}
+  .quiz-options{display:flex;flex-wrap:wrap;gap:6px}
+  .quiz-opt{padding:8px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;transition:all .15s;color:var(--text2)}
+  .quiz-opt:hover{border-color:var(--accent);color:var(--text)}
+  .quiz-opt.selected{background:var(--accent);border-color:var(--accent);color:#fff}
+  .quiz-scale{display:flex;gap:6px}
+  .quiz-scale-btn{width:44px;height:44px;border-radius:10px;background:var(--bg);border:1px solid var(--border);font-size:16px;font-weight:700;cursor:pointer;transition:all .15s;color:var(--text2);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace}
+  .quiz-scale-btn:hover{border-color:var(--accent);color:var(--text)}
+  .quiz-scale-btn.selected{background:var(--accent);border-color:var(--accent);color:#fff}
+  .quiz-scale-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-top:4px}
+  .quiz-textarea{width:100%;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;outline:none;resize:vertical;min-height:60px;transition:border-color .15s}
+  .quiz-textarea:focus{border-color:var(--accent)}
+  .quiz-locked{text-align:center;padding:32px;color:var(--text2)}
+  .quiz-locked-icon{font-size:40px;margin-bottom:8px}
+  .quiz-resp-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:12px;cursor:pointer;transition:border-color .15s}
+  .quiz-resp-card:hover{border-color:var(--accent)}
+  .quiz-resp-header{display:flex;justify-content:space-between;align-items:center}
+  .quiz-resp-date{font-family:'DM Mono',monospace;font-size:13px}
+  .quiz-resp-badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600}
+  .quiz-resp-detail{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:none}
+  .quiz-resp-detail.open{display:block}
+  .quiz-resp-item{display:flex;gap:8px;margin-bottom:8px;font-size:13px}
+  .quiz-resp-q{color:var(--text2);min-width:0;flex:1}
+  .quiz-resp-a{font-weight:600;color:var(--text);text-align:right;flex-shrink:0;max-width:50%}
+  .quiz-evolution{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:20px}
+  .quiz-evo-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px}
+  .quiz-evo-label{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px}
+  .quiz-evo-value{font-size:22px;font-weight:700;font-family:'DM Mono',monospace}
+  .quiz-evo-trend{font-size:11px;margin-top:2px}
+  .quiz-pendente-row{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border)}
+  .quiz-pendente-row:last-child{border-bottom:none}
+
   @media(max-width:768px){
     .sidebar{width:100%;height:auto;position:static;flex-direction:row;padding:12px 16px;overflow-x:auto}
     .main{margin-left:0;padding:16px}
     .cards-row{grid-template-columns:repeat(2,1fr)}
     .sidebar .logo,.sidebar .logo-sub,.sidebar-footer{display:none}
     .fin-row,.form-row{grid-template-columns:1fr}
+    .patient-header{padding:16px}
+    .patient-body{padding:16px}
+    .patient-cats{grid-template-columns:repeat(2,1fr)}
+    .quiz-scale-btn{width:36px;height:36px;font-size:14px}
+    .quiz-evolution{grid-template-columns:repeat(2,1fr)}
   }
 </style>
 </head>
@@ -159,12 +259,55 @@
   <div class="login-box">
     <div class="login-logo">Consultoria V6<span>.</span></div>
     <div class="login-sub">Gestão de Pacientes · Acesso Restrito</div>
-    <div class="login-error" id="login-error">E-mail ou senha incorretos.</div>
-    <label class="login-label">E-mail</label>
-    <input class="login-input" id="login-email" type="email" placeholder="seu@email.com" autocomplete="email">
-    <label class="login-label">Senha</label>
-    <input class="login-input" id="login-senha" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')fazerLogin()">
-    <button class="login-btn" onclick="fazerLogin()">Entrar</button>
+    <!-- Type selection -->
+    <div id="login-type-area">
+      <div class="login-type-select">
+        <button class="login-type-btn" onclick="showLoginForm('profissional')">
+          <span class="login-type-icon">🩺</span>Sou Profissional
+        </button>
+        <button class="login-type-btn" onclick="showLoginForm('paciente')">
+          <span class="login-type-icon">👤</span>Sou Paciente
+        </button>
+      </div>
+    </div>
+    <!-- Professional login -->
+    <div class="login-form-area" id="login-form-profissional">
+      <button class="login-back" onclick="showLoginType()">← Voltar</button>
+      <div class="login-error" id="login-error">E-mail ou senha incorretos.</div>
+      <label class="login-label">E-mail</label>
+      <input class="login-input" id="login-email" type="email" placeholder="seu@email.com" autocomplete="email">
+      <label class="login-label">Senha</label>
+      <input class="login-input" id="login-senha" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')fazerLogin()">
+      <button class="login-btn" onclick="fazerLogin()">Entrar como Profissional</button>
+    </div>
+    <!-- Patient login — step 1: email -->
+    <div class="login-form-area" id="login-form-paciente">
+      <button class="login-back" onclick="showLoginType()">← Voltar</button>
+      <div class="login-error" id="login-error-pac"></div>
+      <label class="login-label">Seu E-mail</label>
+      <input class="login-input" id="login-email-pac" type="email" placeholder="seu@email.com" autocomplete="email" onkeydown="if(event.key==='Enter')verificarEmailPaciente()">
+      <button class="login-btn" style="background:var(--accent2)" onclick="verificarEmailPaciente()">Continuar</button>
+    </div>
+    <!-- Patient login — step 2: enter password -->
+    <div class="login-form-area" id="login-form-pac-senha">
+      <button class="login-back" onclick="voltarEmailPaciente()">← Voltar</button>
+      <div class="login-error" id="login-error-pac2"></div>
+      <div style="font-size:14px;color:var(--text2);margin-bottom:16px">Olá, <strong id="pac-login-nome-display"></strong></div>
+      <label class="login-label">Senha</label>
+      <input class="login-input" id="login-senha-pac" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')fazerLoginPaciente()">
+      <button class="login-btn" style="background:var(--accent2)" onclick="fazerLoginPaciente()">Entrar</button>
+    </div>
+    <!-- Patient login — step 2b: create password (first access) -->
+    <div class="login-form-area" id="login-form-pac-criar">
+      <button class="login-back" onclick="voltarEmailPaciente()">← Voltar</button>
+      <div style="font-size:14px;color:var(--text2);margin-bottom:4px">Olá, <strong id="pac-criar-nome-display"></strong></div>
+      <div style="font-size:13px;color:var(--accent2);margin-bottom:16px">Primeiro acesso! Crie sua senha abaixo.</div>
+      <label class="login-label">Criar Senha</label>
+      <input class="login-input" id="login-criar-senha" type="password" placeholder="Mínimo 4 caracteres">
+      <label class="login-label">Confirmar Senha</label>
+      <input class="login-input" id="login-criar-senha2" type="password" placeholder="Repita a senha" onkeydown="if(event.key==='Enter')criarSenhaPaciente()">
+      <button class="login-btn" style="background:var(--accent2)" onclick="criarSenhaPaciente()">Criar Senha e Entrar</button>
+    </div>
   </div>
 </div>
 
@@ -178,6 +321,8 @@
     <button class="nav-item" onclick="showSection('pacientes',this)"><span>👤</span> Pacientes</button>
     <button class="nav-item" onclick="showSection('financeiro',this)"><span>💰</span> Financeiro</button>
     <button class="nav-item" onclick="showSection('protocolos',this)"><span>📋</span> Protocolos</button>
+    <button class="nav-item" onclick="showSection('materiais',this)"><span>📁</span> Materiais</button>
+    <button class="nav-item" onclick="showSection('questionarios',this)"><span>📊</span> Questionários</button>
     <button class="nav-item" onclick="showSection('usuarios',this)" id="nav-usuarios" style="display:none"><span>👥</span> Usuários</button>
     <div class="sidebar-footer">
       <div class="sidebar-user" id="sidebar-email"></div>
@@ -217,7 +362,7 @@
       </div>
       <div class="tabs" id="filter-tabs"></div>
       <div class="table-wrap">
-        <table><thead><tr><th>Paciente</th><th>Plano</th><th>Última Consulta</th><th>Follow-ups</th><th>Status</th><th></th></tr></thead>
+        <table><thead><tr><th>Paciente</th><th>Plano</th><th>Início Protocolo</th><th>Follow-ups</th><th>Status</th><th></th></tr></thead>
         <tbody id="tabela-pacientes"></tbody></table>
       </div>
     </section>
@@ -234,24 +379,24 @@
         <div class="card warn"><div class="card-label">A Receber</div><div class="card-value" id="fin-pendente">R$0</div><div class="card-sub">pagamentos pendentes</div></div>
         <div class="card"><div class="card-label">Recebimentos</div><div class="card-value" id="fin-count">0</div><div class="card-sub">registros totais</div></div>
       </div>
-      <div class="table-wrap" style="margin-bottom:20px">
-        <div class="table-header">
-          <div style="font-size:14px;font-weight:600;">Faturamento por Mês</div>
-          <div style="display:flex;gap:8px;align-items:center">
-            <select class="form-select" id="fin-ano-filtro" onchange="renderFinanceiro()" style="width:110px;padding:6px 10px;font-size:13px"></select>
-          </div>
-        </div>
-        <div id="fin-por-mes" style="padding:16px;"></div>
-      </div>
       <div class="fin-row">
+        <div class="table-wrap">
+          <div class="table-header">
+            <div style="font-size:14px;font-weight:600;">Faturamento por Mês</div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <select class="form-select" id="fin-ano-filtro" onchange="renderFinanceiro()" style="width:110px;padding:6px 10px;font-size:13px"></select>
+            </div>
+          </div>
+          <div id="fin-por-mes" style="padding:10px;font-size:11px"></div>
+        </div>
         <div class="table-wrap">
           <div class="table-header"><div style="font-size:14px;font-weight:600;">Receita por Plano</div></div>
           <div id="fin-por-plano" style="padding:16px;"></div>
         </div>
-        <div class="table-wrap">
-          <div class="table-header"><div style="font-size:14px;font-weight:600;">Últimos Recebimentos</div></div>
-          <div id="fin-lista"></div>
-        </div>
+      </div>
+      <div class="table-wrap" style="margin-top:20px">
+        <div class="table-header"><div style="font-size:14px;font-weight:600;">Últimos Recebimentos</div></div>
+        <div id="fin-lista"></div>
       </div>
     </section>
 
@@ -276,8 +421,65 @@
       </div>
     </section>
 
+    <!-- QUESTIONARIOS (PROFISSIONAL) -->
+    <section class="section" id="section-questionarios">
+      <div class="page-header">
+        <div><div class="page-title">Questionários</div><div class="page-sub">Acompanhamento quinzenal dos pacientes</div></div>
+      </div>
+      <div class="cards-row" style="grid-template-columns:repeat(3,1fr);margin-bottom:20px">
+        <div class="card warn"><div class="card-label">Pendentes</div><div class="card-value" id="quiz-count-pendentes">0</div><div class="card-sub">aguardando resposta</div></div>
+        <div class="card green"><div class="card-label">Respondidos</div><div class="card-value" id="quiz-count-respondidos">0</div><div class="card-sub">total de respostas</div></div>
+        <div class="card accent"><div class="card-label">Pacientes</div><div class="card-value" id="quiz-count-pacientes">0</div><div class="card-sub">com questionário ativo</div></div>
+      </div>
+      <div class="table-wrap" style="margin-bottom:20px">
+        <div class="table-header"><div style="font-size:14px;font-weight:600;">Questionários Pendentes</div></div>
+        <div id="quiz-pendentes-lista"></div>
+      </div>
+      <div class="table-wrap">
+        <div class="table-header">
+          <div style="font-size:14px;font-weight:600;">Histórico por Paciente</div>
+          <input class="search-input" type="text" placeholder="Buscar paciente..." oninput="filtrarQuizPacientes(this.value)">
+        </div>
+        <div id="quiz-historico-lista"></div>
+      </div>
+    </section>
+
+    <!-- MATERIAIS (PROFISSIONAL) -->
+    <section class="section" id="section-materiais">
+      <div class="page-header">
+        <div><div class="page-title">Materiais</div><div class="page-sub">Gerencie categorias e materiais para pacientes</div></div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-ghost" onclick="openModal('modal-categoria')">+ Categoria</button>
+          <button class="btn btn-primary" onclick="openModal('modal-material')">+ Material</button>
+        </div>
+      </div>
+      <div id="materiais-lista"></div>
+    </section>
+
   </main>
 </div>
+</div>
+
+<!-- PATIENT SCREEN -->
+<div id="patient-screen">
+  <div class="patient-header">
+    <div class="logo">Consultoria V6<span>.</span></div>
+    <button class="btn btn-ghost" onclick="logoutPaciente()">↩ Sair</button>
+  </div>
+  <div class="patient-body">
+    <div class="patient-greeting" id="patient-greeting"></div>
+    <div class="patient-greeting-sub">Seus materiais e conteúdos liberados</div>
+    <!-- QUESTIONARIO BANNER -->
+    <div id="quiz-patient-banner" style="display:none"></div>
+    <!-- QUESTIONARIO FORM -->
+    <div id="quiz-patient-form" style="display:none"></div>
+    <div class="patient-cats" id="patient-cats"></div>
+    <div id="patient-materials-area" style="display:none">
+      <button class="login-back" onclick="voltarCategoriasPaciente()" style="margin-bottom:16px">← Voltar às categorias</button>
+      <div style="font-size:18px;font-weight:700;margin-bottom:16px" id="patient-cat-title"></div>
+      <div class="patient-materials" id="patient-materials-list"></div>
+    </div>
+  </div>
 </div>
 
 <!-- MODAL PACIENTE -->
@@ -286,15 +488,13 @@
     <div class="modal-title" id="modal-paciente-title">Novo Paciente</div>
     <div class="form-group"><label class="form-label">Nome</label><input class="form-input" id="p-nome" type="text" placeholder="Nome completo"></div>
     <div class="form-row">
+      <div class="form-group"><label class="form-label">E-mail</label><input class="form-input" id="p-email" type="email" placeholder="paciente@email.com"></div>
       <div class="form-group"><label class="form-label">Telefone (WhatsApp)</label><input class="form-input" id="p-tel" type="text" placeholder="(48) 99999-9999"></div>
-      <div class="form-group"><label class="form-label">Plano</label>
-        <select class="form-select" id="p-plano"></select>
-      </div>
     </div>
-    <div class="form-row">
-      <div class="form-group"><label class="form-label">Data da Consulta</label><input class="form-input" id="p-data" type="date"></div>
-      <div class="form-group"><label class="form-label">Valor Pago (R$)</label><input class="form-input" id="p-valor" type="number" placeholder="580"></div>
+    <div class="form-group"><label class="form-label">Plano</label>
+      <select class="form-select" id="p-plano"></select>
     </div>
+    <div class="form-group"><label class="form-label">Data de Início de Protocolo</label><input class="form-input" id="p-data" type="date"></div>
     <div class="form-group"><label class="form-label">Observações</label><input class="form-input" id="p-obs" type="text" placeholder="Objetivo, notas..."></div>
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeModal('modal-paciente')">Cancelar</button>
@@ -380,12 +580,88 @@
   </div>
 </div>
 
+<!-- MODAL CATEGORIA -->
+<div class="modal-overlay" id="modal-categoria">
+  <div class="modal">
+    <div class="modal-title" id="modal-cat-title">Nova Categoria</div>
+    <div class="form-group"><label class="form-label">Nome da Categoria</label><input class="form-input" id="cat-nome" type="text" placeholder="Ex: Dieta, Treino..."></div>
+    <div class="form-group"><label class="form-label">Ícone (emoji)</label><input class="form-input" id="cat-icone" type="text" placeholder="🥗" style="width:80px"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-categoria')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarCategoria()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL MATERIAL -->
+<div class="modal-overlay" id="modal-material">
+  <div class="modal">
+    <div class="modal-title" id="modal-mat-title">Novo Material</div>
+    <div class="form-group"><label class="form-label">Título</label><input class="form-input" id="mat-titulo" type="text" placeholder="Nome do material"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Categoria</label><select class="form-select" id="mat-categoria"></select></div>
+      <div class="form-group"><label class="form-label">Tipo</label>
+        <select class="form-select" id="mat-tipo" onchange="toggleMatConteudo()">
+          <option value="pdf">📄 PDF (link / Google Drive)</option>
+          <option value="pdf-upload">📄 PDF (upload do computador)</option>
+          <option value="video">🎬 Vídeo (YouTube)</option>
+          <option value="texto">📝 Texto / Protocolo</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group" id="mat-link-group"><label class="form-label" id="mat-link-label">Link</label><input class="form-input" id="mat-link" type="url" placeholder="https://drive.google.com/file/d/.../view ou qualquer link direto"></div>
+    <div class="form-group" id="mat-upload-group" style="display:none">
+      <label class="form-label">Arquivo PDF</label>
+      <label id="mat-upload-label" style="display:flex;align-items:center;gap:10px;padding:14px;background:var(--bg);border:2px dashed var(--border);border-radius:10px;cursor:pointer;transition:border-color .2s">
+        <span style="font-size:24px">📎</span>
+        <span id="mat-upload-text" style="font-size:13px;color:var(--text2)">Clique para selecionar um PDF (máx. 4MB)</span>
+        <input type="file" id="mat-file" accept=".pdf" style="display:none" onchange="onPdfSelected(this)">
+      </label>
+      <div id="mat-upload-info" style="display:none;margin-top:8px;padding:10px 12px;background:var(--surface2);border-radius:8px;font-size:13px;display:none">
+        <span id="mat-upload-filename" style="font-weight:600"></span>
+        <span id="mat-upload-size" style="color:var(--text3);margin-left:8px"></span>
+        <button onclick="limparUpload()" style="background:none;border:none;color:var(--danger);cursor:pointer;margin-left:8px;font-size:13px">✕ Remover</button>
+      </div>
+    </div>
+    <div class="form-group" id="mat-texto-group" style="display:none"><label class="form-label">Conteúdo</label><textarea class="form-input" id="mat-conteudo" rows="6" placeholder="Escreva o conteúdo aqui..." style="resize:vertical"></textarea></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-material')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarMaterial()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL MATERIAIS LIBERADOS (PACIENTE) -->
+<div class="modal-overlay" id="modal-mat-liberados">
+  <div class="modal">
+    <div class="modal-title">Materiais Liberados — <span id="mat-lib-nome"></span></div>
+    <div class="page-sub" style="margin-bottom:16px">Selecione os materiais que este paciente pode acessar</div>
+    <div class="mat-liberados-grid" id="mat-lib-lista"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-mat-liberados')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarMateriaisLiberados()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL RESPOSTAS QUESTIONARIO -->
+<div class="modal-overlay" id="modal-quiz-respostas">
+  <div class="modal" style="width:700px">
+    <div class="modal-title" id="modal-quiz-resp-title">Respostas do Questionário</div>
+    <div id="modal-quiz-resp-evolution"></div>
+    <div id="modal-quiz-resp-lista"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-quiz-respostas')">Fechar</button>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL EDITAR STEP -->
 <div class="modal-overlay" id="modal-edit-step">
   <div class="modal">
     <div class="modal-title">Editar Ponto de Contato</div>
     <div class="form-row">
-      <div class="form-group"><label class="form-label">Dias após consulta</label><input class="form-input" id="es-dias" type="number" placeholder="14"></div>
+      <div class="form-group"><label class="form-label">Dias após início</label><input class="form-input" id="es-dias" type="number" placeholder="14"></div>
       <div class="form-group"><label class="form-label">Tipo</label>
         <select class="form-select" id="es-tipo">
           <option value="mensagem">💬 Mensagem</option>
@@ -448,6 +724,7 @@ function fazerLogin() {
 
 function enterApp() {
   document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('patient-screen').style.display = 'none';
   document.getElementById('app-screen').style.display = 'block';
   document.getElementById('sidebar-email').textContent = currentUser.email;
   document.getElementById('sidebar-role').textContent = currentUser.role === 'admin' ? 'ADMIN' : 'USUÁRIO';
@@ -462,6 +739,7 @@ function logout() {
   document.getElementById('login-screen').style.display = 'flex';
   document.getElementById('login-email').value = '';
   document.getElementById('login-senha').value = '';
+  showLoginType();
 }
 
 // Auto-login from session
@@ -504,8 +782,10 @@ function fuStatus(p,i){
   const fu = getFU();
   const f=(fu[p.plano]||[])[i];if(!f)return null;
   if(p.followups&&p.followups[i])return'done';
-  const diff=diffDias(hoje(),addDias(p.data,f.dias));
-  if(diff<-7)return'future';if(diff<0)return'pending';if(diff===0)return'today';return'overdue';
+  const fuDate=addDias(p.data,f.dias);
+  const diff=diffDias(hoje(),fuDate);
+  // diff > 0 = future, diff < 0 = overdue, diff === 0 = today
+  if(diff>7)return'future';if(diff>0)return'pending';if(diff===0)return'today';return'overdue';
 }
 
 // Populate plano selects dynamically
@@ -547,7 +827,7 @@ function renderProtocolos() {
       <div class="proto-steps">
         ${steps.map((s,i) => `<div class="proto-step">
           <div class="proto-step-label">${s.label}</div>
-          <div class="proto-step-type">${TL[s.tipo]||s.tipo} · ${s.dias} dias após consulta</div>
+          <div class="proto-step-type">${TL[s.tipo]||s.tipo} · ${s.dias} dias após início</div>
           ${waBtn('')}
         </div>`).join('')}
         ${!steps.length ? '<div style="color:var(--text3);font-size:13px;padding:8px">Sem pontos de contato</div>' : ''}
@@ -732,7 +1012,7 @@ function closeModal(id){
   if(id==='modal-novo-protocolo'){protoEditName=null;protoSteps=[];}
 }
 function limparForm(){
-  ['p-nome','p-tel','p-obs','p-valor'].forEach(id=>document.getElementById(id).value='');
+  ['p-nome','p-email','p-tel','p-obs'].forEach(id=>document.getElementById(id).value='');
   const planos=getPlanos();
   document.getElementById('p-plano').value=planos[0]||'';
   document.getElementById('p-data').value=hoje();
@@ -741,14 +1021,28 @@ function limparForm(){
 function salvarPaciente(){
   const nome=document.getElementById('p-nome').value.trim();
   if(!nome){alert('Preencha o nome.');return;}
-  const p={nome,tel:document.getElementById('p-tel').value.trim(),plano:document.getElementById('p-plano').value,
-    data:document.getElementById('p-data').value,valor:parseFloat(document.getElementById('p-valor').value)||0,
+  const email=document.getElementById('p-email').value.trim().toLowerCase();
+  const p={nome,email:email,tel:document.getElementById('p-tel').value.trim(),plano:document.getElementById('p-plano').value,
+    data:document.getElementById('p-data').value,
     obs:document.getElementById('p-obs').value.trim(),followups:[]};
-  if(editIndex>=0){p.followups=pacientes[editIndex].followups||[];pacientes[editIndex]=p;}
-  else{
-    pacientes.push(p);
-    if(p.valor>0){recebimentos.push({paciente:p.nome,valor:p.valor,data:p.data,plano:p.plano,status:'pago',forma:'pix'});save('v6_recebimentos',recebimentos);}
+  if(editIndex>=0){
+    p.followups=pacientes[editIndex].followups||[];
+    p.materiaisLiberados=pacientes[editIndex].materiaisLiberados||[];
+    // Update login entry if email changed
+    if(pacientes[editIndex].email && pacientes[editIndex].email !== email){
+      const logins=getPacientesLogin();
+      const li=logins.findIndex(l=>l.email===pacientes[editIndex].email);
+      if(li>=0){if(email){logins[li].email=email;logins[li].pacienteNome=nome;}else{logins.splice(li,1);}savePacientesLogin(logins);}
+    }
+    // Update name in login entry
+    if(email){
+      const logins=getPacientesLogin();
+      const li=logins.findIndex(l=>l.email===email);
+      if(li>=0){logins[li].pacienteNome=nome;savePacientesLogin(logins);}
+    }
+    pacientes[editIndex]=p;
   }
+  else{pacientes.push(p);}
   save('v6_pacientes',pacientes);closeModal('modal-paciente');renderAll();
 }
 
@@ -789,7 +1083,7 @@ function abrirFollowup(pIdx,fuIdx){
   const p=pacientes[pIdx];const f=(fu[p.plano]||[])[fuIdx];if(!f)return;
   fuContext={pIdx,fuIdx};
   document.getElementById('fu-title').textContent=`${TL[f.tipo]||f.tipo} — ${f.label}`;
-  document.getElementById('fu-body').innerHTML=`<strong>${p.nome}</strong><br>Consulta em ${fmtData(p.data)} · Plano ${p.plano}<br>Prazo: ${fmtData(addDias(p.data,f.dias))}${p.tel ? '<br><br><a href="'+whatsappLink(p.tel)+'" target="_blank" style="color:#25d366;text-decoration:none;font-weight:600">📱 Chamar no WhatsApp</a>' : ''}`;
+  document.getElementById('fu-body').innerHTML=`<strong>${p.nome}</strong><br>Início protocolo ${fmtData(p.data)} · Plano ${p.plano}<br>Prazo: ${fmtData(addDias(p.data,f.dias))}${p.tel ? '<br><br><a href="'+whatsappLink(p.tel)+'" target="_blank" style="color:#25d366;text-decoration:none;font-weight:600">📱 Chamar no WhatsApp</a>' : ''}`;
   document.getElementById('fu-obs').value='';
   openModal('modal-followup');
 }
@@ -801,9 +1095,10 @@ function confirmarFollowup(){
 }
 function editarPaciente(idx){
   editIndex=idx;const p=pacientes[idx];
-  document.getElementById('p-nome').value=p.nome;document.getElementById('p-tel').value=p.tel||'';
+  document.getElementById('p-nome').value=p.nome;document.getElementById('p-email').value=p.email||'';
+  document.getElementById('p-tel').value=p.tel||'';
   document.getElementById('p-plano').value=p.plano;document.getElementById('p-data').value=p.data;
-  document.getElementById('p-valor').value=p.valor||'';document.getElementById('p-obs').value=p.obs||'';
+  document.getElementById('p-obs').value=p.obs||'';
   document.getElementById('modal-paciente-title').textContent='Editar Paciente';
   openModal('modal-paciente');
 }
@@ -877,7 +1172,7 @@ function renderPacientes(){
     const hj=fus.some((_,fi)=>fuStatus(p,fi)==='today');
     const badge=at?'<span class="badge badge-urgente">Atrasado</span>':hj?'<span class="badge badge-alerta">Hoje</span>':'<span class="badge badge-ok">Em dia</span>';
     return`<tr>
-      <td><div style="display:flex;align-items:center;gap:8px"><div><div style="font-weight:600">${p.nome}</div><div style="font-size:12px;color:var(--text3)">${p.tel||''}</div></div>${waBtn(p.tel)}</div></td>
+      <td><div style="display:flex;align-items:center;gap:8px"><div><div style="font-weight:600">${p.nome}</div><div style="font-size:12px;color:var(--text3)">${p.email?p.email+'<br>':''}${p.tel||''}</div></div>${waBtn(p.tel)}</div></td>
       <td><span class="badge ${pb[p.plano]||''}">${p.plano}</span></td>
       <td style="font-family:'DM Mono',monospace;font-size:13px">${fmtData(p.data)}</td>
       <td><div class="followup-dots">${dots}</div></td>
@@ -921,12 +1216,12 @@ function renderFinanceiro(){
     totalAno+=pago;
     const pct=Math.round(pago/maxMes*100);
     const isAtual=selAno.value+'-'+mm===mesAtual;
-    return`<div style="margin-bottom:12px${isAtual?';background:var(--surface2);padding:8px 10px;border-radius:8px;margin:-4px -10px 8px':''}">
-      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
-        <span style="font-size:13px;font-weight:${isAtual?'600':'400'}">${m}</span>
-        <span style="font-family:'DM Mono',monospace;font-size:13px">${fmtMoeda(pago)}${pend>0?' <span style="color:var(--warn);font-size:11px">+'+fmtMoeda(pend)+' pend.</span>':''}</span>
+    return`<div style="margin-bottom:4px${isAtual?';background:var(--surface2);padding:4px 6px;border-radius:4px;margin:-1px -6px 3px':''}">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:11px;font-weight:${isAtual?'600':'400'};min-width:28px">${m}</span>
+        <div class="chart-bar" style="height:4px;flex:1;margin:0 8px"><div class="chart-bar-fill" style="width:${pct}%;background:var(--accent)"></div></div>
+        <span style="font-family:'DM Mono',monospace;font-size:11px;white-space:nowrap">${fmtMoeda(pago)}${pend>0?' <span style="color:var(--warn);font-size:9px">+'+fmtMoeda(pend)+'</span>':''}</span>
       </div>
-      <div class="chart-bar"><div class="chart-bar-fill" style="width:${pct}%;background:var(--accent)"></div></div>
     </div>`;
   }).join('')+`<div style="border-top:1px solid var(--border);padding-top:12px;display:flex;justify-content:space-between">
     <span style="font-size:14px;font-weight:700">Total ${selAno.value}</span>
@@ -964,6 +1259,988 @@ function renderFinanceiro(){
 }
 
 function renderAll(){renderAlertas();renderPacientes();renderFinanceiro();}
+
+// ===================== LOGIN TYPE SELECTION =====================
+function showLoginForm(tipo) {
+  document.getElementById('login-type-area').style.display = 'none';
+  document.getElementById('login-form-profissional').classList.remove('show');
+  document.getElementById('login-form-paciente').classList.remove('show');
+  document.getElementById('login-form-' + tipo).classList.add('show');
+}
+function showLoginType() {
+  document.getElementById('login-type-area').style.display = 'block';
+  document.getElementById('login-form-profissional').classList.remove('show');
+  document.getElementById('login-form-paciente').classList.remove('show');
+  document.getElementById('login-form-pac-senha').classList.remove('show');
+  document.getElementById('login-form-pac-criar').classList.remove('show');
+  document.getElementById('login-error').classList.remove('show');
+  document.getElementById('login-error-pac').classList.remove('show');
+  pacLoginEmail = '';
+}
+
+// ===================== PATIENT LOGIN =====================
+let currentPatient = null;
+
+function getPacientesLogin() { return load('v6_pacientes_login') || []; }
+function savePacientesLogin(pl) { save('v6_pacientes_login', pl); }
+
+let pacLoginEmail = '';
+
+function verificarEmailPaciente() {
+  const email = document.getElementById('login-email-pac').value.trim().toLowerCase();
+  if (!email) { return; }
+  // Check if this email belongs to a registered patient
+  const pacs = load('v6_pacientes') || [];
+  const pac = pacs.find(p => (p.email || '').toLowerCase() === email);
+  if (!pac) {
+    document.getElementById('login-error-pac').textContent = 'E-mail não encontrado. Verifique com seu profissional.';
+    document.getElementById('login-error-pac').classList.add('show');
+    return;
+  }
+  document.getElementById('login-error-pac').classList.remove('show');
+  pacLoginEmail = email;
+
+  // Check if patient already has a password
+  const logins = getPacientesLogin();
+  const loginEntry = logins.find(l => l.email.toLowerCase() === email);
+
+  if (loginEntry && loginEntry.senha) {
+    // Has password — show login form
+    document.getElementById('pac-login-nome-display').textContent = pac.nome;
+    document.getElementById('login-form-paciente').classList.remove('show');
+    document.getElementById('login-form-pac-senha').classList.add('show');
+    document.getElementById('login-senha-pac').value = '';
+    document.getElementById('login-senha-pac').focus();
+  } else {
+    // First access — show create password form
+    document.getElementById('pac-criar-nome-display').textContent = pac.nome;
+    document.getElementById('login-form-paciente').classList.remove('show');
+    document.getElementById('login-form-pac-criar').classList.add('show');
+    document.getElementById('login-criar-senha').value = '';
+    document.getElementById('login-criar-senha2').value = '';
+    document.getElementById('login-criar-senha').focus();
+  }
+}
+
+function voltarEmailPaciente() {
+  document.getElementById('login-form-pac-senha').classList.remove('show');
+  document.getElementById('login-form-pac-criar').classList.remove('show');
+  document.getElementById('login-error-pac2').classList.remove('show');
+  document.getElementById('login-form-paciente').classList.add('show');
+}
+
+function fazerLoginPaciente() {
+  const senha = document.getElementById('login-senha-pac').value;
+  const logins = getPacientesLogin();
+  const found = logins.find(l => l.email.toLowerCase() === pacLoginEmail && l.senha === senha);
+  if (found) {
+    document.getElementById('login-error-pac2').classList.remove('show');
+    currentPatient = found;
+    sessionStorage.setItem('v6_auth_pac', JSON.stringify(found));
+    enterPatientArea();
+  } else {
+    document.getElementById('login-error-pac2').textContent = 'Senha incorreta.';
+    document.getElementById('login-error-pac2').classList.add('show');
+    document.getElementById('login-senha-pac').value = '';
+  }
+}
+
+function criarSenhaPaciente() {
+  const senha = document.getElementById('login-criar-senha').value;
+  const senha2 = document.getElementById('login-criar-senha2').value;
+  if (!senha || senha.length < 4) { alert('A senha deve ter no mínimo 4 caracteres.'); return; }
+  if (senha !== senha2) { alert('As senhas não coincidem.'); return; }
+
+  const pacs = load('v6_pacientes') || [];
+  const pac = pacs.find(p => (p.email || '').toLowerCase() === pacLoginEmail);
+  if (!pac) { alert('Paciente não encontrado.'); return; }
+
+  const logins = getPacientesLogin();
+  const existingIdx = logins.findIndex(l => l.email.toLowerCase() === pacLoginEmail);
+  if (existingIdx >= 0) {
+    logins[existingIdx].senha = senha;
+    logins[existingIdx].pacienteNome = pac.nome;
+  } else {
+    logins.push({ email: pacLoginEmail, senha, pacienteNome: pac.nome });
+  }
+  savePacientesLogin(logins);
+
+  // Auto-login
+  const entry = logins.find(l => l.email.toLowerCase() === pacLoginEmail);
+  currentPatient = entry;
+  sessionStorage.setItem('v6_auth_pac', JSON.stringify(entry));
+  enterPatientArea();
+}
+
+function enterPatientArea() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app-screen').style.display = 'none';
+  document.getElementById('patient-screen').style.display = 'block';
+  document.getElementById('patient-greeting').textContent = 'Olá, ' + (currentPatient.pacienteNome || 'Paciente') + '!';
+  renderPatientCategorias();
+}
+
+function logoutPaciente() {
+  sessionStorage.removeItem('v6_auth_pac');
+  currentPatient = null;
+  document.getElementById('patient-screen').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  showLoginType();
+}
+
+function renderPatientCategorias() {
+  const categorias = getCategorias();
+  const materiais = getMateriais();
+  const pacs = load('v6_pacientes') || [];
+  const pacIdx = pacs.findIndex(p => p.nome === currentPatient.pacienteNome);
+  const liberados = pacIdx >= 0 ? (pacs[pacIdx].materiaisLiberados || []) : [];
+
+  const container = document.getElementById('patient-cats');
+  const matArea = document.getElementById('patient-materials-area');
+  matArea.style.display = 'none';
+
+  const catIcons = { 'dieta': '🥗', 'treino': '🏋️', 'hábitos': '🧘', 'suplementação': '💊', 'outros': '📦' };
+
+  const catsComMateriais = categorias.filter(cat => {
+    return materiais.some(m => m.categoriaId === cat.id && liberados.includes(m.id));
+  });
+
+  if (!catsComMateriais.length) {
+    container.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-icon">📭</div>Nenhum material disponível no momento</div>';
+    return;
+  }
+
+  container.innerHTML = catsComMateriais.map(cat => {
+    const count = materiais.filter(m => m.categoriaId === cat.id && liberados.includes(m.id)).length;
+    return `<div class="patient-cat-card" onclick="abrirCategoriaPaciente('${cat.id}')">
+      <div class="patient-cat-icon">${cat.icone || catIcons[cat.nome.toLowerCase()] || '📁'}</div>
+      <div class="patient-cat-name">${cat.nome}</div>
+      <div class="patient-cat-count">${count} ${count === 1 ? 'material' : 'materiais'}</div>
+    </div>`;
+  }).join('');
+}
+
+function abrirCategoriaPaciente(catId) {
+  const categorias = getCategorias();
+  const materiais = getMateriais();
+  const pacs = load('v6_pacientes') || [];
+  const pacIdx = pacs.findIndex(p => p.nome === currentPatient.pacienteNome);
+  const liberados = pacIdx >= 0 ? (pacs[pacIdx].materiaisLiberados || []) : [];
+  const cat = categorias.find(c => c.id === catId);
+
+  document.getElementById('patient-cats').style.display = 'none';
+  const matArea = document.getElementById('patient-materials-area');
+  matArea.style.display = 'block';
+  document.getElementById('patient-cat-title').textContent = cat ? cat.nome : '';
+
+  const mats = materiais.filter(m => m.categoriaId === catId && liberados.includes(m.id));
+  const lista = document.getElementById('patient-materials-list');
+
+  if (!mats.length) {
+    lista.innerHTML = '<div class="empty"><div class="empty-icon">📭</div>Nenhum material nesta categoria</div>';
+    return;
+  }
+
+  const tipoIcons = { pdf: '📄', 'pdf-upload': '📄', video: '🎬', texto: '📝' };
+  const tipoLabels = { pdf: 'PDF', 'pdf-upload': 'PDF', video: 'Vídeo', texto: 'Texto' };
+
+  lista.innerHTML = mats.map(m => {
+    let conteudo = '';
+    if (m.tipo === 'pdf') {
+      const isGDrive = extractGDriveId(m.conteudo);
+      if (isGDrive) {
+        conteudo = `<iframe src="${gDrivePreviewUrl(m.conteudo)}" class="patient-mat-video" style="aspect-ratio:auto;height:500px" allow="autoplay"></iframe>
+          <div style="margin-top:10px"><a href="${gDriveDownloadUrl(m.conteudo)}" target="_blank" class="patient-mat-link">⬇️ Baixar PDF</a></div>`;
+      } else {
+        conteudo = `<a href="${m.conteudo}" target="_blank" class="patient-mat-link">📄 Abrir PDF</a>`;
+      }
+    } else if (m.tipo === 'pdf-upload') {
+      conteudo = `<a href="${m.conteudo}" download="${escapeHtml(m.nomeArquivo||'arquivo.pdf')}" class="patient-mat-link">⬇️ Baixar PDF</a>
+        <button onclick="abrirPdfUpload('${m.id}')" class="patient-mat-link" style="background:var(--surface2);color:var(--text);border:1px solid var(--border);margin-left:8px;cursor:pointer">👁️ Visualizar</button>`;
+    } else if (m.tipo === 'video') {
+      const videoId = extractYouTubeId(m.conteudo);
+      conteudo = videoId
+        ? `<iframe class="patient-mat-video" src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>`
+        : `<a href="${m.conteudo}" target="_blank" class="patient-mat-link">🎬 Assistir Vídeo</a>`;
+    } else {
+      conteudo = `<div class="patient-mat-text">${escapeHtml(m.conteudo)}</div>`;
+    }
+    return `<div class="patient-mat-card">
+      <div class="patient-mat-title">${tipoIcons[m.tipo] || '📄'} ${escapeHtml(m.titulo)}</div>
+      <div class="patient-mat-type">${tipoLabels[m.tipo] || m.tipo}</div>
+      ${conteudo}
+    </div>`;
+  }).join('');
+}
+
+function voltarCategoriasPaciente() {
+  document.getElementById('patient-cats').style.display = 'grid';
+  document.getElementById('patient-materials-area').style.display = 'none';
+}
+
+function abrirPdfUpload(matId) {
+  const mats = getMateriais();
+  const m = mats.find(x => x.id === matId);
+  if (!m || !m.conteudo) return;
+  const byteString = atob(m.conteudo.split(',')[1]);
+  const mimeString = m.conteudo.split(',')[0].split(':')[1].split(';')[0];
+  const ab = new ArrayBuffer(byteString.length);
+  const ia = new Uint8Array(ab);
+  for (let i = 0; i < byteString.length; i++) ia[i] = byteString.charCodeAt(i);
+  const blob = new Blob([ab], { type: mimeString });
+  const url = URL.createObjectURL(blob);
+  window.open(url, '_blank');
+}
+
+// Google Drive link helpers
+function extractGDriveId(url) {
+  if (!url) return null;
+  // https://drive.google.com/file/d/FILE_ID/view...
+  let match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (match) return match[1];
+  // https://drive.google.com/open?id=FILE_ID
+  match = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if (match) return match[1];
+  return null;
+}
+
+function gDriveDownloadUrl(url) {
+  const id = extractGDriveId(url);
+  if (id) return 'https://drive.google.com/uc?export=download&id=' + id;
+  return url;
+}
+
+function gDrivePreviewUrl(url) {
+  const id = extractGDriveId(url);
+  if (id) return 'https://drive.google.com/file/d/' + id + '/preview';
+  return url;
+}
+
+function extractYouTubeId(url) {
+  if (!url) return null;
+  const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?\s]+)/);
+  return match ? match[1] : null;
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ===================== CATEGORIAS & MATERIAIS DATA =====================
+const DEFAULT_CATEGORIAS = [
+  { id: 'cat_1', nome: 'Dieta', icone: '🥗' },
+  { id: 'cat_2', nome: 'Treino', icone: '🏋️' },
+  { id: 'cat_3', nome: 'Hábitos', icone: '🧘' },
+  { id: 'cat_4', nome: 'Suplementação', icone: '💊' },
+  { id: 'cat_5', nome: 'Outros', icone: '📦' }
+];
+
+function getCategorias() { return load('v6_categorias_materiais') || DEFAULT_CATEGORIAS; }
+function saveCategorias(c) { save('v6_categorias_materiais', c); }
+function getMateriais() { return load('v6_materiais') || []; }
+function saveMateriais(m) { save('v6_materiais', m); }
+function genId() { return 'mat_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5); }
+
+// ===================== CATEGORIAS CRUD =====================
+let editCatId = null;
+
+function salvarCategoria() {
+  const nome = document.getElementById('cat-nome').value.trim();
+  const icone = document.getElementById('cat-icone').value.trim() || '📁';
+  if (!nome) { alert('Informe o nome da categoria.'); return; }
+  const cats = getCategorias();
+  if (editCatId) {
+    const idx = cats.findIndex(c => c.id === editCatId);
+    if (idx >= 0) { cats[idx].nome = nome; cats[idx].icone = icone; }
+    editCatId = null;
+  } else {
+    cats.push({ id: 'cat_' + Date.now(), nome, icone });
+  }
+  saveCategorias(cats);
+  closeModal('modal-categoria');
+  renderMateriais();
+}
+
+function editarCategoria(id) {
+  const cats = getCategorias();
+  const cat = cats.find(c => c.id === id);
+  if (!cat) return;
+  editCatId = id;
+  document.getElementById('cat-nome').value = cat.nome;
+  document.getElementById('cat-icone').value = cat.icone || '';
+  document.getElementById('modal-cat-title').textContent = 'Editar Categoria';
+  openModal('modal-categoria');
+}
+
+function deletarCategoria(id) {
+  if (!confirm('Excluir esta categoria e todos os materiais dentro dela?')) return;
+  let cats = getCategorias();
+  cats = cats.filter(c => c.id !== id);
+  saveCategorias(cats);
+  let mats = getMateriais();
+  mats = mats.filter(m => m.categoriaId !== id);
+  saveMateriais(mats);
+  renderMateriais();
+}
+
+// ===================== MATERIAIS CRUD =====================
+let editMatId = null;
+
+let pendingPdfBase64 = null;
+let pendingPdfName = '';
+
+function toggleMatConteudo() {
+  const tipo = document.getElementById('mat-tipo').value;
+  document.getElementById('mat-link-group').style.display = (tipo === 'pdf' || tipo === 'video') ? '' : 'none';
+  document.getElementById('mat-upload-group').style.display = tipo === 'pdf-upload' ? '' : 'none';
+  document.getElementById('mat-texto-group').style.display = tipo === 'texto' ? '' : 'none';
+  if (tipo !== 'pdf-upload') limparUpload();
+}
+
+function onPdfSelected(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 4 * 1024 * 1024) {
+    alert('Arquivo muito grande. Máximo permitido: 4MB.');
+    input.value = '';
+    return;
+  }
+  if (!file.name.toLowerCase().endsWith('.pdf')) {
+    alert('Selecione um arquivo PDF.');
+    input.value = '';
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    pendingPdfBase64 = e.target.result;
+    pendingPdfName = file.name;
+    document.getElementById('mat-upload-text').textContent = '✅ Arquivo selecionado';
+    document.getElementById('mat-upload-info').style.display = 'flex';
+    document.getElementById('mat-upload-filename').textContent = file.name;
+    document.getElementById('mat-upload-size').textContent = (file.size / 1024).toFixed(0) + ' KB';
+    document.getElementById('mat-upload-label').style.borderColor = 'var(--accent2)';
+  };
+  reader.readAsDataURL(file);
+}
+
+function limparUpload() {
+  pendingPdfBase64 = null;
+  pendingPdfName = '';
+  const fileInput = document.getElementById('mat-file');
+  if (fileInput) fileInput.value = '';
+  const info = document.getElementById('mat-upload-info');
+  if (info) info.style.display = 'none';
+  const text = document.getElementById('mat-upload-text');
+  if (text) text.textContent = 'Clique para selecionar um PDF (máx. 4MB)';
+  const label = document.getElementById('mat-upload-label');
+  if (label) label.style.borderColor = 'var(--border)';
+}
+
+function populateMatCategorias() {
+  const cats = getCategorias();
+  document.getElementById('mat-categoria').innerHTML = cats.map(c =>
+    `<option value="${c.id}">${c.icone} ${c.nome}</option>`
+  ).join('');
+}
+
+function salvarMaterial() {
+  const titulo = document.getElementById('mat-titulo').value.trim();
+  const categoriaId = document.getElementById('mat-categoria').value;
+  let tipo = document.getElementById('mat-tipo').value;
+  let conteudo = '';
+  let nomeArquivo = '';
+
+  if (tipo === 'texto') {
+    conteudo = document.getElementById('mat-conteudo').value.trim();
+  } else if (tipo === 'pdf-upload') {
+    if (!pendingPdfBase64) { alert('Selecione um arquivo PDF.'); return; }
+    conteudo = pendingPdfBase64;
+    nomeArquivo = pendingPdfName;
+    tipo = 'pdf-upload';
+  } else {
+    conteudo = document.getElementById('mat-link').value.trim();
+  }
+  if (!titulo) { alert('Informe o título.'); return; }
+  if (!conteudo) { alert('Informe o conteúdo/link.'); return; }
+
+  const mats = getMateriais();
+  const matObj = { titulo, categoriaId, tipo, conteudo };
+  if (nomeArquivo) matObj.nomeArquivo = nomeArquivo;
+
+  try {
+    if (editMatId) {
+      const idx = mats.findIndex(m => m.id === editMatId);
+      if (idx >= 0) { mats[idx] = { ...mats[idx], ...matObj }; }
+      editMatId = null;
+    } else {
+      mats.push({ id: genId(), ...matObj });
+    }
+    saveMateriais(mats);
+  } catch(e) {
+    if (e.name === 'QuotaExceededError' || e.message.includes('quota')) {
+      alert('Espaço de armazenamento cheio. Remova materiais antigos ou use links externos.');
+      return;
+    }
+    throw e;
+  }
+  limparUpload();
+  closeModal('modal-material');
+  renderMateriais();
+}
+
+function editarMaterial(id) {
+  const mats = getMateriais();
+  const m = mats.find(x => x.id === id);
+  if (!m) return;
+  editMatId = id;
+  populateMatCategorias();
+  document.getElementById('mat-titulo').value = m.titulo;
+  document.getElementById('mat-categoria').value = m.categoriaId;
+  document.getElementById('mat-tipo').value = m.tipo;
+  toggleMatConteudo();
+  if (m.tipo === 'texto') {
+    document.getElementById('mat-conteudo').value = m.conteudo;
+    document.getElementById('mat-link').value = '';
+  } else if (m.tipo === 'pdf-upload') {
+    pendingPdfBase64 = m.conteudo;
+    pendingPdfName = m.nomeArquivo || 'arquivo.pdf';
+    document.getElementById('mat-upload-text').textContent = '✅ Arquivo selecionado';
+    document.getElementById('mat-upload-info').style.display = 'flex';
+    document.getElementById('mat-upload-filename').textContent = pendingPdfName;
+    document.getElementById('mat-upload-label').style.borderColor = 'var(--accent2)';
+  } else {
+    document.getElementById('mat-link').value = m.conteudo;
+    document.getElementById('mat-conteudo').value = '';
+  }
+  document.getElementById('modal-mat-title').textContent = 'Editar Material';
+  openModal('modal-material');
+}
+
+function deletarMaterial(id) {
+  if (!confirm('Excluir este material?')) return;
+  let mats = getMateriais();
+  mats = mats.filter(m => m.id !== id);
+  saveMateriais(mats);
+  // Remove from all patients
+  pacientes.forEach(p => {
+    if (p.materiaisLiberados) {
+      p.materiaisLiberados = p.materiaisLiberados.filter(mid => mid !== id);
+    }
+  });
+  save('v6_pacientes', pacientes);
+  renderMateriais();
+}
+
+// ===================== RENDER MATERIAIS (PROFISSIONAL) =====================
+function renderMateriais() {
+  const cats = getCategorias();
+  const mats = getMateriais();
+  const container = document.getElementById('materiais-lista');
+  const tipoIcons = { pdf: '📄', 'pdf-upload': '📄', video: '🎬', texto: '📝' };
+  const tipoLabels = { pdf: 'PDF (link)', 'pdf-upload': 'PDF (upload)', video: 'Vídeo', texto: 'Texto' };
+
+  if (!cats.length) {
+    container.innerHTML = '<div class="empty"><div class="empty-icon">📁</div>Nenhuma categoria criada</div>';
+    return;
+  }
+
+  container.innerHTML = cats.map(cat => {
+    const catMats = mats.filter(m => m.categoriaId === cat.id);
+    return `<div class="proto-card">
+      <div class="mat-cat-header">
+        <div class="mat-cat-title">${cat.icone || '📁'} ${cat.nome}</div>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-sm btn-ghost" onclick="editarCategoria('${cat.id}')">✏️ Editar</button>
+          <button class="btn btn-sm btn-ghost" onclick="deletarCategoria('${cat.id}')" style="color:var(--danger)">🗑️</button>
+        </div>
+      </div>
+      ${catMats.length ? catMats.map(m => `<div class="mat-item">
+        <div class="mat-item-icon">${tipoIcons[m.tipo] || '📎'}</div>
+        <div class="mat-item-info">
+          <div class="mat-item-title">${escapeHtml(m.titulo)}</div>
+          <div class="mat-item-meta">${tipoLabels[m.tipo] || m.tipo}${m.tipo === 'pdf-upload' ? ' · ' + (m.nomeArquivo || 'arquivo.pdf') : m.tipo !== 'texto' ? ' · ' + m.conteudo.substring(0, 50) + (m.conteudo.length > 50 ? '...' : '') : ''}</div>
+        </div>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-sm btn-ghost" onclick="editarMaterial('${m.id}')">✏️</button>
+          <button class="btn btn-sm btn-ghost" onclick="deletarMaterial('${m.id}')" style="color:var(--danger)">🗑️</button>
+        </div>
+      </div>`).join('') : '<div style="padding:12px 16px;color:var(--text3);font-size:13px">Nenhum material nesta categoria</div>'}
+    </div>`;
+  }).join('');
+}
+
+// ===================== MATERIAIS LIBERADOS POR PACIENTE =====================
+let matLibPacIdx = -1;
+
+function abrirMateriaisLiberados(idx) {
+  matLibPacIdx = idx;
+  const p = pacientes[idx];
+  document.getElementById('mat-lib-nome').textContent = p.nome;
+  const cats = getCategorias();
+  const mats = getMateriais();
+  const liberados = p.materiaisLiberados || [];
+
+  const lista = document.getElementById('mat-lib-lista');
+  if (!mats.length) {
+    lista.innerHTML = '<div style="color:var(--text3);font-size:13px;padding:8px">Nenhum material cadastrado. Crie materiais na seção Materiais.</div>';
+  } else {
+    lista.innerHTML = cats.map(cat => {
+      const catMats = mats.filter(m => m.categoriaId === cat.id);
+      if (!catMats.length) return '';
+      return `<div style="margin-bottom:12px">
+        <div class="mat-liberado-cat">${cat.icone} ${cat.nome}</div>
+        ${catMats.map(m => `<label class="mat-liberado-item">
+          <input type="checkbox" value="${m.id}" ${liberados.includes(m.id) ? 'checked' : ''}>
+          <span>${escapeHtml(m.titulo)}</span>
+        </label>`).join('')}
+      </div>`;
+    }).join('');
+  }
+  openModal('modal-mat-liberados');
+}
+
+function salvarMateriaisLiberados() {
+  if (matLibPacIdx < 0) return;
+  const checks = document.querySelectorAll('#mat-lib-lista input[type=checkbox]');
+  const ids = [];
+  checks.forEach(c => { if (c.checked) ids.push(c.value); });
+  pacientes[matLibPacIdx].materiaisLiberados = ids;
+  save('v6_pacientes', pacientes);
+  closeModal('modal-mat-liberados');
+  renderPacientes();
+}
+
+// ===================== PACIENTE LOGIN MANAGEMENT =====================
+// Patient creates their own password on first access (see verificarEmailPaciente / criarSenhaPaciente)
+
+// ===================== OVERRIDE RENDER PACIENTES (add material buttons) =====================
+const _originalRenderPacientes = renderPacientes;
+renderPacientes = function() {
+  _originalRenderPacientes();
+  // Add material buttons to each patient row
+  const tbody = document.getElementById('tabela-pacientes');
+  const rows = tbody.querySelectorAll('tr');
+  let lista = pacientes.map((p,i) => ({ ...p, _i: i }));
+  if (filtroPlano !== 'todos') lista = lista.filter(p => p.plano === filtroPlano);
+  if (filtroBusca) lista = lista.filter(p => p.nome.toLowerCase().includes(filtroBusca));
+
+  rows.forEach((row, rIdx) => {
+    if (rIdx >= lista.length) return;
+    const pIdx = lista[rIdx]._i;
+    const lastTd = row.querySelector('td:last-child div');
+    if (lastTd && !lastTd.querySelector('.btn-mat-lib')) {
+      const logins = getPacientesLogin();
+      const pacEmail = pacientes[pIdx].email || '';
+      const hasLogin = pacEmail && logins.some(l => l.email === pacEmail && l.senha);
+      const matCount = (pacientes[pIdx].materiaisLiberados || []).length;
+      lastTd.innerHTML = `
+        <button class="btn btn-sm btn-ghost btn-mat-lib" onclick="abrirMateriaisLiberados(${pIdx})" title="Materiais Liberados">📁${matCount > 0 ? ' <span style="font-size:10px;color:var(--accent)">' + matCount + '</span>' : ''}</button>
+        ${pacEmail ? '<span title="' + (hasLogin ? 'Paciente já criou senha' : 'Aguardando paciente criar senha') + '" style="font-size:14px;cursor:help">' + (hasLogin ? '🔑' : '🔐') + '</span>' : ''}
+        <button class="btn btn-sm btn-ghost" onclick="editarPaciente(${pIdx})">✏️</button>
+        <button class="btn btn-sm btn-ghost" onclick="deletarPaciente(${pIdx})" style="color:var(--danger)">🗑️</button>
+      `;
+    }
+  });
+};
+
+// ===================== OVERRIDE SHOWSECTION (add materiais) =====================
+const _originalShowSection = showSection;
+showSection = function(id, el) {
+  _originalShowSection(id, el);
+  if (id === 'materiais') renderMateriais();
+};
+
+// ===================== OVERRIDE OPENMODAL (add material modal setup) =====================
+const _originalOpenModal = openModal;
+openModal = function(id) {
+  if (id === 'modal-categoria' && !editCatId) {
+    document.getElementById('cat-nome').value = '';
+    document.getElementById('cat-icone').value = '';
+    document.getElementById('modal-cat-title').textContent = 'Nova Categoria';
+  }
+  if (id === 'modal-material') {
+    populateMatCategorias();
+    if (!editMatId) {
+      document.getElementById('mat-titulo').value = '';
+      document.getElementById('mat-tipo').value = 'pdf';
+      document.getElementById('mat-link').value = '';
+      document.getElementById('mat-conteudo').value = '';
+      document.getElementById('modal-mat-title').textContent = 'Novo Material';
+      limparUpload();
+      toggleMatConteudo();
+    }
+  }
+  _originalOpenModal(id);
+};
+
+// ===================== OVERRIDE CLOSEMODAL (cleanup) =====================
+const _originalCloseModal = closeModal;
+closeModal = function(id) {
+  _originalCloseModal(id);
+  if (id === 'modal-categoria') editCatId = null;
+  if (id === 'modal-material') editMatId = null;
+  if (id === 'modal-mat-liberados') matLibPacIdx = -1;
+};
+
+// ===================== OVERRIDE INITAPP (init materials) =====================
+const _originalInitApp = initApp;
+initApp = function() {
+  _originalInitApp();
+  // Initialize default categories if none exist
+  if (!load('v6_categorias_materiais')) {
+    saveCategorias(DEFAULT_CATEGORIAS);
+  }
+};
+
+// ===================== QUESTIONÁRIO SYSTEM =====================
+const QUIZ_PERGUNTAS = [
+  // Bloco 1 — Alimentação
+  { bloco:'Alimentação', id:'q1', texto:'Como você avalia sua aderência ao plano alimentar nos últimos 14 dias?', tipo:'escala', min:1, max:5, labelMin:'Não segui nada', labelMax:'Segui tudo' },
+  { bloco:'Alimentação', id:'q2', texto:'Quantas refeições livres você fez nos últimos 14 dias?', tipo:'opcoes', opcoes:['0','1-2','3-5','6-10','Mais de 10'] },
+  { bloco:'Alimentação', id:'q3', texto:'Como estão seus níveis de fome ao longo do dia?', tipo:'opcoes', opcoes:['Sem fome','Fome controlada','Fome moderada','Muita fome','Fome fora de controle'] },
+  { bloco:'Alimentação', id:'q4', texto:'Como está a vontade de comer doces, industrializados ou beliscar coisas ao longo do dia?', tipo:'opcoes', opcoes:['Nenhuma','Pouca','Moderada','Muita','Irresistível'] },
+  // Bloco 2 — Treino
+  { bloco:'Treino', id:'q5', texto:'Quantas vezes por semana você tem ido treinar?', tipo:'opcoes', opcoes:['0','1-2','3-4','5-6','Todos os dias'] },
+  { bloco:'Treino', id:'q6', texto:'Como avalia a intensidade dos seus treinos?', tipo:'escala', min:1, max:5, labelMin:'Muito leve', labelMax:'Muito intenso' },
+  { bloco:'Treino', id:'q7', texto:'Está conseguindo progredir nas cargas ou repetições?', tipo:'opcoes', opcoes:['Sim, evoluindo bem','Estável, sem progressão','Não tenho reparado','Regredi','Não estou treinando'] },
+  // Bloco 3 — Bem-estar
+  { bloco:'Bem-estar', id:'q8', texto:'Como está seu nível de energia no dia a dia?', tipo:'escala', min:1, max:5, labelMin:'Sem energia', labelMax:'Muita energia' },
+  { bloco:'Bem-estar', id:'q9', texto:'Como está sua qualidade de sono?', tipo:'opcoes', opcoes:['Ótima','Boa','Regular','Ruim','Péssima'] },
+  { bloco:'Bem-estar', id:'q10', texto:'Seu nível de estresse nos últimos 14 dias foi:', tipo:'opcoes', opcoes:['Baixo','Moderado','Alto','Muito alto'] },
+  { bloco:'Bem-estar', id:'q11', texto:'Como está seu estômago e intestino?', tipo:'opcoes', opcoes:['Funcionando bem','Levemente alterado','Inchaço ou desconforto frequente','Intestino preso','Intestino solto','Muito irregular'] },
+  { bloco:'Bem-estar', id:'q12', texto:'Notou alguma mudança no seu corpo (medidas, roupas, fotos)?', tipo:'opcoes', opcoes:['Sim, melhora visível','Acho que sim, pouca diferença','Não notei nada','Acho que piorei'] },
+  // Bloco 4 — Feedback
+  { bloco:'Feedback', id:'q13', texto:'O que você fez bem nos últimos 14 dias?', tipo:'texto' },
+  { bloco:'Feedback', id:'q14', texto:'Qual foi o maior desafio?', tipo:'texto' },
+  { bloco:'Feedback', id:'q15', texto:'Tem alguma dúvida ou recado para o nutricionista?', tipo:'texto' }
+];
+
+function getQuizRespostas() { return load('v6_quiz_respostas') || []; }
+function saveQuizRespostas(r) { save('v6_quiz_respostas', r); }
+
+// Check if patient has pending quiz
+function quizPendentePaciente(pacEmail) {
+  if (!pacEmail) return false;
+  const respostas = getQuizRespostas();
+  const pacResps = respostas.filter(r => r.email === pacEmail).sort((a,b) => b.data.localeCompare(a.data));
+  if (!pacResps.length) return true; // Never answered = pending
+  const ultima = pacResps[0];
+  const proxData = addDias(ultima.data, 15);
+  return hoje() >= proxData;
+}
+
+function quizProximaData(pacEmail) {
+  const respostas = getQuizRespostas();
+  const pacResps = respostas.filter(r => r.email === pacEmail).sort((a,b) => b.data.localeCompare(a.data));
+  if (!pacResps.length) return null;
+  return addDias(pacResps[0].data, 15);
+}
+
+// ===================== PATIENT QUIZ RENDER =====================
+let quizRespostas = {};
+
+function renderQuizPatientBanner() {
+  const banner = document.getElementById('quiz-patient-banner');
+  const form = document.getElementById('quiz-patient-form');
+  if (!currentPatient) { banner.style.display = 'none'; return; }
+
+  const email = currentPatient.email;
+  const pendente = quizPendentePaciente(email);
+  const proxData = quizProximaData(email);
+
+  if (pendente) {
+    banner.style.display = 'block';
+    banner.innerHTML = `<div class="quiz-banner" onclick="abrirQuizPaciente()">
+      <div class="quiz-banner-icon">📊</div>
+      <div class="quiz-banner-text">
+        <div class="quiz-banner-title">Questionário de Acompanhamento</div>
+        <div class="quiz-banner-sub">Responda suas perguntas quinzenais para acompanharmos sua evolução</div>
+      </div>
+      <button class="quiz-banner-btn">Responder agora</button>
+    </div>`;
+  } else {
+    banner.style.display = 'block';
+    banner.innerHTML = `<div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;gap:12px">
+      <span style="font-size:24px">✅</span>
+      <div><div style="font-size:14px;font-weight:600;color:var(--accent2)">Questionário em dia!</div>
+      <div style="font-size:12px;color:var(--text3)">Próximo disponível em ${fmtData(proxData)}</div></div>
+    </div>`;
+  }
+  form.style.display = 'none';
+}
+
+function abrirQuizPaciente() {
+  quizRespostas = {};
+  const form = document.getElementById('quiz-patient-form');
+  const banner = document.getElementById('quiz-patient-banner');
+  banner.style.display = 'none';
+  form.style.display = 'block';
+
+  // Group by bloco
+  const blocos = {};
+  QUIZ_PERGUNTAS.forEach((p, idx) => {
+    if (!blocos[p.bloco]) blocos[p.bloco] = [];
+    blocos[p.bloco].push({ ...p, idx: idx + 1 });
+  });
+
+  let html = '<div class="quiz-form">';
+  html += '<div style="font-size:18px;font-weight:700;margin-bottom:4px">Questionário de Acompanhamento</div>';
+  html += '<div style="font-size:13px;color:var(--text2);margin-bottom:24px">Responda com sinceridade — suas respostas ajudam no acompanhamento.</div>';
+
+  Object.entries(blocos).forEach(([bloco, perguntas]) => {
+    const icons = { 'Alimentação': '🥗', 'Treino': '🏋️', 'Bem-estar': '🧘', 'Feedback': '💬' };
+    html += `<div class="quiz-bloco">`;
+    html += `<div class="quiz-bloco-title">${icons[bloco] || ''} ${bloco}</div>`;
+    perguntas.forEach(p => {
+      html += `<div class="quiz-pergunta">`;
+      html += `<div class="quiz-pergunta-label"><span class="quiz-pergunta-num">${p.idx}.</span>${p.texto}</div>`;
+      if (p.tipo === 'escala') {
+        html += `<div class="quiz-scale">`;
+        for (let i = p.min; i <= p.max; i++) {
+          html += `<button class="quiz-scale-btn" onclick="selecionarQuiz('${p.id}',${i},this)">${i}</button>`;
+        }
+        html += `</div><div class="quiz-scale-labels"><span>${p.labelMin}</span><span>${p.labelMax}</span></div>`;
+      } else if (p.tipo === 'opcoes') {
+        html += `<div class="quiz-options">`;
+        p.opcoes.forEach(op => {
+          html += `<div class="quiz-opt" onclick="selecionarQuiz('${p.id}','${op.replace(/'/g,"\\'")}',this)">${op}</div>`;
+        });
+        html += `</div>`;
+      } else {
+        html += `<textarea class="quiz-textarea" id="quiz-txt-${p.id}" placeholder="Escreva aqui..." oninput="quizRespostas['${p.id}']=this.value"></textarea>`;
+      }
+      html += `</div>`;
+    });
+    html += `</div>`;
+  });
+
+  html += `<div style="display:flex;gap:8px;justify-content:flex-end">`;
+  html += `<button class="btn btn-ghost" onclick="cancelarQuizPaciente()">Cancelar</button>`;
+  html += `<button class="btn btn-primary" onclick="enviarQuizPaciente()" style="padding:12px 28px;font-size:15px">Enviar Respostas</button>`;
+  html += `</div></div>`;
+
+  form.innerHTML = html;
+  form.scrollIntoView({ behavior: 'smooth' });
+}
+
+function selecionarQuiz(qId, valor, el) {
+  quizRespostas[qId] = valor;
+  const parent = el.parentElement;
+  parent.querySelectorAll('.quiz-opt,.quiz-scale-btn').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function cancelarQuizPaciente() {
+  document.getElementById('quiz-patient-form').style.display = 'none';
+  renderQuizPatientBanner();
+}
+
+function enviarQuizPaciente() {
+  // Validate: all non-text questions must be answered
+  const obrigatorias = QUIZ_PERGUNTAS.filter(p => p.tipo !== 'texto');
+  const faltando = obrigatorias.filter(p => quizRespostas[p.id] === undefined || quizRespostas[p.id] === '');
+  if (faltando.length > 0) {
+    alert('Por favor, responda todas as perguntas obrigatórias. Faltam ' + faltando.length + ' respostas.');
+    return;
+  }
+  // Collect text answers
+  QUIZ_PERGUNTAS.filter(p => p.tipo === 'texto').forEach(p => {
+    const el = document.getElementById('quiz-txt-' + p.id);
+    if (el) quizRespostas[p.id] = el.value.trim();
+  });
+
+  const respostas = getQuizRespostas();
+  respostas.push({
+    email: currentPatient.email,
+    pacienteNome: currentPatient.pacienteNome,
+    data: hoje(),
+    respostas: { ...quizRespostas },
+    proxData: addDias(hoje(), 15)
+  });
+  saveQuizRespostas(respostas);
+
+  document.getElementById('quiz-patient-form').style.display = 'none';
+  quizRespostas = {};
+  renderQuizPatientBanner();
+  alert('Respostas enviadas com sucesso! Obrigado pelo acompanhamento.');
+}
+
+// ===================== PROFESSIONAL QUIZ RENDER =====================
+let quizBuscaFiltro = '';
+
+function renderQuestionarios() {
+  const respostas = getQuizRespostas();
+  const pacs = load('v6_pacientes') || [];
+
+  // Count pendentes
+  let pendentes = 0;
+  const pendentesLista = [];
+  pacs.forEach((p, idx) => {
+    if (!p.email) return;
+    if (quizPendentePaciente(p.email)) {
+      pendentes++;
+      pendentesLista.push({ nome: p.nome, email: p.email, idx });
+    }
+  });
+
+  const pacComEmail = pacs.filter(p => p.email).length;
+  document.getElementById('quiz-count-pendentes').textContent = pendentes;
+  document.getElementById('quiz-count-respondidos').textContent = respostas.length;
+  document.getElementById('quiz-count-pacientes').textContent = pacComEmail;
+
+  // Pendentes list
+  const pendContainer = document.getElementById('quiz-pendentes-lista');
+  if (!pendentesLista.length) {
+    pendContainer.innerHTML = '<div class="empty"><div class="empty-icon">✅</div>Todos os pacientes estão em dia</div>';
+  } else {
+    pendContainer.innerHTML = pendentesLista.map(p =>
+      `<div class="quiz-pendente-row">
+        <div class="alert-dot" style="background:var(--warn)"></div>
+        <div class="alert-info"><div class="alert-name">${p.nome}</div><div class="alert-desc">${p.email}</div></div>
+        <span class="badge badge-alerta">Pendente</span>
+      </div>`
+    ).join('');
+  }
+
+  // Historico por paciente
+  const histContainer = document.getElementById('quiz-historico-lista');
+  let pacList = pacs.filter(p => p.email);
+  if (quizBuscaFiltro) pacList = pacList.filter(p => p.nome.toLowerCase().includes(quizBuscaFiltro));
+
+  if (!pacList.length) {
+    histContainer.innerHTML = '<div class="empty"><div class="empty-icon">📊</div>Nenhum paciente com e-mail cadastrado</div>';
+    return;
+  }
+
+  histContainer.innerHTML = pacList.map(p => {
+    const pacResps = respostas.filter(r => r.email === p.email);
+    const count = pacResps.length;
+    const isPendente = quizPendentePaciente(p.email);
+    return `<div class="quiz-pendente-row" style="cursor:pointer" onclick="abrirQuizRespostasPaciente('${p.email}')">
+      <div style="width:36px;height:36px;border-radius:50%;background:${count > 0 ? 'var(--accent)' : 'var(--surface2)'};display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0">${p.nome.charAt(0).toUpperCase()}</div>
+      <div class="alert-info"><div class="alert-name">${p.nome}</div><div class="alert-desc">${count} resposta${count !== 1 ? 's' : ''} · ${isPendente ? '<span style="color:var(--warn)">pendente</span>' : '<span style="color:var(--accent2)">em dia</span>'}</div></div>
+      <span style="font-size:12px;color:var(--text3)">→</span>
+    </div>`;
+  }).join('');
+}
+
+function filtrarQuizPacientes(q) {
+  quizBuscaFiltro = q.toLowerCase();
+  renderQuestionarios();
+}
+
+function abrirQuizRespostasPaciente(email) {
+  const respostas = getQuizRespostas();
+  const pacResps = respostas.filter(r => r.email === email).sort((a,b) => b.data.localeCompare(a.data));
+  const pacs = load('v6_pacientes') || [];
+  const pac = pacs.find(p => (p.email || '').toLowerCase() === email.toLowerCase());
+  const nome = pac ? pac.nome : email;
+
+  document.getElementById('modal-quiz-resp-title').textContent = 'Questionários — ' + nome;
+
+  // Evolution cards (averages of scales)
+  const evoContainer = document.getElementById('modal-quiz-resp-evolution');
+  if (pacResps.length >= 1) {
+    const escalas = QUIZ_PERGUNTAS.filter(p => p.tipo === 'escala');
+    const evoHtml = escalas.map(q => {
+      const valores = pacResps.map(r => r.respostas[q.id]).filter(v => v !== undefined).reverse();
+      const ultimo = valores.length ? valores[valores.length - 1] : '—';
+      let trend = '';
+      if (valores.length >= 2) {
+        const diff = valores[valores.length - 1] - valores[valores.length - 2];
+        if (diff > 0) trend = `<div class="quiz-evo-trend" style="color:var(--accent2)">▲ +${diff} vs anterior</div>`;
+        else if (diff < 0) trend = `<div class="quiz-evo-trend" style="color:var(--danger)">▼ ${diff} vs anterior</div>`;
+        else trend = `<div class="quiz-evo-trend" style="color:var(--text3)">= igual ao anterior</div>`;
+      }
+      const shortLabel = q.texto.length > 40 ? q.texto.substring(0, 40) + '...' : q.texto;
+      return `<div class="quiz-evo-card">
+        <div class="quiz-evo-label">${shortLabel}</div>
+        <div class="quiz-evo-value" style="color:${ultimo >= 4 ? 'var(--accent2)' : ultimo >= 3 ? 'var(--accent)' : ultimo >= 2 ? 'var(--warn)' : 'var(--danger)'}">${ultimo}<span style="font-size:12px;color:var(--text3)"> /5</span></div>
+        ${trend}
+      </div>`;
+    }).join('');
+    evoContainer.innerHTML = `<div style="font-size:14px;font-weight:600;margin-bottom:12px">Evolução (últimas respostas)</div><div class="quiz-evolution">${evoHtml}</div>`;
+  } else {
+    evoContainer.innerHTML = '';
+  }
+
+  // List all responses
+  const listaContainer = document.getElementById('modal-quiz-resp-lista');
+  if (!pacResps.length) {
+    listaContainer.innerHTML = '<div class="empty"><div class="empty-icon">📊</div>Nenhuma resposta ainda</div>';
+  } else {
+    listaContainer.innerHTML = pacResps.map((resp, rIdx) => {
+      const respsHtml = QUIZ_PERGUNTAS.map((q, qi) => {
+        const val = resp.respostas[q.id];
+        let displayVal = val !== undefined && val !== '' ? val : '<span style="color:var(--text3)">—</span>';
+        if (q.tipo === 'escala' && val) {
+          const pct = Math.round((val / q.max) * 100);
+          const cor = pct >= 80 ? 'var(--accent2)' : pct >= 60 ? 'var(--accent)' : pct >= 40 ? 'var(--warn)' : 'var(--danger)';
+          displayVal = `<span style="color:${cor};font-weight:700">${val}</span><span style="color:var(--text3)"> /${q.max}</span>`;
+        }
+        return `<div class="quiz-resp-item"><div class="quiz-resp-q"><span style="color:var(--accent);font-family:'DM Mono',monospace">${qi+1}.</span> ${q.texto}</div><div class="quiz-resp-a">${displayVal}</div></div>`;
+      }).join('');
+
+      return `<div class="quiz-resp-card" onclick="this.querySelector('.quiz-resp-detail').classList.toggle('open')">
+        <div class="quiz-resp-header">
+          <div class="quiz-resp-date">${fmtData(resp.data)}</div>
+          <span class="quiz-resp-badge" style="background:#1a2d4a;color:#60a5fa;border:1px solid #2563eb33">Resposta #${pacResps.length - rIdx}</span>
+        </div>
+        <div class="quiz-resp-detail">${respsHtml}</div>
+      </div>`;
+    }).join('');
+  }
+
+  openModal('modal-quiz-respostas');
+}
+
+// ===================== OVERRIDE SHOWSECTION FOR QUESTIONARIOS =====================
+const _origShowSection2 = showSection;
+showSection = function(id, el) {
+  _origShowSection2(id, el);
+  if (id === 'questionarios') renderQuestionarios();
+};
+
+// ===================== OVERRIDE ENTER PATIENT AREA FOR QUIZ =====================
+const _origEnterPatientArea = enterPatientArea;
+enterPatientArea = function() {
+  _origEnterPatientArea();
+  renderQuizPatientBanner();
+};
+
+// ===================== OVERRIDE RENDER ALERTAS FOR QUIZ PENDENTES =====================
+const _origRenderAlertas = renderAlertas;
+renderAlertas = function() {
+  _origRenderAlertas();
+  // Add quiz pendentes count to alertas
+  const pacs = load('v6_pacientes') || [];
+  let quizPend = 0;
+  pacs.forEach(p => {
+    if (p.email && quizPendentePaciente(p.email)) quizPend++;
+  });
+  if (quizPend > 0) {
+    const lista = document.getElementById('lista-alertas');
+    const existingQuiz = lista.querySelector('.quiz-alert-row');
+    if (!existingQuiz) {
+      const row = document.createElement('div');
+      row.className = 'alert-item quiz-alert-row';
+      row.innerHTML = `<div class="alert-dot" style="background:var(--accent)"></div>
+        <div class="alert-info"><div class="alert-name">Questionários pendentes</div>
+        <div class="alert-desc">${quizPend} paciente${quizPend > 1 ? 's' : ''} com questionário para responder</div></div>
+        <button class="btn btn-sm btn-ghost" onclick="document.querySelector('[onclick*=questionarios]').click()">Ver →</button>`;
+      lista.insertBefore(row, lista.firstChild);
+    }
+  }
+};
+
+// ===================== AUTO-LOGIN PATIENT FROM SESSION =====================
+(function() {
+  try {
+    const s = sessionStorage.getItem('v6_auth_pac');
+    if (s) { currentPatient = JSON.parse(s); enterPatientArea(); }
+  } catch(e) {}
+})();
 </script>
 </body>
 </html>
