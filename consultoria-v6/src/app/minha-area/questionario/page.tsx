@@ -112,38 +112,38 @@ export default function QuestionarioPacientePage() {
     loadData();
   }
 
-  if (loading) return <div className="text-text2 text-sm">Carregando...</div>;
+  if (loading) return <div className="text-[#475569] text-sm">Carregando...</div>;
 
   return (
     <div>
-      <h1 className="text-xl font-bold text-text mb-4">Questionário</h1>
+      <h1 style={{fontFamily:"var(--font-display)"}} className="text-xl font-bold text-[#0f172a] mb-4">Questionário</h1>
 
       {/* Success message */}
       {success && (
-        <div className="bg-accent2/10 border border-accent2/30 rounded-xl p-4 mb-4">
-          <p className="text-accent2 text-sm font-semibold">✓ Respostas enviadas com sucesso!</p>
-          <p className="text-text2 text-xs mt-1">Obrigado por responder. Seu próximo questionário será em 15 dias.</p>
+        <div className="bg-[#059669]/10 border border-[#059669]/30 rounded-xl p-4 mb-4">
+          <p className="text-[#059669] text-sm font-semibold">✓ Respostas enviadas com sucesso!</p>
+          <p className="text-[#475569] text-xs mt-1">Obrigado por responder. Seu próximo questionário será em 15 dias.</p>
         </div>
       )}
 
       {/* Formulario pendente */}
       {pendente && (
-        <div className="bg-surface border border-accent/30 rounded-xl p-5 mb-6">
-          <h2 className="text-base font-bold text-text mb-4">📋 Questionário Pendente</h2>
+        <div className="bg-white border border-[#2563eb]/30 rounded-xl p-5 mb-6">
+          <h2 className="text-base font-bold text-[#0f172a] mb-4">📋 Questionário Pendente</h2>
 
           {BLOCOS.map((bloco) => {
             const perguntas = PERGUNTAS.filter((p) => p.bloco === bloco);
             return (
               <div key={bloco} className="mb-5">
-                <h3 className="text-xs font-bold text-accent uppercase tracking-wider mb-3">{bloco}</h3>
+                <h3 className="text-xs font-bold text-[#2563eb] uppercase tracking-wider mb-3">{bloco}</h3>
                 <div className="flex flex-col gap-4">
                   {perguntas.map((p) => (
-                    <div key={p.id} className="bg-bg border border-border rounded-lg p-4">
-                      <p className="text-sm text-text font-medium mb-2">{p.texto}</p>
+                    <div key={p.id} className="bg-[#f8fafc] border border-[#e0eaf5] rounded-lg p-4">
+                      <p className="text-sm text-[#0f172a] font-medium mb-2">{p.texto}</p>
 
                       {p.tipo === "escala" && (
                         <div>
-                          <div className="flex justify-between text-[10px] text-text3 mb-1">
+                          <div className="flex justify-between text-[10px] text-[#9ca3af] mb-1">
                             <span>{p.minLabel}</span>
                             <span>{p.maxLabel}</span>
                           </div>
@@ -154,8 +154,8 @@ export default function QuestionarioPacientePage() {
                                 onClick={() => setRespostas({ ...respostas, [p.id]: val })}
                                 className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all border ${
                                   respostas[p.id] === val
-                                    ? "bg-accent text-white border-accent"
-                                    : "bg-surface border-border text-text2 hover:border-accent/40"
+                                    ? "bg-[#2563eb] text-white border-[#2563eb]"
+                                    : "bg-white border-[#e0eaf5] text-[#475569] hover:border-[#2563eb]/40"
                                 }`}
                               >
                                 {val}
@@ -173,8 +173,8 @@ export default function QuestionarioPacientePage() {
                               onClick={() => setRespostas({ ...respostas, [p.id]: opt })}
                               className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all border ${
                                 respostas[p.id] === opt
-                                  ? "bg-accent text-white border-accent"
-                                  : "bg-surface border-border text-text2 hover:border-accent/40"
+                                  ? "bg-[#2563eb] text-white border-[#2563eb]"
+                                  : "bg-white border-[#e0eaf5] text-[#475569] hover:border-[#2563eb]/40"
                               }`}
                             >
                               {opt}
@@ -188,7 +188,7 @@ export default function QuestionarioPacientePage() {
                           value={(respostas[p.id] as string) || ""}
                           onChange={(e) => setRespostas({ ...respostas, [p.id]: e.target.value })}
                           rows={3}
-                          className="w-full px-3 py-2 bg-surface border border-border rounded-lg text-text text-sm focus:border-accent focus:outline-none resize-none"
+                          className="w-full px-3 py-2 bg-white border border-[#e0eaf5] rounded-lg text-[#0f172a] text-sm focus:border-[#2563eb] focus:outline-none resize-none"
                           placeholder="Escreva aqui..."
                         />
                       )}
@@ -202,7 +202,7 @@ export default function QuestionarioPacientePage() {
           <button
             onClick={handleSubmit}
             disabled={submitting}
-            className="w-full bg-accent hover:bg-[#172e8a] text-white font-semibold py-3 rounded-xl text-sm transition-colors disabled:opacity-50"
+            className="w-full bg-[#2563eb] hover:bg-[#172e8a] text-white font-semibold py-3 rounded-xl text-sm transition-colors disabled:opacity-50"
           >
             {submitting ? "Enviando..." : "Enviar Respostas"}
           </button>
@@ -211,43 +211,43 @@ export default function QuestionarioPacientePage() {
 
       {/* Sem pendente e sem historico */}
       {!pendente && historico.length === 0 && !success && (
-        <div className="bg-surface border border-border rounded-xl p-8 text-center">
+        <div className="bg-white border border-[#e0eaf5] rounded-xl p-8 text-center">
           <p className="text-3xl mb-2">📋</p>
-          <p className="text-text2 text-sm">Nenhum questionário disponível no momento.</p>
+          <p className="text-[#475569] text-sm">Nenhum questionário disponível no momento.</p>
         </div>
       )}
 
       {/* Historico */}
       {historico.length > 0 && (
         <div>
-          <h2 className="text-base font-bold text-text mb-3">Histórico de Respostas</h2>
+          <h2 className="text-base font-bold text-[#0f172a] mb-3">Histórico de Respostas</h2>
           <div className="flex flex-col gap-2">
             {historico.map((q) => (
-              <div key={q.id} className="bg-surface border border-border rounded-xl overflow-hidden">
+              <div key={q.id} className="bg-white border border-[#e0eaf5] rounded-xl overflow-hidden">
                 <button
                   onClick={() => setExpanded(expanded === q.id ? null : q.id)}
-                  className="w-full flex items-center justify-between px-5 py-3 hover:bg-surface2 transition-all"
+                  className="w-full flex items-center justify-between px-5 py-3 hover:bg-[#f1f5f9] transition-all"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="text-accent2">✓</span>
-                    <span className="text-text text-sm font-medium">
+                    <span className="text-[#059669]">✓</span>
+                    <span className="text-[#0f172a] text-sm font-medium">
                       Respondido em {fmtData(q.data_resposta!)}
                     </span>
                   </div>
-                  <span className="text-text3 text-sm">{expanded === q.id ? "▲" : "▼"}</span>
+                  <span className="text-[#9ca3af] text-sm">{expanded === q.id ? "▲" : "▼"}</span>
                 </button>
 
                 {expanded === q.id && q.respostas && (
-                  <div className="border-t border-border px-5 py-4">
+                  <div className="border-t border-[#e0eaf5] px-5 py-4">
                     {BLOCOS.map((bloco) => {
                       const perguntas = PERGUNTAS.filter((p) => p.bloco === bloco);
                       return (
                         <div key={bloco} className="mb-4">
-                          <h4 className="text-[10px] font-bold text-accent uppercase tracking-wider mb-2">{bloco}</h4>
+                          <h4 className="text-[10px] font-bold text-[#2563eb] uppercase tracking-wider mb-2">{bloco}</h4>
                           {perguntas.map((p) => (
-                            <div key={p.id} className="flex justify-between py-1.5 border-b border-border/30 last:border-0">
-                              <span className="text-text2 text-xs">{p.texto}</span>
-                              <span className="text-text text-xs font-semibold ml-4 shrink-0">
+                            <div key={p.id} className="flex justify-between py-1.5 border-b border-[#e0eaf5]/30 last:border-0">
+                              <span className="text-[#475569] text-xs">{p.texto}</span>
+                              <span className="text-[#0f172a] text-xs font-semibold ml-4 shrink-0">
                                 {q.respostas![p.id] !== undefined ? String(q.respostas![p.id]) : "—"}
                               </span>
                             </div>

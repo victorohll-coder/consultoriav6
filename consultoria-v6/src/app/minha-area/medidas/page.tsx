@@ -28,7 +28,7 @@ function MiniChart({ medidas, campo }: { medidas: Medida[]; campo: keyof Medida 
     const max = Math.max(...values) * 1.05;
     const range = max - min || 1;
 
-    ctx.strokeStyle = "#1e40af";
+    ctx.strokeStyle = "#2563eb";
     ctx.lineWidth = 2;
     ctx.lineJoin = "round";
     ctx.beginPath();
@@ -55,13 +55,13 @@ function MiniChart({ medidas, campo }: { medidas: Medida[]; campo: keyof Medida 
       const y = h - ((v - min) / range) * h;
       ctx.beginPath();
       ctx.arc(x, y, 3, 0, Math.PI * 2);
-      ctx.fillStyle = "#1e40af";
+      ctx.fillStyle = "#2563eb";
       ctx.fill();
     });
   }, [medidas, campo]);
 
   if (medidas.length < 2) {
-    return <p className="text-text3 text-xs text-center py-4">Mínimo 2 medidas para gráfico.</p>;
+    return <p className="text-[#9ca3af] text-xs text-center py-4">Mínimo 2 medidas para gráfico.</p>;
   }
 
   return <canvas ref={canvasRef} width={400} height={160} className="w-full h-40" />;
@@ -114,17 +114,17 @@ export default function MedidasPacientePage() {
   const primeira = medidas.length > 0 ? medidas[0] : null;
   const ultima = medidas.length > 1 ? medidas[medidas.length - 1] : null;
 
-  if (loading) return <div className="text-text2 text-sm">Carregando medidas...</div>;
+  if (loading) return <div className="text-[#475569] text-sm">Carregando medidas...</div>;
 
   return (
     <div>
-      <h1 className="text-xl font-bold text-text mb-4">Minhas Medidas</h1>
+      <h1 style={{fontFamily:"var(--font-display)"}} className="text-xl font-bold text-[#0f172a] mb-4">Minhas Medidas</h1>
 
       {medidas.length === 0 ? (
-        <div className="bg-surface border border-border rounded-xl p-8 text-center">
+        <div className="bg-white border border-[#e0eaf5] rounded-xl p-8 text-center">
           <p className="text-3xl mb-2">📏</p>
-          <p className="text-text2 text-sm">Nenhuma medida registrada ainda.</p>
-          <p className="text-text3 text-xs mt-1">Seu nutricionista vai lançar suas medidas.</p>
+          <p className="text-[#475569] text-sm">Nenhuma medida registrada ainda.</p>
+          <p className="text-[#9ca3af] text-xs mt-1">Seu nutricionista vai lançar suas medidas.</p>
         </div>
       ) : (
         <>
@@ -136,8 +136,8 @@ export default function MedidasPacientePage() {
                 onClick={() => setSelectedCampo(c.key)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all border ${
                   selectedCampo === c.key
-                    ? "bg-accent text-white border-accent"
-                    : "bg-surface border-border text-text2 hover:border-accent/40"
+                    ? "bg-[#2563eb] text-white border-[#2563eb]"
+                    : "bg-white border-[#e0eaf5] text-[#475569] hover:border-[#2563eb]/40"
                 }`}
               >
                 {c.label}
@@ -146,8 +146,8 @@ export default function MedidasPacientePage() {
           </div>
 
           {/* Chart */}
-          <div className="bg-surface border border-border rounded-xl p-5 mb-4">
-            <h2 className="text-sm font-semibold text-text mb-3">
+          <div className="bg-white border border-[#e0eaf5] rounded-xl p-5 mb-4">
+            <h2 className="text-sm font-semibold text-[#0f172a] mb-3">
               Evolução: {CAMPOS.find((c) => c.key === selectedCampo)?.label}
             </h2>
             <MiniChart medidas={medidas} campo={selectedCampo} />
@@ -155,8 +155,8 @@ export default function MedidasPacientePage() {
 
           {/* Comparativo */}
           {primeira && ultima && (
-            <div className="bg-surface border border-border rounded-xl p-5 mb-4">
-              <h2 className="text-sm font-semibold text-text mb-3">Comparativo: Primeira x Última</h2>
+            <div className="bg-white border border-[#e0eaf5] rounded-xl p-5 mb-4">
+              <h2 className="text-sm font-semibold text-[#0f172a] mb-3">Comparativo: Primeira x Última</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {CAMPOS.map((c) => {
                   const v1 = Number(primeira[c.key]) || 0;
@@ -164,13 +164,13 @@ export default function MedidasPacientePage() {
                   if (v1 === 0 && v2 === 0) return null;
                   const diff = v2 - v1;
                   return (
-                    <div key={c.key} className="bg-bg border border-border rounded-lg p-3">
-                      <p className="text-[10px] text-text3 uppercase mb-1">{c.label}</p>
-                      <p className="text-text text-sm font-bold">
+                    <div key={c.key} className="bg-[#f8fafc] border border-[#e0eaf5] rounded-lg p-3">
+                      <p className="text-[10px] text-[#9ca3af] uppercase mb-1">{c.label}</p>
+                      <p className="text-[#0f172a] text-sm font-bold">
                         {v1}{c.unit} → {v2}{c.unit}
                       </p>
                       <p className={`text-xs font-semibold ${
-                        diff < 0 ? "text-accent2" : diff > 0 ? "text-danger" : "text-text3"
+                        diff < 0 ? "text-[#059669]" : diff > 0 ? "text-[#dc2626]" : "text-[#9ca3af]"
                       }`}>
                         {diff > 0 ? "+" : ""}{diff.toFixed(1)}{c.unit}
                       </p>
@@ -182,24 +182,24 @@ export default function MedidasPacientePage() {
           )}
 
           {/* Histórico */}
-          <div className="bg-surface border border-border rounded-xl p-5">
-            <h2 className="text-sm font-semibold text-text mb-3">Histórico</h2>
+          <div className="bg-white border border-[#e0eaf5] rounded-xl p-5">
+            <h2 className="text-sm font-semibold text-[#0f172a] mb-3">Histórico</h2>
             <div className="overflow-x-auto">
               <table className="w-full text-xs">
                 <thead>
-                  <tr className="border-b border-border">
-                    <th className="text-left py-2 px-2 text-text3 font-medium">Data</th>
+                  <tr className="border-b border-[#e0eaf5]">
+                    <th className="text-left py-2 px-2 text-[#9ca3af] font-medium">Data</th>
                     {CAMPOS.map((c) => (
-                      <th key={c.key} className="text-right py-2 px-2 text-text3 font-medium">{c.label}</th>
+                      <th key={c.key} className="text-right py-2 px-2 text-[#9ca3af] font-medium">{c.label}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {[...medidas].reverse().map((m) => (
-                    <tr key={m.id} className="border-b border-border/50">
-                      <td className="py-2 px-2 text-text2">{fmtData(m.data)}</td>
+                    <tr key={m.id} className="border-b border-[#e0eaf5]/50">
+                      <td className="py-2 px-2 text-[#475569]">{fmtData(m.data)}</td>
                       {CAMPOS.map((c) => (
-                        <td key={c.key} className="text-right py-2 px-2 text-text">
+                        <td key={c.key} className="text-right py-2 px-2 text-[#0f172a]">
                           {m[c.key] ? `${m[c.key]}${c.unit}` : "—"}
                         </td>
                       ))}
