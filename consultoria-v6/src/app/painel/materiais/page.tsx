@@ -35,14 +35,16 @@ export default function MateriaisPage() {
   const [error, setError] = useState("");
 
   const loadData = useCallback(async () => {
-    const [{ data: cats }, { data: mats }, { data: pacs }] = await Promise.all([
+    const [catRes, matRes, pacRes] = await Promise.all([
       supabase.from("categorias_material").select("*").order("ordem"),
       supabase.from("materiais").select("*").order("ordem"),
       supabase.from("pacientes").select("*").order("nome"),
     ]);
-    if (cats) setCategorias(cats);
-    if (mats) setMateriais(mats);
-    if (pacs) setPacientes(pacs);
+    console.log("cats:", catRes.data?.length, catRes.error?.message);
+    console.log("mats:", matRes.data?.length, matRes.error?.message);
+    if (catRes.data) setCategorias(catRes.data);
+    if (matRes.data) setMateriais(matRes.data);
+    if (pacRes.data) setPacientes(pacRes.data);
   }, [supabase]);
 
   useEffect(() => { loadData(); }, [loadData]);
@@ -125,15 +127,17 @@ export default function MateriaisPage() {
     }
 
     if (editMatId) {
-      await supabase.from("materiais").update({
+      const { error: updErr } = await supabase.from("materiais").update({
         titulo: matTitulo.trim(), tipo: matTipo, conteudo: conteudoFinal,
       }).eq("id", editMatId);
+      if (updErr) { setError("Erro ao atualizar: " + updErr.message); setLoading(false); return; }
     } else {
-      await supabase.from("materiais").insert({
+      const { error: insErr } = await supabase.from("materiais").insert({
         profissional_id: user!.id, categoria_id: selectedCat!,
         titulo: matTitulo.trim(), tipo: matTipo,
         conteudo: conteudoFinal, ordem: catMats.length,
       });
+      if (insErr) { setError("Erro ao salvar: " + insErr.message); setLoading(false); return; }
     }
     setMatModalOpen(false); setLoading(false); setMatFile(null); loadData();
   }
