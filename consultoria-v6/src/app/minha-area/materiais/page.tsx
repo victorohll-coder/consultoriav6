@@ -111,12 +111,12 @@ export default function MateriaisPacientePage() {
 
   if (grouped.length === 0) {
     return (
-      <div className="bg-surface border border-border rounded-2xl p-10 text-center">
-        <div className="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center mx-auto mb-4">
+      <div className="bg-white border border-[#e0eaf5] rounded-2xl p-10 text-center shadow-sm">
+        <div className="w-16 h-16 rounded-2xl bg-[#eff6ff] flex items-center justify-center mx-auto mb-4">
           <span className="text-3xl">📁</span>
         </div>
-        <p className="text-text font-semibold text-base">Nenhum material liberado</p>
-        <p className="text-text3 text-sm mt-1">Seu nutricionista vai liberar os materiais para você.</p>
+        <p className="text-[#0f172a] font-semibold text-base">Nenhum material liberado</p>
+        <p className="text-[#475569] text-sm mt-1">Seu nutricionista vai liberar os materiais para você.</p>
       </div>
     );
   }
@@ -125,7 +125,7 @@ export default function MateriaisPacientePage() {
 
   return (
     <div>
-      <h1 className="text-xl font-bold text-text mb-5">Materiais</h1>
+      <h1 className="text-xl font-bold text-[#0f172a] mb-5" style={{ fontFamily: "var(--font-display)" }}>Seus Materiais</h1>
 
       {/* Category cards */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
@@ -135,21 +135,21 @@ export default function MateriaisPacientePage() {
             <button
               key={g.categoria}
               onClick={() => setSelectedCat(g.categoria)}
-              className={`relative p-4 rounded-xl border-2 text-left transition-all ${
+              className={`relative p-4 rounded-2xl border-2 text-left transition-all ${
                 isActive
-                  ? "border-accent bg-accent/5 shadow-sm"
-                  : "border-border bg-surface hover:border-accent/40 hover:shadow-sm"
+                  ? "border-[#2563eb] bg-[#eff6ff] shadow-sm"
+                  : "border-[#e0eaf5] bg-white hover:border-[#93c5fd] hover:shadow-sm"
               }`}
             >
               <span className="text-2xl block mb-2">{getCatIcon(g.categoria)}</span>
-              <p className={`text-sm font-semibold truncate ${isActive ? "text-accent" : "text-text"}`}>
+              <p className={`text-sm font-semibold truncate ${isActive ? "text-[#2563eb]" : "text-[#0f172a]"}`}>
                 {g.categoria}
               </p>
-              <p className="text-xs text-text3 mt-0.5">
+              <p className="text-xs text-[#475569] mt-0.5">
                 {g.items.length} {g.items.length === 1 ? "material" : "materiais"}
               </p>
               {isActive && (
-                <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-accent" />
+                <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#2563eb]" />
               )}
             </button>
           );
@@ -184,7 +184,7 @@ export default function MateriaisPacientePage() {
                   <div className="flex items-start gap-3">
                     <span className="text-xl shrink-0 mt-0.5">{style.icon}</span>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-text leading-tight">{mat.titulo}</p>
+                      <p className="text-sm font-semibold text-[#0f172a] leading-tight">{mat.titulo}</p>
                       <span className={`inline-block text-[10px] font-bold uppercase mt-1.5 px-2 py-0.5 rounded-full ${style.color} bg-white/60`}>
                         {style.label}
                       </span>
@@ -209,7 +209,7 @@ export default function MateriaisPacientePage() {
                         href={mat.conteudo}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-white border border-border text-sm font-semibold text-accent hover:bg-accent hover:text-white transition-all"
+                        className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-white border border-[#e0eaf5] text-sm font-semibold text-[#2563eb] hover:bg-[#2563eb] hover:text-white transition-all"
                       >
                         {mat.tipo === "arquivo" ? "⬇ Baixar arquivo" : "📄 Abrir PDF"}
                       </a>
