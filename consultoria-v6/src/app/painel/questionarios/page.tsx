@@ -184,7 +184,7 @@ export default function QuestionariosPage() {
       (a, b) => {
         const da = a.proxima_data || a.created_at;
         const db = b.proxima_data || b.created_at;
-        return new Date(db).getTime() - new Date(da).getTime();
+        return new Date(da).getTime() - new Date(db).getTime();
       }
     );
   }, [selectedPac]);
