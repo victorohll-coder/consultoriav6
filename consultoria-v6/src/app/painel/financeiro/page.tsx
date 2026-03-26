@@ -163,10 +163,19 @@ export default function FinanceiroPage() {
 
     const { data: { user } } = await supabase.auth.getUser();
 
+    // Parse valor: aceita "2500.20", "2500,20", "2.500,20"
+    const valorLimpo = valor.replace(/\./g, "").replace(",", ".");
+    const valorNum = parseFloat(valorLimpo);
+    if (isNaN(valorNum) || valorNum <= 0) {
+      setError("Valor inválido. Use formato: 2500,20 ou 2500.20");
+      setLoading(false);
+      return;
+    }
+
     const payload = {
       profissional_id: user!.id,
       paciente_id: pacienteId,
-      valor: parseFloat(valor),
+      valor: valorNum,
       data: data || new Date().toISOString().split("T")[0],
       plano: plano || null,
       status,

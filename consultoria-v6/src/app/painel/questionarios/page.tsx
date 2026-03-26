@@ -141,8 +141,10 @@ export default function QuestionariosPage() {
     );
   }, [selectedPac]);
 
+  const hoje = new Date().toISOString().split("T")[0];
   const respondidos = quizzes.filter((q) => q.data_resposta);
-  const pendentes = quizzes.filter((q) => !q.data_resposta);
+  const atrasados = quizzes.filter((q) => !q.data_resposta && q.proxima_data && q.proxima_data <= hoje);
+  const agendados = quizzes.filter((q) => !q.data_resposta && q.proxima_data && q.proxima_data > hoje);
 
   // Evolution for scale questions
   function getEvolucao(qId: string) {
@@ -158,8 +160,11 @@ export default function QuestionariosPage() {
   }
 
   // Count stats
-  const totalPendentes = pacientes.reduce(
-    (s, p) => s + (p.questionarios || []).filter((q) => !q.data_resposta).length, 0
+  const totalAtrasados = pacientes.reduce(
+    (s, p) => s + (p.questionarios || []).filter((q) => !q.data_resposta && q.proxima_data && q.proxima_data <= new Date().toISOString().split("T")[0]).length, 0
+  );
+  const totalAgendados = pacientes.reduce(
+    (s, p) => s + (p.questionarios || []).filter((q) => !q.data_resposta && q.proxima_data && q.proxima_data > new Date().toISOString().split("T")[0]).length, 0
   );
   const totalRespondidos = pacientes.reduce(
     (s, p) => s + (p.questionarios || []).filter((q) => q.data_resposta).length, 0
@@ -189,10 +194,14 @@ export default function QuestionariosPage() {
       </div>
 
       {/* Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-        <div className="bg-surface border border-warn/20 rounded-xl p-5 shadow-sm">
-          <p className="text-[11px] font-semibold text-text2 uppercase tracking-wider">Pendentes</p>
-          <p className="text-[28px] font-bold text-warn mt-1">{totalPendentes}</p>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div className="bg-surface border border-danger/20 rounded-xl p-5 shadow-sm">
+          <p className="text-[11px] font-semibold text-text2 uppercase tracking-wider">Atrasados</p>
+          <p className="text-[28px] font-bold text-danger mt-1">{totalAtrasados}</p>
+        </div>
+        <div className="bg-surface border border-accent/20 rounded-xl p-5 shadow-sm">
+          <p className="text-[11px] font-semibold text-text2 uppercase tracking-wider">Agendados</p>
+          <p className="text-[28px] font-bold text-accent mt-1">{totalAgendados}</p>
         </div>
         <div className="bg-surface border border-accent2/20 rounded-xl p-5 shadow-sm">
           <p className="text-[11px] font-semibold text-text2 uppercase tracking-wider">Respondidos</p>
@@ -210,7 +219,8 @@ export default function QuestionariosPage() {
           <h2 className="text-xs font-semibold text-text2 uppercase tracking-wider mb-3">Pacientes</h2>
           <div className="flex flex-col gap-1">
             {pacientes.map((p) => {
-              const pend = (p.questionarios || []).filter((q) => !q.data_resposta).length;
+              const hojeStr = new Date().toISOString().split("T")[0];
+              const atr = (p.questionarios || []).filter((q) => !q.data_resposta && q.proxima_data && q.proxima_data <= hojeStr).length;
               const resp = (p.questionarios || []).filter((q) => q.data_resposta).length;
               return (
                 <div
@@ -229,8 +239,8 @@ export default function QuestionariosPage() {
                     )}
                   </div>
                   <div className="flex gap-1 shrink-0">
-                    {pend > 0 && (
-                      <span className="inline-flex px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-warn/20 text-warn">{pend}</span>
+                    {atr > 0 && (
+                      <span className="inline-flex px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-danger/20 text-danger">{atr}</span>
                     )}
                     <span className="inline-flex px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-accent2/20 text-accent2">{resp}</span>
                   </div>
@@ -254,12 +264,26 @@ export default function QuestionariosPage() {
                 )}
               </div>
 
-              {/* Pending banner */}
-              {pendentes.length > 0 && (
-                <div className="bg-warn/10 border border-warn/20 rounded-lg p-3 mb-4">
-                  <p className="text-warn text-sm font-semibold">{pendentes.length} questionário(s) pendente(s)</p>
+              {/* Atrasados banner */}
+              {atrasados.length > 0 && (
+                <div className="bg-danger/10 border border-danger/20 rounded-lg p-3 mb-4">
+                  <p className="text-danger text-sm font-semibold">⚠ {atrasados.length} questionário(s) atrasado(s)</p>
                   <div className="flex flex-wrap gap-1.5 mt-1.5">
-                    {pendentes.map((q) => (
+                    {atrasados.map((q) => (
+                      <span key={q.id} className="text-[10px] text-text3 bg-bg border border-border rounded px-1.5 py-0.5">
+                        {q.proxima_data ? fmtData(q.proxima_data) : "Sem data"}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Agendados info */}
+              {agendados.length > 0 && (
+                <div className="bg-accent/5 border border-accent/20 rounded-lg p-3 mb-4">
+                  <p className="text-accent text-sm font-semibold">📅 {agendados.length} questionário(s) agendado(s)</p>
+                  <div className="flex flex-wrap gap-1.5 mt-1.5">
+                    {agendados.map((q) => (
                       <span key={q.id} className="text-[10px] text-text3 bg-bg border border-border rounded px-1.5 py-0.5">
                         {q.proxima_data ? fmtData(q.proxima_data) : "Sem data"}
                       </span>
