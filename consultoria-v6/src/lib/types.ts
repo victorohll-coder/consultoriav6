@@ -90,7 +90,7 @@ export interface Material {
   categoria_id: string;
   profissional_id: string;
   titulo: string;
-  tipo: "pdf" | "video" | "texto";
+  tipo: "pdf" | "video" | "texto" | "arquivo";
   conteudo: string | null;
   ordem: number;
   created_at: string;

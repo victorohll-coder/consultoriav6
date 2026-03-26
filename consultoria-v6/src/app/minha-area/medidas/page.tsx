@@ -69,12 +69,9 @@ function MiniChart({ medidas, campo }: { medidas: Medida[]; campo: keyof Medida 
 
 const CAMPOS: { key: keyof Medida; label: string; unit: string }[] = [
   { key: "peso", label: "Peso", unit: "kg" },
-  { key: "gordura", label: "% Gordura", unit: "%" },
-  { key: "abdominal", label: "Abdominal", unit: "cm" },
   { key: "cintura", label: "Cintura", unit: "cm" },
+  { key: "abdominal", label: "Abdomen", unit: "cm" },
   { key: "quadril", label: "Quadril", unit: "cm" },
-  { key: "braco", label: "Braco", unit: "cm" },
-  { key: "coxa", label: "Coxa", unit: "cm" },
 ];
 
 export default function MedidasPacientePage() {

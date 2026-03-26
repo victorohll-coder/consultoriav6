@@ -8,7 +8,7 @@ interface MatItem {
   materiais: {
     id: string;
     titulo: string;
-    tipo: "pdf" | "video" | "texto";
+    tipo: "pdf" | "video" | "texto" | "arquivo";
     conteudo: string | null;
     categoria_id: string;
     categorias_material: {
@@ -120,21 +120,21 @@ export default function MateriaisPacientePage() {
                   <div key={mat.id} className="border-b border-border last:border-0 px-5 py-3">
                     <div className="flex items-center gap-3">
                       <span className="text-base">
-                        {mat.tipo === "pdf" ? "📎" : mat.tipo === "video" ? "▶️" : "📝"}
+                        {mat.tipo === "pdf" ? "📎" : mat.tipo === "video" ? "▶️" : mat.tipo === "arquivo" ? "📂" : "📝"}
                       </span>
                       <div className="flex-1 min-w-0">
                         <p className="text-text text-sm font-medium truncate">{mat.titulo}</p>
                         <p className="text-text3 text-[10px] uppercase font-mono">{mat.tipo}</p>
                       </div>
 
-                      {mat.tipo === "pdf" && mat.conteudo && (
+                      {(mat.tipo === "pdf" || mat.tipo === "arquivo") && mat.conteudo && (
                         <a
                           href={mat.conteudo}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-accent text-xs font-medium hover:underline"
                         >
-                          Abrir PDF ↗
+                          {mat.tipo === "arquivo" ? "Baixar ↓" : "Abrir PDF ↗"}
                         </a>
                       )}
 

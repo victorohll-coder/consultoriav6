@@ -12,12 +12,9 @@ function fmtData(d: string) {
 
 const CAMPOS: { key: keyof Medida; label: string; unit: string }[] = [
   { key: "peso", label: "Peso", unit: "kg" },
-  { key: "gordura", label: "% Gordura", unit: "%" },
-  { key: "abdominal", label: "Abdominal", unit: "cm" },
   { key: "cintura", label: "Cintura", unit: "cm" },
+  { key: "abdominal", label: "Abdomen", unit: "cm" },
   { key: "quadril", label: "Quadril", unit: "cm" },
-  { key: "braco", label: "Braco", unit: "cm" },
-  { key: "coxa", label: "Coxa", unit: "cm" },
 ];
 
 export default function MedidasPage() {
@@ -33,12 +30,9 @@ export default function MedidasPage() {
   // Form
   const [data, setData] = useState("");
   const [peso, setPeso] = useState("");
-  const [gordura, setGordura] = useState("");
-  const [abdominal, setAbdominal] = useState("");
   const [cintura, setCintura] = useState("");
+  const [abdominal, setAbdominal] = useState("");
   const [quadril, setQuadril] = useState("");
-  const [braco, setBraco] = useState("");
-  const [coxa, setCoxa] = useState("");
 
   const loadPacientes = useCallback(async () => {
     const { data } = await supabase.from("pacientes").select("*").order("nome");
@@ -60,8 +54,8 @@ export default function MedidasPage() {
 
   function resetForm() {
     setData(new Date().toISOString().split("T")[0]);
-    setPeso(""); setGordura(""); setAbdominal(""); setCintura("");
-    setQuadril(""); setBraco(""); setCoxa("");
+    setPeso(""); setCintura(""); setAbdominal("");
+    setQuadril("");
     setEditId(null); setError("");
   }
 
@@ -75,12 +69,9 @@ export default function MedidasPage() {
     setEditId(m.id);
     setData(m.data);
     setPeso(m.peso != null ? String(m.peso) : "");
-    setGordura(m.gordura != null ? String(m.gordura) : "");
-    setAbdominal(m.abdominal != null ? String(m.abdominal) : "");
     setCintura(m.cintura != null ? String(m.cintura) : "");
+    setAbdominal(m.abdominal != null ? String(m.abdominal) : "");
     setQuadril(m.quadril != null ? String(m.quadril) : "");
-    setBraco(m.braco != null ? String(m.braco) : "");
-    setCoxa(m.coxa != null ? String(m.coxa) : "");
     setError("");
     setModalOpen(true);
   }
@@ -94,12 +85,9 @@ export default function MedidasPage() {
       paciente_id: selectedPaciente,
       data,
       peso: peso ? parseFloat(peso) : null,
-      gordura: gordura ? parseFloat(gordura) : null,
-      abdominal: abdominal ? parseFloat(abdominal) : null,
       cintura: cintura ? parseFloat(cintura) : null,
+      abdominal: abdominal ? parseFloat(abdominal) : null,
       quadril: quadril ? parseFloat(quadril) : null,
-      braco: braco ? parseFloat(braco) : null,
-      coxa: coxa ? parseFloat(coxa) : null,
     };
 
     if (editId) {
@@ -231,7 +219,7 @@ export default function MedidasPage() {
                 <tbody>
                   {medidas.length === 0 ? (
                     <tr>
-                      <td colSpan={9} className="px-3 py-6 text-center text-text3 text-sm">Nenhuma medida lancada.</td>
+                      <td colSpan={6} className="px-3 py-6 text-center text-text3 text-sm">Nenhuma medida lancada.</td>
                     </tr>
                   ) : (
                     [...medidas].reverse().map((m) => (
@@ -276,32 +264,18 @@ export default function MedidasPage() {
               <input type="number" step="0.1" value={peso} onChange={(e) => setPeso(e.target.value)} placeholder="75.5" className="w-full px-3 py-2.5 bg-bg border border-border rounded-lg text-text text-sm focus:border-accent focus:outline-none transition-colors" />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-text2 uppercase tracking-wider mb-1.5">% Gordura</label>
-              <input type="number" step="0.1" value={gordura} onChange={(e) => setGordura(e.target.value)} placeholder="22.0" className="w-full px-3 py-2.5 bg-bg border border-border rounded-lg text-text text-sm focus:border-accent focus:outline-none transition-colors" />
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="block text-xs font-semibold text-text2 uppercase tracking-wider mb-1.5">Abdominal (cm)</label>
-              <input type="number" step="0.1" value={abdominal} onChange={(e) => setAbdominal(e.target.value)} className="w-full px-3 py-2.5 bg-bg border border-border rounded-lg text-text text-sm focus:border-accent focus:outline-none transition-colors" />
-            </div>
-            <div>
               <label className="block text-xs font-semibold text-text2 uppercase tracking-wider mb-1.5">Cintura (cm)</label>
               <input type="number" step="0.1" value={cintura} onChange={(e) => setCintura(e.target.value)} className="w-full px-3 py-2.5 bg-bg border border-border rounded-lg text-text text-sm focus:border-accent focus:outline-none transition-colors" />
             </div>
           </div>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs font-semibold text-text2 uppercase tracking-wider mb-1.5">Abdomen (cm)</label>
+              <input type="number" step="0.1" value={abdominal} onChange={(e) => setAbdominal(e.target.value)} className="w-full px-3 py-2.5 bg-bg border border-border rounded-lg text-text text-sm focus:border-accent focus:outline-none transition-colors" />
+            </div>
             <div>
               <label className="block text-xs font-semibold text-text2 uppercase tracking-wider mb-1.5">Quadril (cm)</label>
               <input type="number" step="0.1" value={quadril} onChange={(e) => setQuadril(e.target.value)} className="w-full px-3 py-2.5 bg-bg border border-border rounded-lg text-text text-sm focus:border-accent focus:outline-none transition-colors" />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold text-text2 uppercase tracking-wider mb-1.5">Braco (cm)</label>
-              <input type="number" step="0.1" value={braco} onChange={(e) => setBraco(e.target.value)} className="w-full px-3 py-2.5 bg-bg border border-border rounded-lg text-text text-sm focus:border-accent focus:outline-none transition-colors" />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold text-text2 uppercase tracking-wider mb-1.5">Coxa (cm)</label>
-              <input type="number" step="0.1" value={coxa} onChange={(e) => setCoxa(e.target.value)} className="w-full px-3 py-2.5 bg-bg border border-border rounded-lg text-text text-sm focus:border-accent focus:outline-none transition-colors" />
             </div>
           </div>
           {error && <p className="text-danger text-sm bg-danger/10 border border-danger/20 rounded-lg px-3 py-2">{error}</p>}
