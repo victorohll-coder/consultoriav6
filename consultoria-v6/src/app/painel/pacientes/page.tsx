@@ -144,12 +144,12 @@ export default function PacientesPage() {
         return;
       }
 
-      // Auto-generate follow-ups based on protocol
+      // Auto-generate follow-ups based on protocol (match by plan name, case-insensitive)
       if (newPaciente && plano && dataConsulta) {
         const { data: protocolo } = await supabase
           .from("protocolos")
           .select("steps")
-          .eq("nome", plano)
+          .ilike("nome", plano)
           .single();
 
         if (protocolo?.steps && Array.isArray(protocolo.steps)) {
