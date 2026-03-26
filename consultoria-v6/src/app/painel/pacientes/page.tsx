@@ -195,6 +195,19 @@ export default function PacientesPage() {
           await supabase.from("questionarios").insert(quizInserts);
         }
       }
+
+      // Auto-create recebimento if valor > 0
+      if (newPaciente && valor && parseFloat(valor) > 0) {
+        await supabase.from("recebimentos").insert({
+          paciente_id: newPaciente.id,
+          profissional_id: user!.id,
+          valor: parseFloat(valor),
+          data: dataConsulta || new Date().toISOString().split("T")[0],
+          plano: plano || null,
+          forma: null,
+          status: "pendente",
+        });
+      }
     }
 
     setModalOpen(false);
