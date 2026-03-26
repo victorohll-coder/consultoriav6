@@ -17,6 +17,78 @@ function addDays(dateStr: string, days: number) {
   return d.toISOString().split("T")[0];
 }
 
+function getPlanDuration(plano: string | null): number {
+  if (!plano) return 365;
+  const p = plano.toLowerCase();
+  if (p.includes("avulsa") || p.includes("mensal")) return 30;
+  if (p.includes("trimestral")) return 90;
+  if (p.includes("semestral")) return 180;
+  if (p.includes("anual")) return 365;
+  if (p.includes("vip")) return 365;
+  return 365;
+}
+
+function getDaysSince(dataConsulta: string | null, dataAlvo: string): number {
+  if (!dataConsulta) return 0;
+  const d1 = new Date(dataConsulta + "T12:00:00");
+  const d2 = new Date(dataAlvo + "T12:00:00");
+  return Math.round((d2.getTime() - d1.getTime()) / 86400000);
+}
+
+// Generate smart summary from questionnaire responses
+function gerarResumo(respostas: Record<string, string | number>): string {
+  const parts: string[] = [];
+
+  // Aderência alimentar
+  const ader = Number(respostas["q1"]);
+  if (ader >= 4) parts.push("Boa aderência ao plano alimentar");
+  else if (ader >= 3) parts.push("Aderência moderada ao plano");
+  else if (ader > 0) parts.push("Baixa aderência ao plano alimentar");
+
+  // Treino
+  const treino = String(respostas["q5"] || "");
+  if (treino === "5-6" || treino === "7+") parts.push("treino frequente");
+  else if (treino === "3-4") parts.push("treino regular");
+  else if (treino === "1-2") parts.push("poucos treinos");
+  else if (treino === "0") parts.push("sem treinos no período");
+
+  // Progressão
+  const prog = String(respostas["q7"] || "");
+  if (prog === "Evoluindo bem") parts.push("cargas evoluindo");
+  else if (prog === "Regredi") parts.push("⚠ regrediu cargas");
+
+  // Energia
+  const energia = Number(respostas["q8"]);
+  if (energia >= 4) parts.push("energia alta");
+  else if (energia <= 2 && energia > 0) parts.push("⚠ energia baixa");
+
+  // Sono
+  const sono = String(respostas["q9"] || "");
+  if (sono === "Ruim" || sono === "Péssima") parts.push("⚠ sono ruim");
+  else if (sono === "Ótima" || sono === "Boa") parts.push("sono bom");
+
+  // Estresse
+  const stress = String(respostas["q10"] || "");
+  if (stress === "Alto" || stress === "Muito alto") parts.push("⚠ estresse elevado");
+
+  // Corpo
+  const corpo = String(respostas["q11"] || "");
+  if (corpo === "Melhora visível") parts.push("melhora visível no corpo");
+  else if (corpo === "Piorei") parts.push("⚠ piorou composição");
+
+  // Água
+  const agua = String(respostas["q11b"] || "");
+  if (agua === "Menos de 1L") parts.push("⚠ pouca água");
+  else if (agua === "Mais de 3L") parts.push("boa hidratação");
+
+  // Doces/beliscos
+  const doces = String(respostas["q4"] || "");
+  if (doces === "Muita" || doces === "Irresistível") parts.push("⚠ muita vontade de beliscos");
+
+  if (parts.length === 0) return "Sem dados suficientes para resumo.";
+  return parts.join(" · ");
+}
+
 type PacienteComQuiz = Paciente & {
   questionarios: Questionario[];
 };
@@ -40,68 +112,45 @@ export default function QuestionariosPage() {
       .select("*, questionarios(*)")
       .order("nome");
 
-    if (pacs) setPacientes(pacs as PacienteComQuiz[]);
+    if (pacs) {
+      setPacientes(pacs as PacienteComQuiz[]);
+
+      // Auto-generate missing questionnaires (no button needed)
+      const hoje = new Date().toISOString().split("T")[0];
+      for (const pac of pacs as PacienteComQuiz[]) {
+        if (!pac.data_consulta) continue;
+        const quizzes = pac.questionarios || [];
+        const existingDates = new Set(quizzes.map((q) => q.proxima_data).filter(Boolean));
+        const planDays = getPlanDuration(pac.plano);
+
+        const toInsert = [];
+        for (let dia = 15; dia <= planDays; dia += 15) {
+          const dataAlvo = addDays(pac.data_consulta, dia);
+          if (existingDates.has(dataAlvo)) continue;
+          if (dataAlvo > hoje) continue; // Only generate up to today
+          toInsert.push({
+            paciente_id: pac.id,
+            data_resposta: null,
+            proxima_data: dataAlvo,
+            respostas: null,
+          });
+        }
+        if (toInsert.length > 0) {
+          await supabase.from("questionarios").insert(toInsert);
+        }
+      }
+
+      // Reload if any were created
+      const { data: updated } = await supabase
+        .from("pacientes")
+        .select("*, questionarios(*)")
+        .order("nome");
+      if (updated) setPacientes(updated as PacienteComQuiz[]);
+    }
     setLoading(false);
   }, [supabase]);
 
   useEffect(() => { loadData(); }, [loadData]);
-
-  // Generate quizzes based on data_consulta: D+15, D+30, D+45... up to 365 days
-  async function gerarQuestionarios() {
-    let gerados = 0;
-
-    for (const pac of pacientes) {
-      if (!pac.data_consulta) continue;
-
-      const quizzes = pac.questionarios || [];
-      const existingDates = new Set(
-        quizzes.map((q) => q.proxima_data).filter(Boolean)
-      );
-
-      // Determine plan duration in days (default 365)
-      const planDays = getPlanDuration(pac.plano);
-
-      // Generate D+15, D+30, D+45...
-      for (let dia = 15; dia <= planDays; dia += 15) {
-        const dataAlvo = addDays(pac.data_consulta, dia);
-
-        // Skip if quiz already exists for this date
-        if (existingDates.has(dataAlvo)) continue;
-
-        // Skip dates more than 30 days in the future (generate incrementally)
-        const hoje = new Date();
-        const alvo = new Date(dataAlvo + "T12:00:00");
-        const diffDays = Math.floor((alvo.getTime() - hoje.getTime()) / 86400000);
-        if (diffDays > 30) continue;
-
-        await supabase.from("questionarios").insert({
-          paciente_id: pac.id,
-          data_resposta: null,
-          proxima_data: dataAlvo,
-          respostas: null,
-        });
-        gerados++;
-      }
-    }
-
-    if (gerados > 0) {
-      alert(`${gerados} questionário(s) gerado(s)!`);
-      loadData();
-    } else {
-      alert("Nenhum questionário novo para gerar. Todos já estão em dia.");
-    }
-  }
-
-  function getPlanDuration(plano: string | null): number {
-    if (!plano) return 365;
-    const p = plano.toLowerCase();
-    if (p.includes("avulsa") || p.includes("mensal")) return 30;
-    if (p.includes("trimestral")) return 90;
-    if (p.includes("semestral")) return 180;
-    if (p.includes("anual")) return 365;
-    if (p.includes("vip")) return 365;
-    return 365;
-  }
 
   // Edit quiz responses
   function openEditQuiz(q: Questionario) {
@@ -133,7 +182,6 @@ export default function QuestionariosPage() {
     if (!selectedPac) return [];
     return [...(selectedPac.questionarios || [])].sort(
       (a, b) => {
-        // Sort by proxima_data or created_at
         const da = a.proxima_data || a.created_at;
         const db = b.proxima_data || b.created_at;
         return new Date(db).getTime() - new Date(da).getTime();
@@ -160,11 +208,12 @@ export default function QuestionariosPage() {
   }
 
   // Count stats
+  const hojeStr = new Date().toISOString().split("T")[0];
   const totalAtrasados = pacientes.reduce(
-    (s, p) => s + (p.questionarios || []).filter((q) => !q.data_resposta && q.proxima_data && q.proxima_data <= new Date().toISOString().split("T")[0]).length, 0
+    (s, p) => s + (p.questionarios || []).filter((q) => !q.data_resposta && q.proxima_data && q.proxima_data <= hojeStr).length, 0
   );
   const totalAgendados = pacientes.reduce(
-    (s, p) => s + (p.questionarios || []).filter((q) => !q.data_resposta && q.proxima_data && q.proxima_data > new Date().toISOString().split("T")[0]).length, 0
+    (s, p) => s + (p.questionarios || []).filter((q) => !q.data_resposta && q.proxima_data && q.proxima_data > hojeStr).length, 0
   );
   const totalRespondidos = pacientes.reduce(
     (s, p) => s + (p.questionarios || []).filter((q) => q.data_resposta).length, 0
@@ -181,17 +230,7 @@ export default function QuestionariosPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-bold text-text">Questionários</h1>
-        <button onClick={gerarQuestionarios} className="bg-accent hover:bg-[#172e8a] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
-          Gerar Pendentes
-        </button>
-      </div>
-
-      {/* Info */}
-      <div className="bg-accent/5 border border-accent/20 rounded-lg p-3 mb-4 text-xs text-text2">
-        📋 Questionários são gerados automaticamente a cada 15 dias a partir da data da consulta (D+15, D+30, D+45...). Clique em "Gerar Pendentes" para criar os próximos 30 dias.
-      </div>
+      <h1 className="text-xl font-bold text-text mb-6">Questionários</h1>
 
       {/* Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
@@ -219,7 +258,6 @@ export default function QuestionariosPage() {
           <h2 className="text-xs font-semibold text-text2 uppercase tracking-wider mb-3">Pacientes</h2>
           <div className="flex flex-col gap-1">
             {pacientes.map((p) => {
-              const hojeStr = new Date().toISOString().split("T")[0];
               const atr = (p.questionarios || []).filter((q) => !q.data_resposta && q.proxima_data && q.proxima_data <= hojeStr).length;
               const resp = (p.questionarios || []).filter((q) => q.data_resposta).length;
               return (
@@ -325,21 +363,29 @@ export default function QuestionariosPage() {
                         className="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-surface2 transition-colors"
                         onClick={() => setExpanded(expanded === q.id ? null : q.id)}
                       >
-                        <div className="flex items-center gap-2">
-                          <span className={`inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold ${q.data_resposta ? "bg-accent2/20 text-accent2" : "bg-warn/20 text-warn"}`}>
-                            {q.data_resposta ? "Respondido" : "Pendente"}
-                          </span>
-                          <span className="text-sm text-text">
-                            {q.proxima_data ? `D+${getDaysSince(selectedPac.data_consulta, q.proxima_data)}` : ""}
-                            {q.proxima_data && ` · ${fmtData(q.proxima_data)}`}
-                          </span>
-                          {q.data_resposta && (
-                            <span className="text-[10px] text-text3">
-                              resp. {fmtData(q.data_resposta)}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <span className={`inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold ${q.data_resposta ? "bg-accent2/20 text-accent2" : q.proxima_data && q.proxima_data <= hoje ? "bg-danger/20 text-danger" : "bg-accent/20 text-accent"}`}>
+                              {q.data_resposta ? "Respondido" : q.proxima_data && q.proxima_data <= hoje ? "Atrasado" : "Agendado"}
                             </span>
+                            <span className="text-sm text-text">
+                              {q.proxima_data ? `D+${getDaysSince(selectedPac.data_consulta, q.proxima_data)}` : ""}
+                              {q.proxima_data && ` · ${fmtData(q.proxima_data)}`}
+                            </span>
+                            {q.data_resposta && (
+                              <span className="text-[10px] text-text3">
+                                resp. {fmtData(q.data_resposta)}
+                              </span>
+                            )}
+                          </div>
+                          {/* Smart summary for answered questionnaires */}
+                          {q.data_resposta && q.respostas && (
+                            <p className="text-[11px] text-text2 mt-1.5 leading-relaxed">
+                              💡 {gerarResumo(q.respostas)}
+                            </p>
                           )}
                         </div>
-                        <div className="flex items-center gap-1.5">
+                        <div className="flex items-center gap-1.5 shrink-0 ml-2">
                           <button
                             onClick={(e) => { e.stopPropagation(); openEditQuiz(q); }}
                             className="bg-surface2 hover:bg-border text-text text-[10px] px-1.5 py-1 rounded border border-border transition-colors"
@@ -444,11 +490,4 @@ export default function QuestionariosPage() {
       </Modal>
     </div>
   );
-}
-
-function getDaysSince(dataConsulta: string | null, dataAlvo: string): number {
-  if (!dataConsulta) return 0;
-  const d1 = new Date(dataConsulta + "T12:00:00");
-  const d2 = new Date(dataAlvo + "T12:00:00");
-  return Math.round((d2.getTime() - d1.getTime()) / 86400000);
 }
