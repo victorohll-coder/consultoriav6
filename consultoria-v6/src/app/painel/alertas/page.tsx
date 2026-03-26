@@ -47,7 +47,7 @@ export default function AlertasPage() {
   const loadData = useCallback(async () => {
     setLoading(true);
 
-    // Follow-ups nao feitos com dados do paciente
+    // Follow-ups não feitos com dados do paciente
     const { data: fups } = await supabase
       .from("followups")
       .select("*, paciente:pacientes(*)")
@@ -62,7 +62,7 @@ export default function AlertasPage() {
       .select("*", { count: "exact", head: true });
     setPacientesCount(count || 0);
 
-    // Questionarios pendentes (sem resposta)
+    // Questionários pendentes (sem resposta)
     const { count: qCount } = await supabase
       .from("questionarios")
       .select("*", { count: "exact", head: true })
@@ -72,7 +72,7 @@ export default function AlertasPage() {
     // === Dashboard de Engajamento ===
     const engItems: EngajamentoItem[] = [];
 
-    // Pacientes com questionario pendente
+    // Pacientes com questionário pendente
     const hoje = new Date().toISOString().split("T")[0];
     const { data: questPend } = await supabase
       .from("questionarios")
@@ -103,7 +103,7 @@ export default function AlertasPage() {
       }
     }
 
-    // Pacientes sem medidas ha mais de 30 dias
+    // Pacientes sem medidas há mais de 30 dias
     const { data: allPacientes } = await supabase
       .from("pacientes")
       .select("id, nome");
@@ -132,7 +132,7 @@ export default function AlertasPage() {
           engItems.push({
             pacienteNome: pac.nome,
             tipo: "medidas",
-            detalhe: `Ultima medida ha ${Math.abs(dias)} dias`,
+            detalhe: `Última medida há ${Math.abs(dias)} dias`,
           });
         }
       }
@@ -177,7 +177,7 @@ export default function AlertasPage() {
       bg: "bg-warn/10 border-warn/20",
     },
     {
-      label: "Proximos 7 dias",
+      label: "Próximos 7 dias",
       value: proximos7.length,
       color: "text-accent",
       bg: "bg-accent/10 border-accent/20",
@@ -264,11 +264,11 @@ export default function AlertasPage() {
         <div className="bg-warn/10 border border-warn/20 rounded-xl p-4 mb-6 flex items-center justify-between">
           <div>
             <p className="text-warn text-sm font-semibold">
-              {quizPendentes} questionario{quizPendentes > 1 ? "s" : ""}{" "}
+              {quizPendentes} questionário{quizPendentes > 1 ? "s" : ""}{" "}
               pendente{quizPendentes > 1 ? "s" : ""}
             </p>
             <p className="text-text3 text-xs mt-0.5">
-              Pacientes que ainda nao responderam o questionario quinzenal
+              Pacientes que ainda não responderam o questionário quinzenal
             </p>
           </div>
           <a

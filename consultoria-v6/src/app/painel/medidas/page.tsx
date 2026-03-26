@@ -13,7 +13,7 @@ function fmtData(d: string) {
 const CAMPOS: { key: keyof Medida; label: string; unit: string }[] = [
   { key: "peso", label: "Peso", unit: "kg" },
   { key: "cintura", label: "Cintura", unit: "cm" },
-  { key: "abdominal", label: "Abdomen", unit: "cm" },
+  { key: "abdominal", label: "Abdômen", unit: "cm" },
   { key: "quadril", label: "Quadril", unit: "cm" },
 ];
 
@@ -145,14 +145,14 @@ export default function MedidasPage() {
 
       {!selectedPaciente ? (
         <div className="bg-surface border border-border rounded-xl p-8 text-center text-text3 text-sm">
-          Selecione um paciente para ver e lancar medidas.
+          Selecione um paciente para ver e lançar medidas.
         </div>
       ) : (
         <>
           {/* Weight chart */}
           {pesoData.length >= 2 && (
             <div className="bg-surface border border-border rounded-xl p-5 mb-6">
-              <h2 className="text-sm font-bold text-text mb-4">Evolucao do Peso — {pacienteNome}</h2>
+              <h2 className="text-sm font-bold text-text mb-4">Evolução do Peso — {pacienteNome}</h2>
               <div className="flex items-end gap-1 h-40">
                 {pesoData.map((m, i) => {
                   const val = Number(m.peso);
@@ -177,7 +177,7 @@ export default function MedidasPage() {
           {/* Comparativo */}
           {primeira && ultima && (
             <div className="bg-surface border border-border rounded-xl p-5 mb-6">
-              <h2 className="text-sm font-bold text-text mb-4">Comparativo: Primeira vs Ultima</h2>
+              <h2 className="text-sm font-bold text-text mb-4">Comparativo: Primeira vs Última</h2>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {CAMPOS.map((c) => {
                   const v1 = Number(primeira[c.key]) || 0;
@@ -203,7 +203,7 @@ export default function MedidasPage() {
           {/* Medidas table */}
           <div className="bg-surface border border-border rounded-xl overflow-hidden">
             <div className="px-5 py-4 border-b border-border">
-              <h2 className="text-sm font-bold text-text">Historico de Medidas</h2>
+              <h2 className="text-sm font-bold text-text">Histórico de Medidas</h2>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full">
@@ -213,13 +213,13 @@ export default function MedidasPage() {
                     {CAMPOS.map((c) => (
                       <th key={c.key} className="text-center px-3 py-2.5 text-[10px] font-semibold text-text3 uppercase">{c.label}</th>
                     ))}
-                    <th className="text-right px-3 py-2.5 text-[10px] font-semibold text-text3 uppercase">Acoes</th>
+                    <th className="text-right px-3 py-2.5 text-[10px] font-semibold text-text3 uppercase">Ações</th>
                   </tr>
                 </thead>
                 <tbody>
                   {medidas.length === 0 ? (
                     <tr>
-                      <td colSpan={6} className="px-3 py-6 text-center text-text3 text-sm">Nenhuma medida lancada.</td>
+                      <td colSpan={6} className="px-3 py-6 text-center text-text3 text-sm">Nenhuma medida lançada.</td>
                     </tr>
                   ) : (
                     [...medidas].reverse().map((m) => (
@@ -270,7 +270,7 @@ export default function MedidasPage() {
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-text2 uppercase tracking-wider mb-1.5">Abdomen (cm)</label>
+              <label className="block text-xs font-semibold text-text2 uppercase tracking-wider mb-1.5">Abdômen (cm)</label>
               <input type="number" step="0.1" value={abdominal} onChange={(e) => setAbdominal(e.target.value)} className="w-full px-3 py-2.5 bg-bg border border-border rounded-lg text-text text-sm focus:border-accent focus:outline-none transition-colors" />
             </div>
             <div>

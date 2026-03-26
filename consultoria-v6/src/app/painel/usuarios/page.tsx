@@ -54,7 +54,7 @@ export default function UsuariosPage() {
       <div>
         <h1 className="text-xl font-bold text-text mb-6">Acesso negado</h1>
         <div className="bg-surface border border-border rounded-xl p-6 text-text2 text-sm">
-          Apenas administradores podem acessar esta pagina.
+          Apenas administradores podem acessar esta página.
         </div>
       </div>
     );
@@ -90,7 +90,7 @@ export default function UsuariosPage() {
           .eq("id", data.user.id);
       }
 
-      setSuccess("Usuario criado com sucesso!");
+      setSuccess("Usuário criado com sucesso!");
       setNome("");
       setEmail("");
       setSenha("");
@@ -102,7 +102,7 @@ export default function UsuariosPage() {
         setSuccess("");
       }, 1500);
     } catch {
-      setError("Erro ao criar usuario.");
+      setError("Erro ao criar usuário.");
     } finally {
       setLoading(false);
     }
@@ -111,7 +111,7 @@ export default function UsuariosPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-bold text-text">Usuarios</h1>
+        <h1 className="text-xl font-bold text-text">Usuários</h1>
         <button
           onClick={() => {
             setModalOpen(true);
@@ -120,7 +120,7 @@ export default function UsuariosPage() {
           }}
           className="bg-accent hover:bg-[#2563eb] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
         >
-          + Novo Usuario
+          + Novo Usuário
         </button>
       </div>
 
@@ -136,7 +136,7 @@ export default function UsuariosPage() {
                 E-mail
               </th>
               <th className="text-left px-4 py-3 text-[11px] font-semibold text-text3 uppercase tracking-wider">
-                Permissao
+                Permissão
               </th>
             </tr>
           </thead>
@@ -158,7 +158,7 @@ export default function UsuariosPage() {
                         : "bg-accent2/20 text-accent2"
                     }`}
                   >
-                    {u.role === "admin" ? "ADMIN" : "USUARIO"}
+                    {u.role === "admin" ? "ADMIN" : "USUÁRIO"}
                   </span>
                 </td>
               </tr>
@@ -169,7 +169,7 @@ export default function UsuariosPage() {
                   colSpan={3}
                   className="px-4 py-8 text-center text-text3 text-sm"
                 >
-                  Nenhum usuario encontrado.
+                  Nenhum usuário encontrado.
                 </td>
               </tr>
             )}
@@ -181,7 +181,7 @@ export default function UsuariosPage() {
       <Modal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
-        title="Novo Usuario"
+        title="Novo Usuário"
         footer={
           <>
             <button
@@ -246,7 +246,7 @@ export default function UsuariosPage() {
           </div>
           <div>
             <label className="block text-xs font-semibold text-text2 uppercase tracking-wider mb-1.5">
-              Permissao
+              Permissão
             </label>
             <select
               value={role}
@@ -255,7 +255,7 @@ export default function UsuariosPage() {
               }
               className="w-full px-3 py-2.5 bg-bg border border-border rounded-lg text-text text-sm focus:border-accent focus:outline-none transition-colors"
             >
-              <option value="profissional">Usuario</option>
+              <option value="profissional">Usuário</option>
               <option value="admin">Admin</option>
             </select>
           </div>

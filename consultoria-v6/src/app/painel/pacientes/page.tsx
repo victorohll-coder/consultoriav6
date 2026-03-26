@@ -292,7 +292,7 @@ export default function PacientesPage() {
                   Valor
                 </th>
                 <th className="text-right px-4 py-3 text-[11px] font-semibold text-text3 uppercase tracking-wider">
-                  Acoes
+                  Ações
                 </th>
               </tr>
             </thead>
@@ -503,7 +503,7 @@ export default function PacientesPage() {
 
           <div>
             <label className="block text-xs font-semibold text-text2 uppercase tracking-wider mb-1.5">
-              Observacoes
+              Observações
             </label>
             <input
               type="text"

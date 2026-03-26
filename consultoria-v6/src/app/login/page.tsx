@@ -30,7 +30,7 @@ export default function LoginPage() {
     try {
       if (isFirstAccess && userType === "paciente") {
         if (password !== confirmPassword) {
-          setError("As senhas nao coincidem.");
+          setError("As senhas não coincidem.");
           setLoading(false);
           return;
         }
@@ -50,7 +50,7 @@ export default function LoginPage() {
 
         if (signUpErr) {
           if (signUpErr.message.includes("already registered")) {
-            setError("Este e-mail ja possui conta. Tente fazer login.");
+            setError("Este e-mail já possui conta. Tente fazer login.");
             setIsFirstAccess(false);
           } else {
             setError(signUpErr.message);
@@ -88,7 +88,7 @@ export default function LoginPage() {
         data: { user },
       } = await supabase.auth.getUser();
       if (!user) {
-        setError("Erro ao obter usuario.");
+        setError("Erro ao obter usuário.");
         setLoading(false);
         return;
       }
@@ -107,14 +107,14 @@ export default function LoginPage() {
         role !== "profissional"
       ) {
         await supabase.auth.signOut();
-        setError("Esta conta nao e de profissional.");
+        setError("Esta conta não é de profissional.");
         setLoading(false);
         return;
       }
 
       if (userType === "paciente" && role !== "paciente") {
         await supabase.auth.signOut();
-        setError("Esta conta nao e de paciente. Use o login profissional.");
+        setError("Esta conta não é de paciente. Use o login profissional.");
         setLoading(false);
         return;
       }
@@ -135,13 +135,13 @@ export default function LoginPage() {
           <h1 className="text-[28px] font-bold text-text">
             Consultoria <span className="text-accent">V6</span>
           </h1>
-          <p className="text-text2 text-sm mt-1">Sistema de Gestao Nutricional</p>
+          <p className="text-text2 text-sm mt-1">Sistema de Gestão Nutricional</p>
         </div>
 
         {/* Supabase not configured warning */}
         {!supabaseReady && (
           <p className="text-warn text-sm bg-warn/10 border border-warn/20 rounded-lg px-3 py-2 mb-4">
-            Configure as variaveis NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY no .env.local
+            Configure as variáveis NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY no .env.local
           </p>
         )}
 

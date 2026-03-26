@@ -85,10 +85,10 @@ export default function QuestionariosPage() {
     }
 
     if (gerados > 0) {
-      alert(`${gerados} questionario(s) gerado(s)!`);
+      alert(`${gerados} questionário(s) gerado(s)!`);
       loadData();
     } else {
-      alert("Nenhum questionario novo para gerar. Todos ja estao em dia.");
+      alert("Nenhum questionário novo para gerar. Todos já estão em dia.");
     }
   }
 
@@ -123,7 +123,7 @@ export default function QuestionariosPage() {
   }
 
   async function handleDeleteQuiz(id: string) {
-    if (!confirm("Excluir este questionario?")) return;
+    if (!confirm("Excluir este questionário?")) return;
     await supabase.from("questionarios").delete().eq("id", id);
     loadData();
   }
@@ -168,7 +168,7 @@ export default function QuestionariosPage() {
   if (loading) {
     return (
       <div>
-        <h1 className="text-xl font-bold text-text mb-6">Questionarios</h1>
+        <h1 className="text-xl font-bold text-text mb-6">Questionários</h1>
         <div className="bg-surface border border-border rounded-xl p-6 text-text2 text-sm">Carregando...</div>
       </div>
     );
@@ -177,7 +177,7 @@ export default function QuestionariosPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-bold text-text">Questionarios</h1>
+        <h1 className="text-xl font-bold text-text">Questionários</h1>
         <button onClick={gerarQuestionarios} className="bg-accent hover:bg-[#2563eb] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
           Gerar Pendentes
         </button>
@@ -185,7 +185,7 @@ export default function QuestionariosPage() {
 
       {/* Info */}
       <div className="bg-accent/5 border border-accent/20 rounded-lg p-3 mb-4 text-xs text-text2">
-        📋 Questionarios sao gerados automaticamente a cada 15 dias a partir da data da consulta (D+15, D+30, D+45...). Clique em "Gerar Pendentes" para criar os proximos 30 dias.
+        📋 Questionários são gerados automaticamente a cada 15 dias a partir da data da consulta (D+15, D+30, D+45...). Clique em "Gerar Pendentes" para criar os próximos 30 dias.
       </div>
 
       {/* Cards */}
@@ -244,7 +244,7 @@ export default function QuestionariosPage() {
         {/* Quiz detail */}
         <div className="bg-surface border border-border rounded-xl p-5">
           {!selectedPac ? (
-            <div className="text-center py-8 text-text3 text-sm">Selecione um paciente para ver os questionarios.</div>
+            <div className="text-center py-8 text-text3 text-sm">Selecione um paciente para ver os questionários.</div>
           ) : (
             <>
               <div className="flex items-center justify-between mb-4">
@@ -257,7 +257,7 @@ export default function QuestionariosPage() {
               {/* Pending banner */}
               {pendentes.length > 0 && (
                 <div className="bg-warn/10 border border-warn/20 rounded-lg p-3 mb-4">
-                  <p className="text-warn text-sm font-semibold">{pendentes.length} questionario(s) pendente(s)</p>
+                  <p className="text-warn text-sm font-semibold">{pendentes.length} questionário(s) pendente(s)</p>
                   <div className="flex flex-wrap gap-1.5 mt-1.5">
                     {pendentes.map((q) => (
                       <span key={q.id} className="text-[10px] text-text3 bg-bg border border-border rounded px-1.5 py-0.5">
@@ -271,14 +271,14 @@ export default function QuestionariosPage() {
               {/* Evolution cards for scale questions */}
               {respondidos.length >= 2 && (
                 <div className="mb-4">
-                  <h3 className="text-xs font-semibold text-text2 uppercase tracking-wider mb-2">Evolucao</h3>
+                  <h3 className="text-xs font-semibold text-text2 uppercase tracking-wider mb-2">Evolução</h3>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                     {PERGUNTAS.filter((p) => p.tipo === "escala").map((p) => {
                       const evo = getEvolucao(p.id);
                       if (!evo) return null;
                       return (
                         <div key={p.id} className="bg-bg border border-border rounded-lg p-2.5 text-center">
-                          <p className="text-[10px] text-text3 uppercase font-semibold truncate">{p.texto.replace("Aderencia ao plano alimentar", "Aderencia").replace("Nivel de energia no dia a dia", "Energia").replace("Intensidade dos treinos", "Intensidade")}</p>
+                          <p className="text-[10px] text-text3 uppercase font-semibold truncate">{p.texto.replace("Aderência ao plano alimentar", "Aderência").replace("Nível de energia no dia a dia", "Energia").replace("Intensidade dos treinos", "Intensidade")}</p>
                           <p className={`text-lg font-bold font-mono mt-0.5 ${evo.diff > 0 ? "text-accent2" : evo.diff < 0 ? "text-danger" : "text-text3"}`}>
                             {evo.trend} {Math.abs(evo.diff).toFixed(1)}
                           </p>
@@ -290,9 +290,9 @@ export default function QuestionariosPage() {
               )}
 
               {/* Response history */}
-              <h3 className="text-xs font-semibold text-text2 uppercase tracking-wider mb-2">Historico</h3>
+              <h3 className="text-xs font-semibold text-text2 uppercase tracking-wider mb-2">Histórico</h3>
               {quizzes.length === 0 ? (
-                <p className="text-text3 text-sm">Nenhum questionario registrado.</p>
+                <p className="text-text3 text-sm">Nenhum questionário registrado.</p>
               ) : (
                 <div className="flex flex-col gap-2">
                   {quizzes.map((q) => (
@@ -367,7 +367,7 @@ export default function QuestionariosPage() {
       </div>
 
       {/* Edit Quiz Modal */}
-      <Modal open={editModalOpen} onClose={() => setEditModalOpen(false)} title="Editar Questionario" footer={
+      <Modal open={editModalOpen} onClose={() => setEditModalOpen(false)} title="Editar Questionário" footer={
         <>
           <button type="button" onClick={() => setEditModalOpen(false)} className="bg-surface2 hover:bg-border text-text text-sm font-semibold px-4 py-2 rounded-lg border border-border transition-colors">Cancelar</button>
           <button onClick={handleSaveEdit} className="bg-accent hover:bg-[#2563eb] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">Salvar</button>

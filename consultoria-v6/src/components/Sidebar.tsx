@@ -11,10 +11,10 @@ const navItems = [
   { href: "/painel/financeiro", label: "Financeiro", icon: "\uD83D\uDCB0" },
   { href: "/painel/protocolos", label: "Protocolos", icon: "\uD83D\uDCCB" },
   { href: "/painel/materiais", label: "Materiais", icon: "\uD83D\uDCC1" },
-  { href: "/painel/questionarios", label: "Questionarios", icon: "\uD83D\uDCCA" },
+  { href: "/painel/questionarios", label: "Questionários", icon: "\uD83D\uDCCA" },
   { href: "/painel/medidas", label: "Medidas", icon: "\uD83D\uDCCF" },
   { href: "/painel/anamnese", label: "Anamnese", icon: "\uD83D\uDCC4" },
-  { href: "/painel/usuarios", label: "Usuarios", icon: "\uD83D\uDC65", adminOnly: true },
+  { href: "/painel/usuarios", label: "Usuários", icon: "\uD83D\uDC65", adminOnly: true },
 ];
 
 interface SidebarProps {
@@ -43,7 +43,7 @@ export default function Sidebar({ profile }: SidebarProps) {
           <h1 className="text-lg font-bold text-text">
             Consultoria <span className="text-accent">V6</span>
           </h1>
-          <p className="text-[11px] text-text3 mt-0.5">Gestao Nutricional</p>
+          <p className="text-[11px] text-text3 mt-0.5">Gestão Nutricional</p>
         </div>
 
         {/* Nav */}
@@ -75,7 +75,7 @@ export default function Sidebar({ profile }: SidebarProps) {
         <div className="border-t border-border pt-4 mt-4">
           <p className="text-xs text-text2 truncate">{profile.email}</p>
           <p className="text-[10px] font-semibold font-mono text-text3 uppercase mt-1">
-            {profile.role === "admin" ? "ADMIN" : "USUARIO"}
+            {profile.role === "admin" ? "ADMIN" : "USUÁRIO"}
           </p>
           <button
             onClick={handleLogout}

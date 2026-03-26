@@ -100,7 +100,7 @@ export default function AnamnesePacientePage() {
                   {campo.label}
                 </p>
                 <p className="text-sm text-text whitespace-pre-wrap">
-                  {val || <span className="text-text3 italic">Nao informado</span>}
+                  {val || <span className="text-text3 italic">Não informado</span>}
                 </p>
               </div>
             );
@@ -115,7 +115,7 @@ export default function AnamnesePacientePage() {
     <div>
       <h1 className="text-xl font-bold text-text mb-2">Anamnese</h1>
       <p className="text-text2 text-sm mb-6">
-        Preencha suas informacoes para que seu nutricionista te conheca melhor.
+        Preencha suas informações para que seu nutricionista te conheça melhor.
       </p>
 
       {success && (

@@ -61,7 +61,7 @@ function MiniChart({ medidas, campo }: { medidas: Medida[]; campo: keyof Medida 
   }, [medidas, campo]);
 
   if (medidas.length < 2) {
-    return <p className="text-text3 text-xs text-center py-4">Minimo 2 medidas para grafico.</p>;
+    return <p className="text-text3 text-xs text-center py-4">Mínimo 2 medidas para gráfico.</p>;
   }
 
   return <canvas ref={canvasRef} width={400} height={160} className="w-full h-40" />;
@@ -70,7 +70,7 @@ function MiniChart({ medidas, campo }: { medidas: Medida[]; campo: keyof Medida 
 const CAMPOS: { key: keyof Medida; label: string; unit: string }[] = [
   { key: "peso", label: "Peso", unit: "kg" },
   { key: "cintura", label: "Cintura", unit: "cm" },
-  { key: "abdominal", label: "Abdomen", unit: "cm" },
+  { key: "abdominal", label: "Abdômen", unit: "cm" },
   { key: "quadril", label: "Quadril", unit: "cm" },
 ];
 
@@ -124,7 +124,7 @@ export default function MedidasPacientePage() {
         <div className="bg-surface border border-border rounded-xl p-8 text-center">
           <p className="text-3xl mb-2">📏</p>
           <p className="text-text2 text-sm">Nenhuma medida registrada ainda.</p>
-          <p className="text-text3 text-xs mt-1">Seu nutricionista vai lancar suas medidas.</p>
+          <p className="text-text3 text-xs mt-1">Seu nutricionista vai lançar suas medidas.</p>
         </div>
       ) : (
         <>
@@ -148,7 +148,7 @@ export default function MedidasPacientePage() {
           {/* Chart */}
           <div className="bg-surface border border-border rounded-xl p-5 mb-4">
             <h2 className="text-sm font-semibold text-text mb-3">
-              Evolucao: {CAMPOS.find((c) => c.key === selectedCampo)?.label}
+              Evolução: {CAMPOS.find((c) => c.key === selectedCampo)?.label}
             </h2>
             <MiniChart medidas={medidas} campo={selectedCampo} />
           </div>
@@ -156,7 +156,7 @@ export default function MedidasPacientePage() {
           {/* Comparativo */}
           {primeira && ultima && (
             <div className="bg-surface border border-border rounded-xl p-5 mb-4">
-              <h2 className="text-sm font-semibold text-text mb-3">Comparativo: Primeira x Ultima</h2>
+              <h2 className="text-sm font-semibold text-text mb-3">Comparativo: Primeira x Última</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {CAMPOS.map((c) => {
                   const v1 = Number(primeira[c.key]) || 0;
@@ -181,9 +181,9 @@ export default function MedidasPacientePage() {
             </div>
           )}
 
-          {/* Historico */}
+          {/* Histórico */}
           <div className="bg-surface border border-border rounded-xl p-5">
-            <h2 className="text-sm font-semibold text-text mb-3">Historico</h2>
+            <h2 className="text-sm font-semibold text-text mb-3">Histórico</h2>
             <div className="overflow-x-auto">
               <table className="w-full text-xs">
                 <thead>

@@ -80,7 +80,7 @@ export default function QuestionarioPacientePage() {
       return val === undefined || val === "" || val === null;
     });
     if (missing.length > 0) {
-      alert(`Responda todas as perguntas obrigatorias. Faltam ${missing.length}.`);
+      alert(`Responda todas as perguntas obrigatórias. Faltam ${missing.length}.`);
       return;
     }
 
@@ -116,20 +116,20 @@ export default function QuestionarioPacientePage() {
 
   return (
     <div>
-      <h1 className="text-xl font-bold text-text mb-4">Questionario</h1>
+      <h1 className="text-xl font-bold text-text mb-4">Questionário</h1>
 
       {/* Success message */}
       {success && (
         <div className="bg-accent2/10 border border-accent2/30 rounded-xl p-4 mb-4">
           <p className="text-accent2 text-sm font-semibold">✓ Respostas enviadas com sucesso!</p>
-          <p className="text-text2 text-xs mt-1">Obrigado por responder. Seu proximo questionario sera em 15 dias.</p>
+          <p className="text-text2 text-xs mt-1">Obrigado por responder. Seu próximo questionário será em 15 dias.</p>
         </div>
       )}
 
       {/* Formulario pendente */}
       {pendente && (
         <div className="bg-surface border border-accent/30 rounded-xl p-5 mb-6">
-          <h2 className="text-base font-bold text-text mb-4">📋 Questionario Pendente</h2>
+          <h2 className="text-base font-bold text-text mb-4">📋 Questionário Pendente</h2>
 
           {BLOCOS.map((bloco) => {
             const perguntas = PERGUNTAS.filter((p) => p.bloco === bloco);
@@ -213,14 +213,14 @@ export default function QuestionarioPacientePage() {
       {!pendente && historico.length === 0 && !success && (
         <div className="bg-surface border border-border rounded-xl p-8 text-center">
           <p className="text-3xl mb-2">📋</p>
-          <p className="text-text2 text-sm">Nenhum questionario disponivel no momento.</p>
+          <p className="text-text2 text-sm">Nenhum questionário disponível no momento.</p>
         </div>
       )}
 
       {/* Historico */}
       {historico.length > 0 && (
         <div>
-          <h2 className="text-base font-bold text-text mb-3">Historico de Respostas</h2>
+          <h2 className="text-base font-bold text-text mb-3">Histórico de Respostas</h2>
           <div className="flex flex-col gap-2">
             {historico.map((q) => (
               <div key={q.id} className="bg-surface border border-border rounded-xl overflow-hidden">

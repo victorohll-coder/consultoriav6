@@ -83,10 +83,10 @@ export default function AnamnesePage() {
           ) : !anamnese ? (
             <div className="text-center py-8">
               <p className="text-text3 text-sm">
-                {selectedPac.nome} ainda nao preencheu a anamnese.
+                {selectedPac.nome} ainda não preencheu a anamnese.
               </p>
               <p className="text-text3 text-xs mt-1">
-                O paciente preenche no primeiro acesso a area dele.
+                O paciente preenche no primeiro acesso à área dele.
               </p>
             </div>
           ) : (
@@ -107,7 +107,7 @@ export default function AnamnesePage() {
                         {campo.label}
                       </p>
                       <p className="text-sm text-text whitespace-pre-wrap">
-                        {val || <span className="text-text3 italic">Nao informado</span>}
+                        {val || <span className="text-text3 italic">Não informado</span>}
                       </p>
                     </div>
                   );

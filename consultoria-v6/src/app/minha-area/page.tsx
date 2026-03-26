@@ -89,8 +89,8 @@ export default function MinhaAreaPage() {
             <div className="flex items-center gap-3">
               <span className="text-2xl">📋</span>
               <div>
-                <p className="text-text font-semibold text-sm">Questionario pendente!</p>
-                <p className="text-text2 text-xs">Responda agora para seu nutricionista acompanhar sua evolucao.</p>
+                <p className="text-text font-semibold text-sm">Questionário pendente!</p>
+                <p className="text-text2 text-xs">Responda agora para seu nutricionista acompanhar sua evolução.</p>
               </div>
               <span className="ml-auto text-accent text-sm font-medium">Responder →</span>
             </div>
@@ -130,7 +130,7 @@ export default function MinhaAreaPage() {
             <p className="text-xl font-bold text-text">
               {ultimaMedida?.peso ? `${ultimaMedida.peso}kg` : "—"}
             </p>
-            <p className="text-[11px] text-text3">Ultimo peso</p>
+            <p className="text-[11px] text-text3">Último peso</p>
           </div>
         </Link>
 
@@ -144,7 +144,7 @@ export default function MinhaAreaPage() {
                 <span className="text-accent2">Em dia</span>
               )}
             </p>
-            <p className="text-[11px] text-text3">Questionario</p>
+            <p className="text-[11px] text-text3">Questionário</p>
           </div>
         </Link>
 

@@ -205,7 +205,7 @@ export default function ProtocolosPage() {
           <div className="bg-surface border border-border rounded-xl p-8 text-center">
             <p className="text-text3 text-sm">Nenhum protocolo criado.</p>
             <p className="text-text3 text-xs mt-1">
-              Crie protocolos para gerar follow-ups automaticos ao cadastrar
+              Crie protocolos para gerar follow-ups automáticos ao cadastrar
               pacientes.
             </p>
           </div>

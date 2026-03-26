@@ -7,17 +7,18 @@ import { createClient } from "@/lib/supabase/client";
 interface PatientHeaderProps {
   nome: string;
   email: string;
+  nomePaciente?: string;
 }
 
 const navItems = [
-  { href: "/minha-area", label: "Inicio", icon: "🏠", exact: true },
+  { href: "/minha-area", label: "Início", icon: "🏠", exact: true },
   { href: "/minha-area/materiais", label: "Materiais", icon: "📁" },
   { href: "/minha-area/medidas", label: "Medidas", icon: "📏" },
-  { href: "/minha-area/questionario", label: "Questionario", icon: "📋" },
+  { href: "/minha-area/questionario", label: "Questionário", icon: "📋" },
   { href: "/minha-area/anamnese", label: "Anamnese", icon: "📄" },
 ];
 
-export default function PatientHeader({ nome, email }: PatientHeaderProps) {
+export default function PatientHeader({ nome, email, nomePaciente }: PatientHeaderProps) {
   const router = useRouter();
   const pathname = usePathname();
   const supabase = createClient();
@@ -27,7 +28,7 @@ export default function PatientHeader({ nome, email }: PatientHeaderProps) {
     router.push("/login");
   }
 
-  const displayName = nome || email.split("@")[0];
+  const displayName = nomePaciente || nome || email.split("@")[0];
   const initial = displayName.charAt(0).toUpperCase();
 
   return (
@@ -39,8 +40,8 @@ export default function PatientHeader({ nome, email }: PatientHeaderProps) {
             {initial}
           </div>
           <div>
-            <p className="text-text text-sm font-semibold">Ola, {displayName}!</p>
-            <p className="text-text3 text-[11px]">Area do Paciente</p>
+            <p className="text-text text-sm font-semibold">Olá, {displayName}!</p>
+            <p className="text-text3 text-[11px]">Área do Paciente</p>
           </div>
         </div>
         <button

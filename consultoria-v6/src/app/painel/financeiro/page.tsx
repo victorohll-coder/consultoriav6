@@ -212,7 +212,7 @@ export default function FinanceiroPage() {
           <p className="text-[11px] text-text3">todos os registros</p>
         </div>
         <div className="bg-surface border border-accent/20 rounded-xl p-5">
-          <p className="text-[11px] font-semibold text-text2 uppercase tracking-wider">Este Mes</p>
+          <p className="text-[11px] font-semibold text-text2 uppercase tracking-wider">Este Mês</p>
           <p className="text-[28px] font-bold font-mono text-accent mt-1">{fmtMoeda(totalMes)}</p>
           <p className="text-[11px] text-text3">{MESES[new Date().getMonth()]}</p>
         </div>
@@ -233,7 +233,7 @@ export default function FinanceiroPage() {
         {/* Monthly chart */}
         <div className="bg-surface border border-border rounded-xl p-5">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-sm font-bold text-text">Faturamento por Mes</h2>
+            <h2 className="text-sm font-bold text-text">Faturamento por Mês</h2>
             <select
               value={anoFiltro}
               onChange={(e) => setAnoFiltro(e.target.value)}
@@ -309,7 +309,7 @@ export default function FinanceiroPage() {
       {/* Last receipts */}
       <div className="bg-surface border border-border rounded-xl overflow-hidden">
         <div className="px-5 py-4 border-b border-border">
-          <h2 className="text-sm font-bold text-text">Ultimos Recebimentos</h2>
+          <h2 className="text-sm font-bold text-text">Últimos Recebimentos</h2>
         </div>
 
         {recebimentos.length === 0 ? (
@@ -452,7 +452,7 @@ export default function FinanceiroPage() {
               className="w-full px-3 py-2.5 bg-bg border border-border rounded-lg text-text text-sm focus:border-accent focus:outline-none transition-colors"
             >
               <option value="pix">PIX</option>
-              <option value="cartao">Cartao</option>
+              <option value="cartao">Cartão</option>
               <option value="dinheiro">Dinheiro</option>
             </select>
           </div>

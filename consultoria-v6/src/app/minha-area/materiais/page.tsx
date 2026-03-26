@@ -86,7 +86,7 @@ export default function MateriaisPacientePage() {
       <div className="bg-surface border border-border rounded-xl p-8 text-center">
         <p className="text-3xl mb-2">📁</p>
         <p className="text-text2 text-sm">Nenhum material liberado ainda.</p>
-        <p className="text-text3 text-xs mt-1">Seu nutricionista vai liberar os materiais para voce.</p>
+        <p className="text-text3 text-xs mt-1">Seu nutricionista vai liberar os materiais para você.</p>
       </div>
     );
   }
@@ -163,7 +163,7 @@ export default function MateriaisPacientePage() {
                     {/* Texto content */}
                     {mat.tipo === "texto" && expandedTexto === mat.id && (
                       <div className="mt-3 bg-bg border border-border rounded-lg p-4 text-text2 text-sm whitespace-pre-wrap">
-                        {mat.conteudo || "Sem conteudo."}
+                        {mat.conteudo || "Sem conteúdo."}
                       </div>
                     )}
                   </div>
