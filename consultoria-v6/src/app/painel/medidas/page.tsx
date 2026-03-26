@@ -124,7 +124,7 @@ export default function MedidasPage() {
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <h1 className="text-xl font-bold text-text">Medidas</h1>
-        <button onClick={openNew} className="bg-accent hover:bg-[#2563eb] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
+        <button onClick={openNew} className="bg-accent hover:bg-[#172e8a] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
           + Nova Medida
         </button>
       </div>
@@ -250,7 +250,7 @@ export default function MedidasPage() {
       <Modal open={modalOpen} onClose={() => setModalOpen(false)} title={editId ? "Editar Medida" : "Nova Medida"} footer={
         <>
           <button type="button" onClick={() => setModalOpen(false)} className="bg-surface2 hover:bg-border text-text text-sm font-semibold px-4 py-2 rounded-lg border border-border transition-colors">Cancelar</button>
-          <button type="submit" form="medida-form" disabled={loading} className="bg-accent hover:bg-[#2563eb] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors disabled:opacity-50">{loading ? "Salvando..." : "Salvar"}</button>
+          <button type="submit" form="medida-form" disabled={loading} className="bg-accent hover:bg-[#172e8a] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors disabled:opacity-50">{loading ? "Salvando..." : "Salvar"}</button>
         </>
       }>
         <form id="medida-form" onSubmit={handleSave} className="flex flex-col gap-4">

@@ -118,7 +118,7 @@ export default function UsuariosPage() {
             setError("");
             setSuccess("");
           }}
-          className="bg-accent hover:bg-[#2563eb] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+          className="bg-accent hover:bg-[#172e8a] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
         >
           + Novo Usuário
         </button>
@@ -195,7 +195,7 @@ export default function UsuariosPage() {
               type="submit"
               form="user-form"
               disabled={loading}
-              className="bg-accent hover:bg-[#2563eb] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
+              className="bg-accent hover:bg-[#172e8a] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
             >
               {loading ? "Criando..." : "Criar"}
             </button>

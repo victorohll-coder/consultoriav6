@@ -117,7 +117,7 @@ export default function MinhaAreaPage() {
       {/* Cards grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <Link href="/minha-area/materiais">
-          <div className="bg-surface border border-border rounded-xl p-4 hover:border-accent/40 transition-all cursor-pointer">
+          <div className="bg-surface border border-border rounded-xl p-4 shadow-sm hover:border-accent/40 transition-all cursor-pointer">
             <p className="text-2xl mb-2">📁</p>
             <p className="text-xl font-bold text-text">{totalMateriais}</p>
             <p className="text-[11px] text-text3">Materiais liberados</p>
@@ -125,7 +125,7 @@ export default function MinhaAreaPage() {
         </Link>
 
         <Link href="/minha-area/medidas">
-          <div className="bg-surface border border-border rounded-xl p-4 hover:border-accent/40 transition-all cursor-pointer">
+          <div className="bg-surface border border-border rounded-xl p-4 shadow-sm hover:border-accent/40 transition-all cursor-pointer">
             <p className="text-2xl mb-2">📏</p>
             <p className="text-xl font-bold text-text">
               {ultimaMedida?.peso ? `${ultimaMedida.peso}kg` : "—"}
@@ -135,7 +135,7 @@ export default function MinhaAreaPage() {
         </Link>
 
         <Link href="/minha-area/questionario">
-          <div className="bg-surface border border-border rounded-xl p-4 hover:border-accent/40 transition-all cursor-pointer">
+          <div className="bg-surface border border-border rounded-xl p-4 shadow-sm hover:border-accent/40 transition-all cursor-pointer">
             <p className="text-2xl mb-2">📋</p>
             <p className="text-xl font-bold text-text">
               {questionarioPendente ? (
@@ -149,7 +149,7 @@ export default function MinhaAreaPage() {
         </Link>
 
         <Link href="/minha-area/anamnese">
-          <div className="bg-surface border border-border rounded-xl p-4 hover:border-accent/40 transition-all cursor-pointer">
+          <div className="bg-surface border border-border rounded-xl p-4 shadow-sm hover:border-accent/40 transition-all cursor-pointer">
             <p className="text-2xl mb-2">📄</p>
             <p className="text-xl font-bold text-text">
               {anamnesePreenchida ? (

@@ -17,7 +17,7 @@ const dmMono = DM_Mono({
 
 export const metadata: Metadata = {
   title: "Consultoria V6",
-  description: "Sistema de gestao nutricional",
+  description: "Sistema de Gestão Nutricional",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#3b82f6",
+  themeColor: "#1e40af",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,

@@ -227,7 +227,7 @@ export default function PacientesPage() {
         </div>
         <button
           onClick={openNew}
-          className="bg-accent hover:bg-[#2563eb] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+          className="bg-accent hover:bg-[#172e8a] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
         >
           + Novo Paciente
         </button>
@@ -402,7 +402,7 @@ export default function PacientesPage() {
               type="submit"
               form="paciente-form"
               disabled={loading}
-              className="bg-accent hover:bg-[#2563eb] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
+              className="bg-accent hover:bg-[#172e8a] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
             >
               {loading ? "Salvando..." : "Salvar"}
             </button>

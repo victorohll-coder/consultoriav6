@@ -187,7 +187,7 @@ export default function MateriaisPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-xl font-bold text-text">Materiais</h1>
-        <button onClick={openNewCat} className="bg-accent hover:bg-[#2563eb] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
+        <button onClick={openNewCat} className="bg-accent hover:bg-[#172e8a] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
           + Nova Categoria
         </button>
       </div>
@@ -281,7 +281,7 @@ export default function MateriaisPage() {
       <Modal open={catModalOpen} onClose={() => setCatModalOpen(false)} title={editCatId ? "Editar Categoria" : "Nova Categoria"} footer={
         <>
           <button type="button" onClick={() => setCatModalOpen(false)} className="bg-surface2 hover:bg-border text-text text-sm font-semibold px-4 py-2 rounded-lg border border-border transition-colors">Cancelar</button>
-          <button type="submit" form="cat-form" disabled={loading} className="bg-accent hover:bg-[#2563eb] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors disabled:opacity-50">{loading ? "Salvando..." : "Salvar"}</button>
+          <button type="submit" form="cat-form" disabled={loading} className="bg-accent hover:bg-[#172e8a] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors disabled:opacity-50">{loading ? "Salvando..." : "Salvar"}</button>
         </>
       }>
         <form id="cat-form" onSubmit={handleSaveCat} className="flex flex-col gap-4">
@@ -297,7 +297,7 @@ export default function MateriaisPage() {
       <Modal open={matModalOpen} onClose={() => setMatModalOpen(false)} title={editMatId ? "Editar Material" : "Novo Material"} footer={
         <>
           <button type="button" onClick={() => setMatModalOpen(false)} className="bg-surface2 hover:bg-border text-text text-sm font-semibold px-4 py-2 rounded-lg border border-border transition-colors">Cancelar</button>
-          <button type="submit" form="mat-form" disabled={loading} className="bg-accent hover:bg-[#2563eb] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors disabled:opacity-50">{loading ? "Salvando..." : "Salvar"}</button>
+          <button type="submit" form="mat-form" disabled={loading} className="bg-accent hover:bg-[#172e8a] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors disabled:opacity-50">{loading ? "Salvando..." : "Salvar"}</button>
         </>
       }>
         <form id="mat-form" onSubmit={handleSaveMat} className="flex flex-col gap-4">
@@ -355,7 +355,7 @@ export default function MateriaisPage() {
       <Modal open={libModalOpen} onClose={() => setLibModalOpen(false)} title="Liberar Material para Pacientes" footer={
         <>
           <button type="button" onClick={() => setLibModalOpen(false)} className="bg-surface2 hover:bg-border text-text text-sm font-semibold px-4 py-2 rounded-lg border border-border transition-colors">Cancelar</button>
-          <button onClick={handleSaveLib} disabled={loading} className="bg-accent hover:bg-[#2563eb] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors disabled:opacity-50">{loading ? "Salvando..." : "Salvar"}</button>
+          <button onClick={handleSaveLib} disabled={loading} className="bg-accent hover:bg-[#172e8a] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors disabled:opacity-50">{loading ? "Salvando..." : "Salvar"}</button>
         </>
       }>
         {pacientes.length === 0 ? (

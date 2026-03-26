@@ -138,7 +138,7 @@ export default function ProtocolosPage() {
         </div>
         <button
           onClick={openNew}
-          className="bg-accent hover:bg-[#2563eb] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+          className="bg-accent hover:bg-[#172e8a] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
         >
           + Novo Protocolo
         </button>
@@ -230,7 +230,7 @@ export default function ProtocolosPage() {
               type="submit"
               form="protocolo-form"
               disabled={loading}
-              className="bg-accent hover:bg-[#2563eb] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
+              className="bg-accent hover:bg-[#172e8a] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
             >
               {loading ? "Salvando..." : "Salvar"}
             </button>

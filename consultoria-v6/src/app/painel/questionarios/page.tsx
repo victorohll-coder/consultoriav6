@@ -178,7 +178,7 @@ export default function QuestionariosPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-xl font-bold text-text">Questionários</h1>
-        <button onClick={gerarQuestionarios} className="bg-accent hover:bg-[#2563eb] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
+        <button onClick={gerarQuestionarios} className="bg-accent hover:bg-[#172e8a] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
           Gerar Pendentes
         </button>
       </div>
@@ -190,15 +190,15 @@ export default function QuestionariosPage() {
 
       {/* Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-        <div className="bg-surface border border-warn/20 rounded-xl p-5">
+        <div className="bg-surface border border-warn/20 rounded-xl p-5 shadow-sm">
           <p className="text-[11px] font-semibold text-text2 uppercase tracking-wider">Pendentes</p>
           <p className="text-[28px] font-bold font-mono text-warn mt-1">{totalPendentes}</p>
         </div>
-        <div className="bg-surface border border-accent2/20 rounded-xl p-5">
+        <div className="bg-surface border border-accent2/20 rounded-xl p-5 shadow-sm">
           <p className="text-[11px] font-semibold text-text2 uppercase tracking-wider">Respondidos</p>
           <p className="text-[28px] font-bold font-mono text-accent2 mt-1">{totalRespondidos}</p>
         </div>
-        <div className="bg-surface border border-border rounded-xl p-5">
+        <div className="bg-surface border border-border rounded-xl p-5 shadow-sm">
           <p className="text-[11px] font-semibold text-text2 uppercase tracking-wider">Pacientes</p>
           <p className="text-[28px] font-bold font-mono text-text mt-1">{pacientes.length}</p>
         </div>
@@ -370,7 +370,7 @@ export default function QuestionariosPage() {
       <Modal open={editModalOpen} onClose={() => setEditModalOpen(false)} title="Editar Questionário" footer={
         <>
           <button type="button" onClick={() => setEditModalOpen(false)} className="bg-surface2 hover:bg-border text-text text-sm font-semibold px-4 py-2 rounded-lg border border-border transition-colors">Cancelar</button>
-          <button onClick={handleSaveEdit} className="bg-accent hover:bg-[#2563eb] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">Salvar</button>
+          <button onClick={handleSaveEdit} className="bg-accent hover:bg-[#172e8a] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">Salvar</button>
         </>
       }>
         <div className="flex flex-col gap-4 max-h-[60vh] overflow-y-auto">

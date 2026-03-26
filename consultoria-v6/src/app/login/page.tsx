@@ -128,160 +128,190 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="bg-surface border border-border rounded-2xl p-10 w-full max-w-[400px]">
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <h1 className="text-[28px] font-bold text-text">
-            Consultoria <span className="text-accent">V6</span>
-          </h1>
-          <p className="text-text2 text-sm mt-1">Sistema de Gestão Nutricional</p>
+    <div className="min-h-screen flex">
+      {/* Left decorative panel - hidden on mobile */}
+      <div className="hidden lg:flex lg:w-[480px] bg-gradient-to-br from-accent to-accent-light relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-20 left-10 w-64 h-64 rounded-full bg-white/20" />
+          <div className="absolute bottom-20 right-10 w-48 h-48 rounded-full bg-white/10" />
+          <div className="absolute top-1/2 left-1/3 w-32 h-32 rounded-full bg-white/15" />
         </div>
-
-        {/* Supabase not configured warning */}
-        {!supabaseReady && (
-          <p className="text-warn text-sm bg-warn/10 border border-warn/20 rounded-lg px-3 py-2 mb-4">
-            Configure as variáveis NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY no .env.local
+        <div className="relative z-10 flex flex-col justify-center px-12 text-white">
+          <h2 className="text-3xl font-bold mb-3">Consultoria V6</h2>
+          <p className="text-white/80 text-base leading-relaxed">
+            Sistema de Gestão Nutricional para profissionais e pacientes.
           </p>
-        )}
-
-        {/* Type selector */}
-        {!userType && (
-          <div className="flex flex-col gap-3">
-            <button
-              onClick={() => setUserType("profissional")}
-              className="flex items-center justify-center gap-3 bg-surface2 hover:bg-accent text-text hover:text-white border border-border rounded-xl py-4 px-4 transition-all text-[15px] font-semibold"
-            >
-              <span className="text-xl">&#x1FA7A;</span>
-              Sou Profissional
-            </button>
-            <button
-              onClick={() => setUserType("paciente")}
-              className="flex items-center justify-center gap-3 bg-surface2 hover:bg-accent text-text hover:text-white border border-border rounded-xl py-4 px-4 transition-all text-[15px] font-semibold"
-            >
-              <span className="text-xl">&#x1F464;</span>
-              Sou Paciente
-            </button>
+          <div className="mt-8 flex flex-col gap-3">
+            <div className="flex items-center gap-3 text-white/70 text-sm">
+              <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-xs">1</div>
+              Acompanhamento completo de pacientes
+            </div>
+            <div className="flex items-center gap-3 text-white/70 text-sm">
+              <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-xs">2</div>
+              Follow-ups automatizados por protocolo
+            </div>
+            <div className="flex items-center gap-3 text-white/70 text-sm">
+              <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-xs">3</div>
+              Questionários e medidas evolutivas
+            </div>
           </div>
-        )}
+        </div>
+      </div>
 
-        {/* Login form */}
-        {userType && (
-          <form onSubmit={handleLogin} className="flex flex-col gap-4">
-            {/* Toggle buttons */}
-            <div className="flex gap-3 mb-2">
+      {/* Right form panel */}
+      <div className="flex-1 flex items-center justify-center px-4 py-8">
+        <div className="bg-white shadow-lg rounded-xl p-10 w-full max-w-[400px]">
+          {/* Logo */}
+          <div className="text-center mb-8">
+            <h1 className="text-[28px] font-bold text-text">
+              Consultoria <span className="text-accent">V6</span>
+            </h1>
+            <p className="text-text2 text-sm mt-1">Sistema de Gestão Nutricional</p>
+          </div>
+
+          {/* Supabase not configured warning */}
+          {!supabaseReady && (
+            <p className="text-warn text-sm bg-warn/10 border border-warn/20 rounded-lg px-3 py-2 mb-4">
+              Configure as variáveis NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY no .env.local
+            </p>
+          )}
+
+          {/* Type selector */}
+          {!userType && (
+            <div className="flex flex-col gap-3">
               <button
-                type="button"
-                onClick={() => {
-                  setUserType("profissional");
-                  setError("");
-                  setIsFirstAccess(false);
-                }}
-                className={`flex-1 py-3 px-3 rounded-xl text-sm font-semibold transition-all border ${
-                  userType === "profissional"
-                    ? "bg-accent text-white border-accent"
-                    : "bg-surface2 text-text2 border-border hover:bg-border"
-                }`}
+                onClick={() => setUserType("profissional")}
+                className="flex items-center justify-center gap-3 bg-white hover:bg-accent hover:text-white text-text border border-border rounded-lg py-4 px-4 transition-all text-[15px] font-semibold"
               >
-                &#x1FA7A; Profissional
+                Sou Profissional
               </button>
               <button
-                type="button"
-                onClick={() => {
-                  setUserType("paciente");
-                  setError("");
-                  setIsFirstAccess(false);
-                }}
-                className={`flex-1 py-3 px-3 rounded-xl text-sm font-semibold transition-all border ${
-                  userType === "paciente"
-                    ? "bg-accent text-white border-accent"
-                    : "bg-surface2 text-text2 border-border hover:bg-border"
-                }`}
+                onClick={() => setUserType("paciente")}
+                className="flex items-center justify-center gap-3 bg-white hover:bg-accent hover:text-white text-text border border-border rounded-lg py-4 px-4 transition-all text-[15px] font-semibold"
               >
-                &#x1F464; Paciente
+                Sou Paciente
               </button>
             </div>
+          )}
 
-            <div>
-              <label className="block text-xs font-semibold text-text2 uppercase tracking-wider mb-1.5">
-                E-mail
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full px-3.5 py-2.5 bg-bg border border-border rounded-lg text-text text-sm focus:border-accent focus:outline-none transition-colors"
-                placeholder="seu@email.com"
-              />
-            </div>
+          {/* Login form */}
+          {userType && (
+            <form onSubmit={handleLogin} className="flex flex-col gap-4">
+              {/* Toggle buttons */}
+              <div className="flex gap-3 mb-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setUserType("profissional");
+                    setError("");
+                    setIsFirstAccess(false);
+                  }}
+                  className={`flex-1 py-3 px-3 rounded-lg text-sm font-semibold transition-all border ${
+                    userType === "profissional"
+                      ? "bg-accent text-white border-accent"
+                      : "bg-white text-text2 border-border hover:bg-surface2"
+                  }`}
+                >
+                  Profissional
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setUserType("paciente");
+                    setError("");
+                    setIsFirstAccess(false);
+                  }}
+                  className={`flex-1 py-3 px-3 rounded-lg text-sm font-semibold transition-all border ${
+                    userType === "paciente"
+                      ? "bg-accent text-white border-accent"
+                      : "bg-white text-text2 border-border hover:bg-surface2"
+                  }`}
+                >
+                  Paciente
+                </button>
+              </div>
 
-            <div>
-              <label className="block text-xs font-semibold text-text2 uppercase tracking-wider mb-1.5">
-                {isFirstAccess ? "Crie sua senha" : "Senha"}
-              </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                minLength={6}
-                className="w-full px-3.5 py-2.5 bg-bg border border-border rounded-lg text-text text-sm focus:border-accent focus:outline-none transition-colors"
-                placeholder="••••••••"
-              />
-            </div>
-
-            {isFirstAccess && (
               <div>
                 <label className="block text-xs font-semibold text-text2 uppercase tracking-wider mb-1.5">
-                  Confirme a senha
+                  E-mail
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="w-full px-3.5 py-2.5 bg-white border border-border rounded-lg text-text text-sm focus:border-accent focus:ring-2 focus:ring-accent/20 focus:outline-none transition-colors"
+                  placeholder="seu@email.com"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-text2 uppercase tracking-wider mb-1.5">
+                  {isFirstAccess ? "Crie sua senha" : "Senha"}
                 </label>
                 <input
                   type="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                   minLength={6}
-                  className="w-full px-3.5 py-2.5 bg-bg border border-border rounded-lg text-text text-sm focus:border-accent focus:outline-none transition-colors"
+                  className="w-full px-3.5 py-2.5 bg-white border border-border rounded-lg text-text text-sm focus:border-accent focus:ring-2 focus:ring-accent/20 focus:outline-none transition-colors"
                   placeholder="••••••••"
                 />
               </div>
-            )}
 
-            {error && (
-              <p className="text-danger text-sm bg-danger/10 border border-danger/20 rounded-lg px-3 py-2">
-                {error}
-              </p>
-            )}
+              {isFirstAccess && (
+                <div>
+                  <label className="block text-xs font-semibold text-text2 uppercase tracking-wider mb-1.5">
+                    Confirme a senha
+                  </label>
+                  <input
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                    minLength={6}
+                    className="w-full px-3.5 py-2.5 bg-white border border-border rounded-lg text-text text-sm focus:border-accent focus:ring-2 focus:ring-accent/20 focus:outline-none transition-colors"
+                    placeholder="••••••••"
+                  />
+                </div>
+              )}
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-accent hover:bg-[#2563eb] text-white font-semibold py-3 rounded-xl text-[15px] transition-colors disabled:opacity-50"
-            >
-              {loading
-                ? "Entrando..."
-                : isFirstAccess
-                  ? "Criar conta"
-                  : "Entrar"}
-            </button>
+              {error && (
+                <p className="text-danger text-sm bg-danger/10 border border-danger/20 rounded-lg px-3 py-2">
+                  {error}
+                </p>
+              )}
 
-            <button
-              type="button"
-              onClick={() => {
-                setUserType(null);
-                setError("");
-                setEmail("");
-                setPassword("");
-                setConfirmPassword("");
-                setIsFirstAccess(false);
-              }}
-              className="text-text3 hover:text-text2 text-sm transition-colors"
-            >
-              &#8617; Voltar
-            </button>
-          </form>
-        )}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-accent hover:bg-[#172e8a] text-white font-semibold py-3 rounded-lg text-[15px] transition-colors disabled:opacity-50"
+              >
+                {loading
+                  ? "Entrando..."
+                  : isFirstAccess
+                    ? "Criar conta"
+                    : "Entrar"}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setUserType(null);
+                  setError("");
+                  setEmail("");
+                  setPassword("");
+                  setConfirmPassword("");
+                  setIsFirstAccess(false);
+                }}
+                className="text-text3 hover:text-text2 text-sm transition-colors"
+              >
+                &#8617; Voltar
+              </button>
+            </form>
+          )}
+        </div>
       </div>
     </div>
   );

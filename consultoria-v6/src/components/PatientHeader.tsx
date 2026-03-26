@@ -36,7 +36,7 @@ export default function PatientHeader({ nome, email, nomePaciente }: PatientHead
       {/* Top header */}
       <header className="bg-surface border-b border-border px-4 md:px-6 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-accent to-accent2 flex items-center justify-center text-white text-sm font-bold">
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-accent to-accent-light flex items-center justify-center text-white text-sm font-bold">
             {initial}
           </div>
           <div>
@@ -76,7 +76,7 @@ export default function PatientHeader({ nome, email, nomePaciente }: PatientHead
       </nav>
 
       {/* Mobile bottom nav */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-border flex z-50">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-surface shadow-[0_-2px_8px_rgba(0,0,0,0.06)] flex z-50">
         {navItems.map((item) => {
           const active = item.exact
             ? pathname === item.href

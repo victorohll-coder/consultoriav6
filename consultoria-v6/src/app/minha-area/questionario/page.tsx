@@ -202,7 +202,7 @@ export default function QuestionarioPacientePage() {
           <button
             onClick={handleSubmit}
             disabled={submitting}
-            className="w-full bg-accent hover:bg-[#2563eb] text-white font-semibold py-3 rounded-xl text-sm transition-colors disabled:opacity-50"
+            className="w-full bg-accent hover:bg-[#172e8a] text-white font-semibold py-3 rounded-xl text-sm transition-colors disabled:opacity-50"
           >
             {submitting ? "Enviando..." : "Enviar Respostas"}
           </button>

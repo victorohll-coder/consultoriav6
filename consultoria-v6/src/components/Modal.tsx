@@ -37,13 +37,13 @@ export default function Modal({
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 bg-black/70 backdrop-blur-[4px] flex items-center justify-center z-[1000] p-4"
+      className="fixed inset-0 bg-black/40 flex items-center justify-center z-[1000] p-4"
       onClick={(e) => {
         if (e.target === overlayRef.current) onClose();
       }}
     >
       <div
-        className={`bg-surface border border-border rounded-2xl p-7 w-full ${width} max-h-[90vh] overflow-y-auto`}
+        className={`bg-white border border-border rounded-xl shadow-xl p-7 w-full ${width} max-h-[90vh] overflow-y-auto`}
       >
         <h2 className="text-lg font-bold text-text mb-5">{title}</h2>
         {children}

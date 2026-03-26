@@ -28,7 +28,7 @@ function MiniChart({ medidas, campo }: { medidas: Medida[]; campo: keyof Medida 
     const max = Math.max(...values) * 1.05;
     const range = max - min || 1;
 
-    ctx.strokeStyle = "#3b82f6";
+    ctx.strokeStyle = "#1e40af";
     ctx.lineWidth = 2;
     ctx.lineJoin = "round";
     ctx.beginPath();
@@ -46,7 +46,7 @@ function MiniChart({ medidas, campo }: { medidas: Medida[]; campo: keyof Medida 
     ctx.lineTo(w, h);
     ctx.lineTo(0, h);
     ctx.closePath();
-    ctx.fillStyle = "rgba(59, 130, 246, 0.1)";
+    ctx.fillStyle = "rgba(30, 64, 175, 0.08)";
     ctx.fill();
 
     // Dots
@@ -55,7 +55,7 @@ function MiniChart({ medidas, campo }: { medidas: Medida[]; campo: keyof Medida 
       const y = h - ((v - min) / range) * h;
       ctx.beginPath();
       ctx.arc(x, y, 3, 0, Math.PI * 2);
-      ctx.fillStyle = "#3b82f6";
+      ctx.fillStyle = "#1e40af";
       ctx.fill();
     });
   }, [medidas, campo]);

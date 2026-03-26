@@ -247,7 +247,7 @@ export default function AlertasPage() {
         {cards.map((c) => (
           <div
             key={c.label}
-            className={`bg-surface border rounded-xl p-5 ${c.bg}`}
+            className={`bg-surface border rounded-xl p-5 shadow-sm ${c.bg}`}
           >
             <p className="text-[11px] font-semibold text-text2 uppercase tracking-wider">
               {c.label}

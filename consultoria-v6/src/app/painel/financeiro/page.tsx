@@ -8,10 +8,10 @@ import type { Recebimento, Paciente } from "@/lib/types";
 const MESES = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
 
 const CORES_PLANO: Record<string, string> = {
-  avulsa: "#4a5568",
-  trimestral: "#3b82f6",
-  semestral: "#10b981",
-  anual: "#c084fc",
+  avulsa: "#6b7280",
+  trimestral: "#1e40af",
+  semestral: "#059669",
+  anual: "#7c3aed",
 };
 
 function fmtMoeda(v: number) {
@@ -199,29 +199,29 @@ export default function FinanceiroPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-xl font-bold text-text">Financeiro</h1>
-        <button onClick={openNew} className="bg-accent hover:bg-[#2563eb] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
+        <button onClick={openNew} className="bg-accent hover:bg-[#172e8a] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
           + Novo Recebimento
         </button>
       </div>
 
       {/* Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <div className="bg-surface border border-accent2/20 rounded-xl p-5">
+        <div className="bg-surface border border-accent2/20 rounded-xl p-5 shadow-sm">
           <p className="text-[11px] font-semibold text-text2 uppercase tracking-wider">Receita Total</p>
           <p className="text-[28px] font-bold font-mono text-accent2 mt-1">{fmtMoeda(total)}</p>
           <p className="text-[11px] text-text3">todos os registros</p>
         </div>
-        <div className="bg-surface border border-accent/20 rounded-xl p-5">
+        <div className="bg-surface border border-accent/20 rounded-xl p-5 shadow-sm">
           <p className="text-[11px] font-semibold text-text2 uppercase tracking-wider">Este Mês</p>
           <p className="text-[28px] font-bold font-mono text-accent mt-1">{fmtMoeda(totalMes)}</p>
           <p className="text-[11px] text-text3">{MESES[new Date().getMonth()]}</p>
         </div>
-        <div className="bg-surface border border-warn/20 rounded-xl p-5">
+        <div className="bg-surface border border-warn/20 rounded-xl p-5 shadow-sm">
           <p className="text-[11px] font-semibold text-text2 uppercase tracking-wider">A Receber</p>
           <p className="text-[28px] font-bold font-mono text-warn mt-1">{fmtMoeda(pendente)}</p>
           <p className="text-[11px] text-text3">pagamentos pendentes</p>
         </div>
-        <div className="bg-surface border border-border rounded-xl p-5">
+        <div className="bg-surface border border-border rounded-xl p-5 shadow-sm">
           <p className="text-[11px] font-semibold text-text2 uppercase tracking-wider">Recebimentos</p>
           <p className="text-[28px] font-bold font-mono text-text mt-1">{recebimentos.length}</p>
           <p className="text-[11px] text-text3">registros totais</p>
@@ -366,7 +366,7 @@ export default function FinanceiroPage() {
             <button type="button" onClick={() => setModalOpen(false)} className="bg-surface2 hover:bg-border text-text text-sm font-semibold px-4 py-2 rounded-lg border border-border transition-colors">
               Cancelar
             </button>
-            <button type="submit" form="recebimento-form" disabled={loading} className="bg-accent hover:bg-[#2563eb] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors disabled:opacity-50">
+            <button type="submit" form="recebimento-form" disabled={loading} className="bg-accent hover:bg-[#172e8a] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors disabled:opacity-50">
               {loading ? "Salvando..." : "Salvar"}
             </button>
           </>

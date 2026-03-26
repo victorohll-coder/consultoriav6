@@ -37,7 +37,7 @@ export default function Sidebar({ profile }: SidebarProps) {
   return (
     <>
       {/* Desktop sidebar */}
-      <aside className="hidden md:flex fixed left-0 top-0 h-screen w-[220px] bg-surface border-r border-border flex-col py-6 px-4 z-50">
+      <aside className="hidden md:flex fixed left-0 top-0 h-screen w-[220px] bg-surface shadow-[2px_0_8px_rgba(0,0,0,0.04)] flex-col py-6 px-4 z-50">
         {/* Logo */}
         <div className="mb-6">
           <h1 className="text-lg font-bold text-text">
@@ -72,7 +72,7 @@ export default function Sidebar({ profile }: SidebarProps) {
         </nav>
 
         {/* Footer */}
-        <div className="border-t border-border pt-4 mt-4">
+        <div className="border-t border-surface2 pt-4 mt-4">
           <p className="text-xs text-text2 truncate">{profile.email}</p>
           <p className="text-[10px] font-semibold font-mono text-text3 uppercase mt-1">
             {profile.role === "admin" ? "ADMIN" : "USUÁRIO"}
@@ -87,7 +87,7 @@ export default function Sidebar({ profile }: SidebarProps) {
       </aside>
 
       {/* Mobile bottom nav */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-border flex overflow-x-auto z-50">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-surface shadow-[0_-2px_8px_rgba(0,0,0,0.06)] flex overflow-x-auto z-50">
         {navItems.map((item) => {
           if (item.adminOnly && !isAdmin) return null;
           if (item.href === "/painel/financeiro" && isUser) return null;
