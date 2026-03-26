@@ -6,7 +6,6 @@ import Link from "next/link";
 
 export default function MinhaAreaPage() {
   const supabase = createClient();
-  const [pacienteId, setPacienteId] = useState<string | null>(null);
   const [questionarioPendente, setQuestionarioPendente] = useState(false);
   const [anamnesePreenchida, setAnamnesePreenchida] = useState(false);
   const [totalMateriais, setTotalMateriais] = useState(0);
@@ -32,9 +31,6 @@ export default function MinhaAreaPage() {
       .single();
     if (!paciente) return;
 
-    setPacienteId(paciente.id);
-
-    // Check questionario pendente
     const hoje = new Date().toISOString().split("T")[0];
     const { data: questPendente } = await supabase
       .from("questionarios")
@@ -45,7 +41,6 @@ export default function MinhaAreaPage() {
       .limit(1);
     setQuestionarioPendente((questPendente?.length || 0) > 0);
 
-    // Check anamnese
     const { data: anamnese } = await supabase
       .from("anamnese")
       .select("id")
@@ -53,23 +48,19 @@ export default function MinhaAreaPage() {
       .limit(1);
     setAnamnesePreenchida((anamnese?.length || 0) > 0);
 
-    // Count materiais liberados
     const { count } = await supabase
       .from("materiais_paciente")
       .select("*", { count: "exact", head: true })
       .eq("paciente_id", paciente.id);
     setTotalMateriais(count || 0);
 
-    // Ultima medida
     const { data: medidas } = await supabase
       .from("medidas")
       .select("peso, data")
       .eq("paciente_id", paciente.id)
       .order("data", { ascending: false })
       .limit(1);
-    if (medidas && medidas.length > 0) {
-      setUltimaMedida(medidas[0]);
-    }
+    if (medidas && medidas.length > 0) setUltimaMedida(medidas[0]);
 
     setLoading(false);
   }, [supabase]);
@@ -77,88 +68,100 @@ export default function MinhaAreaPage() {
   useEffect(() => { loadData(); }, [loadData]);
 
   if (loading) {
-    return <div className="text-text2 text-sm">Carregando...</div>;
+    return <div className="text-[#475569] text-sm p-6">Carregando...</div>;
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      {/* Banner questionario pendente */}
+    <div className="flex flex-col gap-5">
+      {/* Questionário pendente */}
       {questionarioPendente && (
-        <Link href="/minha-area/questionario">
-          <div className="bg-gradient-to-r from-accent/20 to-accent2/20 border border-accent/30 rounded-xl p-5 cursor-pointer hover:border-accent/50 transition-all">
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">📋</span>
-              <div>
-                <p className="text-text font-semibold text-sm">Questionário pendente!</p>
-                <p className="text-text2 text-xs">Responda agora para seu nutricionista acompanhar sua evolução.</p>
+        <Link href="/minha-area/questionario" className="animate-fade-in-up">
+          <div className="relative overflow-hidden rounded-2xl p-5 cursor-pointer transition-all hover:shadow-md border border-[#2563eb]/20" style={{ background: "linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)" }}>
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-[#2563eb] flex items-center justify-center shrink-0 shadow-sm">
+                <span className="text-white text-xl">📋</span>
               </div>
-              <span className="ml-auto text-accent text-sm font-medium">Responder →</span>
+              <div className="flex-1">
+                <p className="text-[#0f172a] font-semibold text-[15px]">Questionário pendente</p>
+                <p className="text-[#475569] text-[13px] mt-0.5">Responda para seu nutricionista acompanhar sua evolução</p>
+              </div>
+              <span className="text-[#2563eb] text-sm font-semibold shrink-0">Responder →</span>
             </div>
           </div>
         </Link>
       )}
 
-      {/* Banner anamnese */}
+      {/* Anamnese pendente */}
       {!anamnesePreenchida && (
-        <Link href="/minha-area/anamnese">
-          <div className="bg-gradient-to-r from-warn/20 to-danger/20 border border-warn/30 rounded-xl p-5 cursor-pointer hover:border-warn/50 transition-all">
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">📄</span>
-              <div>
-                <p className="text-text font-semibold text-sm">Preencha sua anamnese!</p>
-                <p className="text-text2 text-xs">Importante para o seu nutricionista te conhecer melhor.</p>
+        <Link href="/minha-area/anamnese" className="animate-fade-in-up-d1">
+          <div className="relative overflow-hidden rounded-2xl p-5 cursor-pointer transition-all hover:shadow-md border" style={{ background: "linear-gradient(135deg, #fef9ee 0%, #fef3c7 100%)", borderColor: "#c8a96e40" }}>
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 shadow-sm" style={{ background: "linear-gradient(135deg, #c8a96e 0%, #dbb87a 100%)" }}>
+                <span className="text-white text-xl">📄</span>
               </div>
-              <span className="ml-auto text-warn text-sm font-medium">Preencher →</span>
+              <div className="flex-1">
+                <p className="text-[#0f172a] font-semibold text-[15px]">Preencha sua anamnese</p>
+                <p className="text-[#475569] text-[13px] mt-0.5">Importante para montar o melhor plano para você</p>
+              </div>
+              <span className="text-sm font-semibold shrink-0" style={{ color: "#c8a96e" }}>Preencher →</span>
             </div>
           </div>
         </Link>
       )}
 
       {/* Cards grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 gap-3 animate-fade-in-up-d2">
         <Link href="/minha-area/materiais">
-          <div className="bg-surface border border-border rounded-xl p-4 shadow-sm hover:border-accent/40 transition-all cursor-pointer">
-            <p className="text-2xl mb-2">📁</p>
-            <p className="text-xl font-bold text-text">{totalMateriais}</p>
-            <p className="text-[11px] text-text3">Materiais liberados</p>
+          <div className="bg-white border border-[#e0eaf5] rounded-2xl p-5 shadow-sm hover:shadow-md hover:border-[#2563eb]/30 transition-all cursor-pointer group">
+            <div className="w-10 h-10 rounded-xl bg-[#eff6ff] flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+              <span className="text-lg">📁</span>
+            </div>
+            <p className="text-2xl font-bold text-[#0f172a]">{totalMateriais}</p>
+            <p className="text-[12px] text-[#475569] mt-0.5">Materiais liberados</p>
           </div>
         </Link>
 
         <Link href="/minha-area/medidas">
-          <div className="bg-surface border border-border rounded-xl p-4 shadow-sm hover:border-accent/40 transition-all cursor-pointer">
-            <p className="text-2xl mb-2">📏</p>
-            <p className="text-xl font-bold text-text">
+          <div className="bg-white border border-[#e0eaf5] rounded-2xl p-5 shadow-sm hover:shadow-md hover:border-[#2563eb]/30 transition-all cursor-pointer group">
+            <div className="w-10 h-10 rounded-xl bg-[#ecfdf5] flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+              <span className="text-lg">⚖️</span>
+            </div>
+            <p className="text-2xl font-bold text-[#0f172a]">
               {ultimaMedida?.peso ? `${ultimaMedida.peso}kg` : "—"}
             </p>
-            <p className="text-[11px] text-text3">Último peso</p>
+            <p className="text-[12px] text-[#475569] mt-0.5">Último peso registrado</p>
           </div>
         </Link>
 
         <Link href="/minha-area/questionario">
-          <div className="bg-surface border border-border rounded-xl p-4 shadow-sm hover:border-accent/40 transition-all cursor-pointer">
-            <p className="text-2xl mb-2">📋</p>
-            <p className="text-xl font-bold text-text">
+          <div className="bg-white border border-[#e0eaf5] rounded-2xl p-5 shadow-sm hover:shadow-md hover:border-[#2563eb]/30 transition-all cursor-pointer group">
+            <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 group-hover:scale-105 transition-transform ${questionarioPendente ? "bg-[#fef3c7]" : "bg-[#ecfdf5]"}`}>
+              <span className="text-lg">📋</span>
+            </div>
+            <p className="text-2xl font-bold">
               {questionarioPendente ? (
-                <span className="text-warn">Pendente</span>
+                <span className="text-[#d97706]">Pendente</span>
               ) : (
-                <span className="text-accent2">Em dia</span>
+                <span className="text-[#059669]">Em dia ✓</span>
               )}
             </p>
-            <p className="text-[11px] text-text3">Questionário</p>
+            <p className="text-[12px] text-[#475569] mt-0.5">Questionário quinzenal</p>
           </div>
         </Link>
 
         <Link href="/minha-area/anamnese">
-          <div className="bg-surface border border-border rounded-xl p-4 shadow-sm hover:border-accent/40 transition-all cursor-pointer">
-            <p className="text-2xl mb-2">📄</p>
-            <p className="text-xl font-bold text-text">
+          <div className="bg-white border border-[#e0eaf5] rounded-2xl p-5 shadow-sm hover:shadow-md hover:border-[#2563eb]/30 transition-all cursor-pointer group">
+            <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 group-hover:scale-105 transition-transform ${anamnesePreenchida ? "bg-[#ecfdf5]" : "bg-[#fef3c7]"}`}>
+              <span className="text-lg">📄</span>
+            </div>
+            <p className="text-2xl font-bold">
               {anamnesePreenchida ? (
-                <span className="text-accent2">✓</span>
+                <span className="text-[#059669]">Feita ✓</span>
               ) : (
-                <span className="text-warn">Pendente</span>
+                <span className="text-[#d97706]">Pendente</span>
               )}
             </p>
-            <p className="text-[11px] text-text3">Anamnese</p>
+            <p className="text-[12px] text-[#475569] mt-0.5">Anamnese inicial</p>
           </div>
         </Link>
       </div>
