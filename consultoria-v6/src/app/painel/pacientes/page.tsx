@@ -172,6 +172,21 @@ export default function PacientesPage() {
             await supabase.from("followups").insert(followups);
           }
         }
+
+        // Auto-generate first questionarios (D+15, D+30 from consultation date)
+        const quizDates = [15, 30].map((dias) => {
+          const d = new Date(dataConsulta);
+          d.setDate(d.getDate() + dias);
+          return d.toISOString().split("T")[0];
+        });
+        await supabase.from("questionarios").insert(
+          quizDates.map((proxData) => ({
+            paciente_id: newPaciente.id,
+            data_resposta: null,
+            proxima_data: proxData,
+            respostas: null,
+          }))
+        );
       }
     }
 

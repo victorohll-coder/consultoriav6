@@ -3,11 +3,18 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { PERGUNTAS, BLOCOS } from "@/lib/questionario";
+import Modal from "@/components/Modal";
 import type { Questionario, Paciente } from "@/lib/types";
 
 function fmtData(d: string) {
   const [y, m, day] = d.split("-");
   return `${day}/${m}/${y}`;
+}
+
+function addDays(dateStr: string, days: number) {
+  const d = new Date(dateStr + "T12:00:00");
+  d.setDate(d.getDate() + days);
+  return d.toISOString().split("T")[0];
 }
 
 type PacienteComQuiz = Paciente & {
@@ -20,6 +27,11 @@ export default function QuestionariosPage() {
   const [selectedPaciente, setSelectedPaciente] = useState<string | null>(null);
   const [expanded, setExpanded] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+
+  // Edit modal
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [editQuizId, setEditQuizId] = useState<string | null>(null);
+  const [editRespostas, setEditRespostas] = useState<Record<string, string | number>>({});
 
   const loadData = useCallback(async () => {
     setLoading(true);
@@ -34,49 +46,38 @@ export default function QuestionariosPage() {
 
   useEffect(() => { loadData(); }, [loadData]);
 
-  // Generate pending quizzes (every 15 days)
+  // Generate quizzes based on data_consulta: D+15, D+30, D+45... up to 365 days
   async function gerarQuestionarios() {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
-
-    const hoje = new Date();
-    const hojeStr = hoje.toISOString().split("T")[0];
     let gerados = 0;
 
     for (const pac of pacientes) {
+      if (!pac.data_consulta) continue;
+
       const quizzes = pac.questionarios || [];
-      const respondidos = quizzes.filter((q) => q.data_resposta);
-      const pendentes = quizzes.filter((q) => !q.data_resposta);
+      const existingDates = new Set(
+        quizzes.map((q) => q.proxima_data).filter(Boolean)
+      );
 
-      // Skip if already has a pending quiz
-      if (pendentes.length > 0) continue;
+      // Determine plan duration in days (default 365)
+      const planDays = getPlanDuration(pac.plano);
 
-      // Check last response date
-      const lastResp = respondidos
-        .map((q) => q.data_resposta!)
-        .sort()
-        .reverse()[0];
+      // Generate D+15, D+30, D+45...
+      for (let dia = 15; dia <= planDays; dia += 15) {
+        const dataAlvo = addDays(pac.data_consulta, dia);
 
-      let shouldGenerate = false;
-      if (!lastResp) {
-        // Never answered — generate if patient exists for 15+ days
-        const created = new Date(pac.created_at);
-        const diff = Math.floor((hoje.getTime() - created.getTime()) / 86400000);
-        shouldGenerate = diff >= 15;
-      } else {
-        const last = new Date(lastResp);
-        const diff = Math.floor((hoje.getTime() - last.getTime()) / 86400000);
-        shouldGenerate = diff >= 15;
-      }
+        // Skip if quiz already exists for this date
+        if (existingDates.has(dataAlvo)) continue;
 
-      if (shouldGenerate) {
-        const proxData = new Date(hoje);
-        proxData.setDate(proxData.getDate() + 15);
+        // Skip dates more than 30 days in the future (generate incrementally)
+        const hoje = new Date();
+        const alvo = new Date(dataAlvo + "T12:00:00");
+        const diffDays = Math.floor((alvo.getTime() - hoje.getTime()) / 86400000);
+        if (diffDays > 30) continue;
 
         await supabase.from("questionarios").insert({
           paciente_id: pac.id,
           data_resposta: null,
-          proxima_data: proxData.toISOString().split("T")[0],
+          proxima_data: dataAlvo,
           respostas: null,
         });
         gerados++;
@@ -87,15 +88,56 @@ export default function QuestionariosPage() {
       alert(`${gerados} questionario(s) gerado(s)!`);
       loadData();
     } else {
-      alert("Nenhum questionario pendente para gerar.");
+      alert("Nenhum questionario novo para gerar. Todos ja estao em dia.");
     }
+  }
+
+  function getPlanDuration(plano: string | null): number {
+    if (!plano) return 365;
+    const p = plano.toLowerCase();
+    if (p.includes("avulsa") || p.includes("mensal")) return 30;
+    if (p.includes("trimestral")) return 90;
+    if (p.includes("semestral")) return 180;
+    if (p.includes("anual")) return 365;
+    if (p.includes("vip")) return 365;
+    return 365;
+  }
+
+  // Edit quiz responses
+  function openEditQuiz(q: Questionario) {
+    setEditQuizId(q.id);
+    setEditRespostas(q.respostas ? { ...q.respostas } : {});
+    setEditModalOpen(true);
+  }
+
+  async function handleSaveEdit() {
+    if (!editQuizId) return;
+    await supabase.from("questionarios").update({
+      respostas: editRespostas,
+      data_resposta: editRespostas && Object.keys(editRespostas).length > 0
+        ? new Date().toISOString().split("T")[0]
+        : null,
+    }).eq("id", editQuizId);
+    setEditModalOpen(false);
+    loadData();
+  }
+
+  async function handleDeleteQuiz(id: string) {
+    if (!confirm("Excluir este questionario?")) return;
+    await supabase.from("questionarios").delete().eq("id", id);
+    loadData();
   }
 
   const selectedPac = pacientes.find((p) => p.id === selectedPaciente);
   const quizzes = useMemo(() => {
     if (!selectedPac) return [];
     return [...(selectedPac.questionarios || [])].sort(
-      (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      (a, b) => {
+        // Sort by proxima_data or created_at
+        const da = a.proxima_data || a.created_at;
+        const db = b.proxima_data || b.created_at;
+        return new Date(db).getTime() - new Date(da).getTime();
+      }
     );
   }, [selectedPac]);
 
@@ -106,7 +148,7 @@ export default function QuestionariosPage() {
   function getEvolucao(qId: string) {
     const vals = respondidos
       .filter((q) => q.respostas && q.respostas[qId] !== undefined)
-      .reverse() // chronological
+      .reverse()
       .map((q) => ({ data: q.data_resposta!, valor: Number(q.respostas![qId]) }));
     if (vals.length < 2) return null;
     const last = vals[vals.length - 1].valor;
@@ -141,6 +183,11 @@ export default function QuestionariosPage() {
         </button>
       </div>
 
+      {/* Info */}
+      <div className="bg-accent/5 border border-accent/20 rounded-lg p-3 mb-4 text-xs text-text2">
+        📋 Questionarios sao gerados automaticamente a cada 15 dias a partir da data da consulta (D+15, D+30, D+45...). Clique em "Gerar Pendentes" para criar os proximos 30 dias.
+      </div>
+
       {/* Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         <div className="bg-surface border border-warn/20 rounded-xl p-5">
@@ -173,7 +220,14 @@ export default function QuestionariosPage() {
                     selectedPaciente === p.id ? "bg-accent text-white" : "hover:bg-surface2 text-text2"
                   }`}
                 >
-                  <span className="text-sm font-medium truncate">{p.nome}</span>
+                  <div className="flex flex-col min-w-0">
+                    <span className="text-sm font-medium truncate">{p.nome}</span>
+                    {p.data_consulta && (
+                      <span className={`text-[10px] ${selectedPaciente === p.id ? "text-white/70" : "text-text3"}`}>
+                        Consulta: {fmtData(p.data_consulta)}
+                      </span>
+                    )}
+                  </div>
                   <div className="flex gap-1 shrink-0">
                     {pend > 0 && (
                       <span className="inline-flex px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-warn/20 text-warn">{pend}</span>
@@ -193,13 +247,24 @@ export default function QuestionariosPage() {
             <div className="text-center py-8 text-text3 text-sm">Selecione um paciente para ver os questionarios.</div>
           ) : (
             <>
-              <h2 className="text-base font-bold text-text mb-4">{selectedPac.nome}</h2>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-base font-bold text-text">{selectedPac.nome}</h2>
+                {selectedPac.data_consulta && (
+                  <span className="text-xs text-text3">Consulta: {fmtData(selectedPac.data_consulta)}</span>
+                )}
+              </div>
 
               {/* Pending banner */}
               {pendentes.length > 0 && (
                 <div className="bg-warn/10 border border-warn/20 rounded-lg p-3 mb-4">
                   <p className="text-warn text-sm font-semibold">{pendentes.length} questionario(s) pendente(s)</p>
-                  <p className="text-text3 text-xs mt-0.5">Aguardando resposta do paciente.</p>
+                  <div className="flex flex-wrap gap-1.5 mt-1.5">
+                    {pendentes.map((q) => (
+                      <span key={q.id} className="text-[10px] text-text3 bg-bg border border-border rounded px-1.5 py-0.5">
+                        {q.proxima_data ? fmtData(q.proxima_data) : "Sem data"}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               )}
 
@@ -241,10 +306,28 @@ export default function QuestionariosPage() {
                             {q.data_resposta ? "Respondido" : "Pendente"}
                           </span>
                           <span className="text-sm text-text">
-                            {q.data_resposta ? fmtData(q.data_resposta) : "Aguardando"}
+                            {q.proxima_data ? `D+${getDaysSince(selectedPac.data_consulta, q.proxima_data)}` : ""}
+                            {q.proxima_data && ` · ${fmtData(q.proxima_data)}`}
                           </span>
+                          {q.data_resposta && (
+                            <span className="text-[10px] text-text3">
+                              resp. {fmtData(q.data_resposta)}
+                            </span>
+                          )}
                         </div>
-                        <span className="text-text3 text-sm">{expanded === q.id ? "▲" : "▼"}</span>
+                        <div className="flex items-center gap-1.5">
+                          <button
+                            onClick={(e) => { e.stopPropagation(); openEditQuiz(q); }}
+                            className="bg-surface2 hover:bg-border text-text text-[10px] px-1.5 py-1 rounded border border-border transition-colors"
+                            title="Editar"
+                          >✏️</button>
+                          <button
+                            onClick={(e) => { e.stopPropagation(); handleDeleteQuiz(q.id); }}
+                            className="bg-surface2 hover:bg-border text-danger text-[10px] px-1.5 py-1 rounded border border-border transition-colors"
+                            title="Excluir"
+                          >🗑️</button>
+                          <span className="text-text3 text-sm">{expanded === q.id ? "▲" : "▼"}</span>
+                        </div>
                       </div>
 
                       {expanded === q.id && q.respostas && (
@@ -268,6 +351,12 @@ export default function QuestionariosPage() {
                           ))}
                         </div>
                       )}
+
+                      {expanded === q.id && !q.respostas && (
+                        <div className="px-4 pb-4 border-t border-border pt-3 text-text3 text-xs">
+                          Aguardando resposta do paciente.
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -276,6 +365,66 @@ export default function QuestionariosPage() {
           )}
         </div>
       </div>
+
+      {/* Edit Quiz Modal */}
+      <Modal open={editModalOpen} onClose={() => setEditModalOpen(false)} title="Editar Questionario" footer={
+        <>
+          <button type="button" onClick={() => setEditModalOpen(false)} className="bg-surface2 hover:bg-border text-text text-sm font-semibold px-4 py-2 rounded-lg border border-border transition-colors">Cancelar</button>
+          <button onClick={handleSaveEdit} className="bg-accent hover:bg-[#2563eb] text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">Salvar</button>
+        </>
+      }>
+        <div className="flex flex-col gap-4 max-h-[60vh] overflow-y-auto">
+          {BLOCOS.map((bloco) => (
+            <div key={bloco}>
+              <p className="text-[11px] font-semibold text-accent uppercase tracking-wider mb-2">{bloco}</p>
+              {PERGUNTAS.filter((p) => p.bloco === bloco).map((p) => (
+                <div key={p.id} className="mb-3">
+                  <label className="block text-xs text-text2 mb-1">{p.texto}</label>
+                  {p.tipo === "escala" ? (
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] text-text3">{p.minLabel}</span>
+                      <input
+                        type="range"
+                        min={p.min} max={p.max}
+                        value={editRespostas[p.id] ?? p.min ?? 1}
+                        onChange={(e) => setEditRespostas({ ...editRespostas, [p.id]: Number(e.target.value) })}
+                        className="flex-1 accent-accent"
+                      />
+                      <span className="text-[10px] text-text3">{p.maxLabel}</span>
+                      <span className="text-xs font-mono font-bold text-accent w-6 text-center">{editRespostas[p.id] ?? "-"}</span>
+                    </div>
+                  ) : p.tipo === "opcao" ? (
+                    <select
+                      value={editRespostas[p.id] ?? ""}
+                      onChange={(e) => setEditRespostas({ ...editRespostas, [p.id]: e.target.value })}
+                      className="w-full px-3 py-2 bg-bg border border-border rounded-lg text-text text-sm focus:border-accent focus:outline-none transition-colors"
+                    >
+                      <option value="">Selecione...</option>
+                      {p.opcoes?.map((op) => (
+                        <option key={op} value={op}>{op}</option>
+                      ))}
+                    </select>
+                  ) : (
+                    <textarea
+                      value={(editRespostas[p.id] as string) ?? ""}
+                      onChange={(e) => setEditRespostas({ ...editRespostas, [p.id]: e.target.value })}
+                      rows={2}
+                      className="w-full px-3 py-2 bg-bg border border-border rounded-lg text-text text-sm focus:border-accent focus:outline-none transition-colors resize-y"
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </Modal>
     </div>
   );
+}
+
+function getDaysSince(dataConsulta: string | null, dataAlvo: string): number {
+  if (!dataConsulta) return 0;
+  const d1 = new Date(dataConsulta + "T12:00:00");
+  const d2 = new Date(dataAlvo + "T12:00:00");
+  return Math.round((d2.getTime() - d1.getTime()) / 86400000);
 }
