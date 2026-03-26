@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { CAMPOS_ANAMNESE } from "@/lib/anamnese";
+import { CAMPOS_ANAMNESE, BLOCOS_ANAMNESE } from "@/lib/anamnese";
 import type { Paciente, Anamnese } from "@/lib/types";
 
 function fmtData(d: string) {
@@ -91,28 +91,43 @@ export default function AnamnesePage() {
             </div>
           ) : (
             <>
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center justify-between mb-5">
                 <h2 className="text-base font-bold text-text">{selectedPac.nome}</h2>
                 <span className="text-xs text-text3">
                   Preenchida em {fmtData(anamnese.created_at)}
                 </span>
               </div>
 
-              <div className="flex flex-col gap-4">
-                {CAMPOS_ANAMNESE.map((campo) => {
-                  const val = anamnese.respostas?.[campo.id];
-                  return (
-                    <div key={campo.id} className="bg-bg border border-border rounded-lg p-4">
-                      <p className="text-[11px] font-semibold text-accent uppercase tracking-wider mb-1.5">
-                        {campo.label}
-                      </p>
-                      <p className="text-sm text-text whitespace-pre-wrap">
-                        {val || <span className="text-text3 italic">Não informado</span>}
-                      </p>
+              {BLOCOS_ANAMNESE.map((bloco) => {
+                const campos = CAMPOS_ANAMNESE.filter((c) => c.bloco === bloco);
+                const temResposta = campos.some((c) => anamnese.respostas?.[c.id]);
+                if (!temResposta) return null;
+
+                return (
+                  <div key={bloco} className="mb-5">
+                    <h3 className="text-[11px] font-bold text-accent uppercase tracking-wider mb-2 flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+                      {bloco}
+                    </h3>
+                    <div className="flex flex-col gap-2">
+                      {campos.map((campo) => {
+                        const val = anamnese.respostas?.[campo.id];
+                        if (!val) return null;
+                        return (
+                          <div key={campo.id} className="bg-bg border border-border rounded-lg p-3">
+                            <p className="text-[10px] font-semibold text-text3 uppercase tracking-wider mb-1">
+                              {campo.label}
+                            </p>
+                            <p className="text-sm text-text whitespace-pre-wrap">
+                              {campo.tipo === "escala" ? `${val}/10` : val}
+                            </p>
+                          </div>
+                        );
+                      })}
                     </div>
-                  );
-                })}
-              </div>
+                  </div>
+                );
+              })}
             </>
           )}
         </div>
