@@ -214,7 +214,7 @@ export default function FinanceiroPage() {
       </div>
 
       {/* Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         <div className="bg-surface border border-accent2/20 rounded-xl p-5 shadow-sm">
           <p className="text-[11px] font-semibold text-text2 uppercase tracking-wider">Receita Total</p>
           <p className="text-[28px] font-bold text-accent2 mt-1">{fmtMoeda(total)}</p>
@@ -224,11 +224,6 @@ export default function FinanceiroPage() {
           <p className="text-[11px] font-semibold text-text2 uppercase tracking-wider">Este Mês</p>
           <p className="text-[28px] font-bold text-accent mt-1">{fmtMoeda(totalMes)}</p>
           <p className="text-[11px] text-text3">{MESES[new Date().getMonth()]}</p>
-        </div>
-        <div className="bg-surface border border-warn/20 rounded-xl p-5 shadow-sm">
-          <p className="text-[11px] font-semibold text-text2 uppercase tracking-wider">A Receber</p>
-          <p className="text-[28px] font-bold text-warn mt-1">{fmtMoeda(pendente)}</p>
-          <p className="text-[11px] text-text3">pagamentos pendentes</p>
         </div>
         <div className="bg-surface border border-border rounded-xl p-5 shadow-sm">
           <p className="text-[11px] font-semibold text-text2 uppercase tracking-wider">Recebimentos</p>

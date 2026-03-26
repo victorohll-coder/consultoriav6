@@ -36,6 +36,7 @@ export default function AlertasPage() {
   const [followups, setFollowups] = useState<FollowupWithPaciente[]>([]);
   const [pacientesCount, setPacientesCount] = useState(0);
   const [proximosQuiz, setProximosQuiz] = useState<QuizComPaciente[]>([]);
+  const [quizAvaliar, setQuizAvaliar] = useState<QuizComPaciente[]>([]);
   const [loading, setLoading] = useState(true);
 
   const hoje = new Date().toISOString().split("T")[0];
@@ -68,6 +69,17 @@ export default function AlertasPage() {
       .limit(10);
 
     if (quizzes) setProximosQuiz(quizzes as QuizComPaciente[]);
+
+    // Questionários respondidos (para avaliar)
+    const { data: respondidos } = await supabase
+      .from("questionarios")
+      .select("*, pacientes(nome)")
+      .not("data_resposta", "is", null)
+      .not("respostas", "is", null)
+      .order("data_resposta", { ascending: false })
+      .limit(10);
+
+    if (respondidos) setQuizAvaliar(respondidos as QuizComPaciente[]);
 
     setLoading(false);
   }, [supabase]);
@@ -242,6 +254,36 @@ export default function AlertasPage() {
           </div>
         )}
       </div>
+
+      {/* Questionários para Avaliar */}
+      {quizAvaliar.length > 0 && (
+        <div className="bg-surface border border-warn/20 rounded-xl overflow-hidden mb-6">
+          <div className="px-5 py-4 border-b border-border flex items-center justify-between">
+            <h2 className="text-sm font-bold text-text">📝 Avaliar Respostas</h2>
+            <a href="/painel/questionarios" className="text-xs text-accent hover:underline">
+              Ver todos →
+            </a>
+          </div>
+          <div className="divide-y divide-border">
+            {quizAvaliar.map((q) => (
+              <a key={q.id} href="/painel/questionarios" className="px-5 py-3 flex items-center gap-3 hover:bg-surface2 transition-colors block">
+                <span className="text-base">📝</span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-text truncate">
+                    {q.pacientes?.nome || "Paciente"}
+                  </p>
+                  <p className="text-xs text-text3">
+                    Respondido em {fmtData(q.data_resposta!)}
+                  </p>
+                </div>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-warn/20 text-warn">
+                  AVALIAR
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Próximos Questionários */}
       <div className="bg-surface border border-border rounded-xl overflow-hidden">

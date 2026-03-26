@@ -205,7 +205,7 @@ export default function PacientesPage() {
           data: dataConsulta || new Date().toISOString().split("T")[0],
           plano: plano || null,
           forma: null,
-          status: "pendente",
+          status: "pago",
         });
       }
     }
