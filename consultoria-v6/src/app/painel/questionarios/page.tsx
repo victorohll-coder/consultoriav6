@@ -257,7 +257,16 @@ export default function QuestionariosPage() {
         <div className="bg-surface border border-border rounded-xl p-4">
           <h2 className="text-xs font-semibold text-text2 uppercase tracking-wider mb-3">Pacientes</h2>
           <div className="flex flex-col gap-1">
-            {pacientes.map((p) => {
+            {[...pacientes].sort((a, b) => {
+              const aAtr = (a.questionarios || []).filter((q) => !q.data_resposta && q.proxima_data && q.proxima_data <= hojeStr).length;
+              const bAtr = (b.questionarios || []).filter((q) => !q.data_resposta && q.proxima_data && q.proxima_data <= hojeStr).length;
+              const aResp = (a.questionarios || []).filter((q) => q.data_resposta).length;
+              const bResp = (b.questionarios || []).filter((q) => q.data_resposta).length;
+              // Atrasados primeiro, depois quem tem mais respostas (a avaliar)
+              if (aAtr !== bAtr) return bAtr - aAtr;
+              if (aResp !== bResp) return bResp - aResp;
+              return a.nome.localeCompare(b.nome);
+            }).map((p) => {
               const atr = (p.questionarios || []).filter((q) => !q.data_resposta && q.proxima_data && q.proxima_data <= hojeStr).length;
               const resp = (p.questionarios || []).filter((q) => q.data_resposta).length;
               return (
