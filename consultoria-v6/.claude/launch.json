@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dev",
+      "runtimeExecutable": "C:\\Program Files\\nodejs\\node.exe",
+      "runtimeArgs": ["C:\\Users\\victo\\OneDrive\\Área de Trabalho\\codes\\consultoria victor code\\consultoria-v6\\node_modules\\next\\dist\\bin\\next", "dev"],
+      "port": 3000
+    }
+  ]
+}
