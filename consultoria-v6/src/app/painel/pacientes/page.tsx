@@ -173,20 +173,27 @@ export default function PacientesPage() {
           }
         }
 
-        // Auto-generate first questionarios (D+15, D+30 from consultation date)
-        const quizDates = [15, 30].map((dias) => {
+        // Auto-generate questionarios D+15, D+30, D+45... until plan ends
+        const planDaysMap: Record<string, number> = {
+          avulsa: 30, mensal: 30, trimestral: 90, semestral: 180, anual: 365, vip: 365,
+        };
+        const planKey = plano.toLowerCase();
+        const totalDias = Object.entries(planDaysMap).find(([k]) => planKey.includes(k))?.[1] || 365;
+
+        const quizInserts = [];
+        for (let dia = 15; dia <= totalDias; dia += 15) {
           const d = new Date(dataConsulta);
-          d.setDate(d.getDate() + dias);
-          return d.toISOString().split("T")[0];
-        });
-        await supabase.from("questionarios").insert(
-          quizDates.map((proxData) => ({
+          d.setDate(d.getDate() + dia);
+          quizInserts.push({
             paciente_id: newPaciente.id,
             data_resposta: null,
-            proxima_data: proxData,
+            proxima_data: d.toISOString().split("T")[0],
             respostas: null,
-          }))
-        );
+          });
+        }
+        if (quizInserts.length > 0) {
+          await supabase.from("questionarios").insert(quizInserts);
+        }
       }
     }
 

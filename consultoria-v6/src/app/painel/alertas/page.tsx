@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
-import type { Followup, Paciente } from "@/lib/types";
+import type { Followup, Paciente, Questionario } from "@/lib/types";
 
 const WA_SVG = (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff">
@@ -29,20 +29,16 @@ function diffDays(dateStr: string) {
 }
 
 type FollowupWithPaciente = Followup & { paciente: Paciente };
-
-interface EngajamentoItem {
-  pacienteNome: string;
-  tipo: "questionario" | "followup" | "medidas";
-  detalhe: string;
-}
+type QuizComPaciente = Questionario & { pacientes: { nome: string } };
 
 export default function AlertasPage() {
   const supabase = createClient();
   const [followups, setFollowups] = useState<FollowupWithPaciente[]>([]);
   const [pacientesCount, setPacientesCount] = useState(0);
-  const [quizPendentes, setQuizPendentes] = useState(0);
-  const [engajamento, setEngajamento] = useState<EngajamentoItem[]>([]);
+  const [proximosQuiz, setProximosQuiz] = useState<QuizComPaciente[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const hoje = new Date().toISOString().split("T")[0];
 
   const loadData = useCallback(async () => {
     setLoading(true);
@@ -62,83 +58,17 @@ export default function AlertasPage() {
       .select("*", { count: "exact", head: true });
     setPacientesCount(count || 0);
 
-    // Questionários pendentes (sem resposta)
-    const { count: qCount } = await supabase
+    // Próximos questionários (agendados, sem resposta, data futura)
+    const { data: quizzes } = await supabase
       .from("questionarios")
-      .select("*", { count: "exact", head: true })
-      .is("data_resposta", null);
-    setQuizPendentes(qCount || 0);
-
-    // === Dashboard de Engajamento ===
-    const engItems: EngajamentoItem[] = [];
-
-    // Pacientes com questionário pendente
-    const hoje = new Date().toISOString().split("T")[0];
-    const { data: questPend } = await supabase
-      .from("questionarios")
-      .select("paciente_id, proxima_data, pacientes(nome)")
+      .select("*, pacientes(nome)")
       .is("data_resposta", null)
-      .lte("proxima_data", hoje);
+      .gt("proxima_data", new Date().toISOString().split("T")[0])
+      .order("proxima_data", { ascending: true })
+      .limit(10);
 
-    if (questPend) {
-      for (const q of questPend as unknown as { paciente_id: string; proxima_data: string; pacientes: { nome: string } }[]) {
-        engItems.push({
-          pacienteNome: q.pacientes?.nome || "Paciente",
-          tipo: "questionario",
-          detalhe: `Pendente desde ${fmtData(q.proxima_data)}`,
-        });
-      }
-    }
+    if (quizzes) setProximosQuiz(quizzes as QuizComPaciente[]);
 
-    // Pacientes com follow-up atrasado
-    if (fups) {
-      for (const f of fups as FollowupWithPaciente[]) {
-        if (diffDays(f.data_alvo) < 0) {
-          engItems.push({
-            pacienteNome: f.paciente?.nome || "Paciente",
-            tipo: "followup",
-            detalhe: `${f.tipo} atrasado ${Math.abs(diffDays(f.data_alvo))}d`,
-          });
-        }
-      }
-    }
-
-    // Pacientes sem medidas há mais de 30 dias
-    const { data: allPacientes } = await supabase
-      .from("pacientes")
-      .select("id, nome");
-
-    if (allPacientes) {
-      const cutoff = new Date();
-      cutoff.setDate(cutoff.getDate() - 30);
-      const cutoffStr = cutoff.toISOString().split("T")[0];
-
-      for (const pac of allPacientes) {
-        const { data: lastMedida } = await supabase
-          .from("medidas")
-          .select("data")
-          .eq("paciente_id", pac.id)
-          .order("data", { ascending: false })
-          .limit(1);
-
-        if (!lastMedida || lastMedida.length === 0) {
-          engItems.push({
-            pacienteNome: pac.nome,
-            tipo: "medidas",
-            detalhe: "Nenhuma medida registrada",
-          });
-        } else if (lastMedida[0].data < cutoffStr) {
-          const dias = diffDays(lastMedida[0].data);
-          engItems.push({
-            pacienteNome: pac.nome,
-            tipo: "medidas",
-            detalhe: `Última medida há ${Math.abs(dias)} dias`,
-          });
-        }
-      }
-    }
-
-    setEngajamento(engItems);
     setLoading(false);
   }, [supabase]);
 
@@ -147,7 +77,6 @@ export default function AlertasPage() {
   }, [loadData]);
 
   async function marcarFeito(id: string) {
-    const hoje = new Date().toISOString().split("T")[0];
     await supabase
       .from("followups")
       .update({ feito: true, feito_em: hoje })
@@ -155,13 +84,16 @@ export default function AlertasPage() {
     loadData();
   }
 
-  // Categorize
+  // Categorize follow-ups
   const atrasados = followups.filter((f) => diffDays(f.data_alvo) < 0);
-  const hoje = followups.filter((f) => diffDays(f.data_alvo) === 0);
+  const fupHoje = followups.filter((f) => diffDays(f.data_alvo) === 0);
   const proximos7 = followups.filter((f) => {
     const d = diffDays(f.data_alvo);
     return d >= 1 && d <= 7;
   });
+
+  // Follow-ups para a lista principal: atrasados + hoje + próximos 7 dias (max 5)
+  const fupLista = [...atrasados, ...fupHoje, ...proximos7].slice(0, 5);
 
   const cards = [
     {
@@ -172,7 +104,7 @@ export default function AlertasPage() {
     },
     {
       label: "Hoje",
-      value: hoje.length,
+      value: fupHoje.length,
       color: "text-warn",
       bg: "bg-warn/10 border-warn/20",
     },
@@ -189,16 +121,6 @@ export default function AlertasPage() {
       bg: "bg-accent2/10 border-accent2/20",
     },
   ];
-
-  // All pending sorted: overdue first, then today, then future
-  const allPending = [...atrasados, ...hoje, ...proximos7, ...followups.filter((f) => diffDays(f.data_alvo) > 7)];
-  // Remove duplicates (already included in categories)
-  const seen = new Set<string>();
-  const uniquePending = allPending.filter((f) => {
-    if (seen.has(f.id)) return false;
-    seen.add(f.id);
-    return true;
-  });
 
   function getStatusBadge(dataAlvo: string) {
     const d = diffDays(dataAlvo);
@@ -259,45 +181,26 @@ export default function AlertasPage() {
         ))}
       </div>
 
-      {/* Quiz banner */}
-      {quizPendentes > 0 && (
-        <div className="bg-warn/10 border border-warn/20 rounded-xl p-4 mb-6 flex items-center justify-between">
-          <div>
-            <p className="text-warn text-sm font-semibold">
-              {quizPendentes} questionário{quizPendentes > 1 ? "s" : ""}{" "}
-              pendente{quizPendentes > 1 ? "s" : ""}
-            </p>
-            <p className="text-text3 text-xs mt-0.5">
-              Pacientes que ainda não responderam o questionário quinzenal
-            </p>
-          </div>
-          <a
-            href="/painel/questionarios"
-            className="bg-warn hover:bg-warn/80 text-black text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors"
-          >
-            Ver detalhes
+      {/* Follow-ups próximos 7 dias (max 5) */}
+      <div className="bg-surface border border-border rounded-xl overflow-hidden mb-6">
+        <div className="px-5 py-4 border-b border-border flex items-center justify-between">
+          <h2 className="text-sm font-bold text-text">Próximos Follow-ups</h2>
+          <a href="/painel/protocolos" className="text-xs text-accent hover:underline">
+            Ver todos →
           </a>
         </div>
-      )}
 
-      {/* Follow-ups list */}
-      <div className="bg-surface border border-border rounded-xl overflow-hidden">
-        <div className="px-5 py-4 border-b border-border">
-          <h2 className="text-sm font-bold text-text">Follow-ups pendentes</h2>
-        </div>
-
-        {uniquePending.length === 0 ? (
+        {fupLista.length === 0 ? (
           <div className="px-5 py-8 text-center text-text3 text-sm">
-            Nenhum follow-up pendente. Tudo em dia!
+            Nenhum follow-up nos próximos 7 dias. Tudo em dia!
           </div>
         ) : (
           <div className="divide-y divide-border">
-            {uniquePending.map((f) => (
+            {fupLista.map((f) => (
               <div
                 key={f.id}
                 className="px-5 py-3.5 flex items-center gap-3 hover:bg-surface2 transition-colors"
               >
-                {/* Patient info */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
                     <p className="text-sm font-semibold text-text truncate">
@@ -314,7 +217,6 @@ export default function AlertasPage() {
                   </p>
                 </div>
 
-                {/* Actions */}
                 <div className="flex items-center gap-1.5 shrink-0">
                   {f.paciente?.telefone && (
                     <a
@@ -341,37 +243,43 @@ export default function AlertasPage() {
         )}
       </div>
 
-      {/* Dashboard de Engajamento */}
-      {engajamento.length > 0 && (
-        <div className="bg-surface border border-border rounded-xl overflow-hidden mt-6">
-          <div className="px-5 py-4 border-b border-border flex items-center justify-between">
-            <h2 className="text-sm font-bold text-text">📊 Dashboard de Engajamento</h2>
-            <span className="text-[10px] text-text3">{engajamento.length} alerta{engajamento.length > 1 ? "s" : ""}</span>
-          </div>
-          <div className="divide-y divide-border">
-            {engajamento.map((item, i) => (
-              <div key={i} className="px-5 py-3 flex items-center gap-3 hover:bg-surface2 transition-colors">
-                <span className="text-base">
-                  {item.tipo === "questionario" ? "📋" : item.tipo === "followup" ? "⏰" : "📏"}
-                </span>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-text truncate">{item.pacienteNome}</p>
-                  <p className="text-xs text-text3">{item.detalhe}</p>
-                </div>
-                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                  item.tipo === "questionario"
-                    ? "bg-warn/20 text-warn"
-                    : item.tipo === "followup"
-                      ? "bg-danger/20 text-danger"
-                      : "bg-accent/20 text-accent"
-                }`}>
-                  {item.tipo === "questionario" ? "QUEST" : item.tipo === "followup" ? "FOLLOW" : "MEDIDA"}
-                </span>
-              </div>
-            ))}
-          </div>
+      {/* Próximos Questionários */}
+      <div className="bg-surface border border-border rounded-xl overflow-hidden">
+        <div className="px-5 py-4 border-b border-border flex items-center justify-between">
+          <h2 className="text-sm font-bold text-text">📋 Próximos Questionários</h2>
+          <a href="/painel/questionarios" className="text-xs text-accent hover:underline">
+            Ver todos →
+          </a>
         </div>
-      )}
+
+        {proximosQuiz.length === 0 ? (
+          <div className="px-5 py-8 text-center text-text3 text-sm">
+            Nenhum questionário agendado.
+          </div>
+        ) : (
+          <div className="divide-y divide-border">
+            {proximosQuiz.map((q) => {
+              const dias = diffDays(q.proxima_data!);
+              return (
+                <div key={q.id} className="px-5 py-3 flex items-center gap-3 hover:bg-surface2 transition-colors">
+                  <span className="text-base">📋</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-text truncate">
+                      {q.pacientes?.nome || "Paciente"}
+                    </p>
+                    <p className="text-xs text-text3">
+                      {fmtData(q.proxima_data!)} · em {dias} dia{dias > 1 ? "s" : ""}
+                    </p>
+                  </div>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-accent/20 text-accent">
+                    AGENDADO
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
