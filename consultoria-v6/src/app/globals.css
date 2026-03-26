@@ -14,9 +14,29 @@
   --color-text2: #4b5563;
   --color-text3: #9ca3af;
 
+  --color-navy: #0f2d52;
+  --color-navy-light: #1e3a5f;
+  --color-gold: #c8a96e;
+  --color-blue-soft: #e0eaf5;
+  --color-blue-badge: #93c5fd;
+
   --font-sans: "DM Sans", sans-serif;
   --font-mono: "DM Mono", monospace;
+  --font-display: "Playfair Display", serif;
 }
+
+/* Patient area animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+  animation: fadeInUp 0.4s ease-out both;
+}
+.animate-fade-in-up-d1 { animation: fadeInUp 0.4s 0.05s ease-out both; }
+.animate-fade-in-up-d2 { animation: fadeInUp 0.4s 0.1s ease-out both; }
+.animate-fade-in-up-d3 { animation: fadeInUp 0.4s 0.15s ease-out both; }
+.animate-fade-in-up-d4 { animation: fadeInUp 0.4s 0.2s ease-out both; }
 
 body {
   background: var(--color-bg);
