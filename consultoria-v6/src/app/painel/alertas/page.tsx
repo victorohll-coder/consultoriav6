@@ -204,24 +204,24 @@ export default function AlertasPage() {
     const d = diffDays(dataAlvo);
     if (d < 0)
       return (
-        <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold font-mono bg-danger/20 text-danger">
+        <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold bg-danger/20 text-danger">
           {Math.abs(d)}d atrasado
         </span>
       );
     if (d === 0)
       return (
-        <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold font-mono bg-warn/20 text-warn animate-pulse">
+        <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold bg-warn/20 text-warn animate-pulse">
           HOJE
         </span>
       );
     if (d <= 7)
       return (
-        <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold font-mono bg-accent/20 text-accent">
+        <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold bg-accent/20 text-accent">
           em {d}d
         </span>
       );
     return (
-      <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold font-mono bg-surface2 text-text3">
+      <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold bg-surface2 text-text3">
         em {d}d
       </span>
     );
@@ -252,7 +252,7 @@ export default function AlertasPage() {
             <p className="text-[11px] font-semibold text-text2 uppercase tracking-wider">
               {c.label}
             </p>
-            <p className={`text-[28px] font-bold font-mono mt-1 ${c.color}`}>
+            <p className={`text-[28px] font-bold mt-1 ${c.color}`}>
               {c.value}
             </p>
           </div>
@@ -346,7 +346,7 @@ export default function AlertasPage() {
         <div className="bg-surface border border-border rounded-xl overflow-hidden mt-6">
           <div className="px-5 py-4 border-b border-border flex items-center justify-between">
             <h2 className="text-sm font-bold text-text">📊 Dashboard de Engajamento</h2>
-            <span className="text-[10px] font-mono text-text3">{engajamento.length} alerta{engajamento.length > 1 ? "s" : ""}</span>
+            <span className="text-[10px] text-text3">{engajamento.length} alerta{engajamento.length > 1 ? "s" : ""}</span>
           </div>
           <div className="divide-y divide-border">
             {engajamento.map((item, i) => (
@@ -358,7 +358,7 @@ export default function AlertasPage() {
                   <p className="text-sm font-semibold text-text truncate">{item.pacienteNome}</p>
                   <p className="text-xs text-text3">{item.detalhe}</p>
                 </div>
-                <span className={`text-[10px] font-bold font-mono px-2 py-0.5 rounded-full ${
+                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                   item.tipo === "questionario"
                     ? "bg-warn/20 text-warn"
                     : item.tipo === "followup"

@@ -74,7 +74,7 @@ export default function Sidebar({ profile }: SidebarProps) {
         {/* Footer */}
         <div className="border-t border-surface2 pt-4 mt-4">
           <p className="text-xs text-text2 truncate">{profile.email}</p>
-          <p className="text-[10px] font-semibold font-mono text-text3 uppercase mt-1">
+          <p className="text-[10px] font-semibold text-text3 uppercase mt-1">
             {profile.role === "admin" ? "ADMIN" : "USUÁRIO"}
           </p>
           <button

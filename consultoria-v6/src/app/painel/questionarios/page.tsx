@@ -192,15 +192,15 @@ export default function QuestionariosPage() {
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         <div className="bg-surface border border-warn/20 rounded-xl p-5 shadow-sm">
           <p className="text-[11px] font-semibold text-text2 uppercase tracking-wider">Pendentes</p>
-          <p className="text-[28px] font-bold font-mono text-warn mt-1">{totalPendentes}</p>
+          <p className="text-[28px] font-bold text-warn mt-1">{totalPendentes}</p>
         </div>
         <div className="bg-surface border border-accent2/20 rounded-xl p-5 shadow-sm">
           <p className="text-[11px] font-semibold text-text2 uppercase tracking-wider">Respondidos</p>
-          <p className="text-[28px] font-bold font-mono text-accent2 mt-1">{totalRespondidos}</p>
+          <p className="text-[28px] font-bold text-accent2 mt-1">{totalRespondidos}</p>
         </div>
         <div className="bg-surface border border-border rounded-xl p-5 shadow-sm">
           <p className="text-[11px] font-semibold text-text2 uppercase tracking-wider">Pacientes</p>
-          <p className="text-[28px] font-bold font-mono text-text mt-1">{pacientes.length}</p>
+          <p className="text-[28px] font-bold text-text mt-1">{pacientes.length}</p>
         </div>
       </div>
 
@@ -279,7 +279,7 @@ export default function QuestionariosPage() {
                       return (
                         <div key={p.id} className="bg-bg border border-border rounded-lg p-2.5 text-center">
                           <p className="text-[10px] text-text3 uppercase font-semibold truncate">{p.texto.replace("Aderência ao plano alimentar", "Aderência").replace("Nível de energia no dia a dia", "Energia").replace("Intensidade dos treinos", "Intensidade")}</p>
-                          <p className={`text-lg font-bold font-mono mt-0.5 ${evo.diff > 0 ? "text-accent2" : evo.diff < 0 ? "text-danger" : "text-text3"}`}>
+                          <p className={`text-lg font-bold mt-0.5 ${evo.diff > 0 ? "text-accent2" : evo.diff < 0 ? "text-danger" : "text-text3"}`}>
                             {evo.trend} {Math.abs(evo.diff).toFixed(1)}
                           </p>
                         </div>
@@ -341,7 +341,7 @@ export default function QuestionariosPage() {
                                 return (
                                   <div key={p.id} className="flex justify-between py-1 border-b border-border/50 last:border-0">
                                     <span className="text-xs text-text2">{p.texto}</span>
-                                    <span className="text-xs font-mono font-semibold text-text shrink-0 ml-2">
+                                    <span className="text-xs font-semibold text-text shrink-0 ml-2">
                                       {p.tipo === "escala" ? `${val}/5` : val}
                                     </span>
                                   </div>
@@ -391,7 +391,7 @@ export default function QuestionariosPage() {
                         className="flex-1 accent-accent"
                       />
                       <span className="text-[10px] text-text3">{p.maxLabel}</span>
-                      <span className="text-xs font-mono font-bold text-accent w-6 text-center">{editRespostas[p.id] ?? "-"}</span>
+                      <span className="text-xs font-bold text-accent w-6 text-center">{editRespostas[p.id] ?? "-"}</span>
                     </div>
                   ) : p.tipo === "opcao" ? (
                     <select

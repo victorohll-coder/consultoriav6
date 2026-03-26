@@ -208,22 +208,22 @@ export default function FinanceiroPage() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div className="bg-surface border border-accent2/20 rounded-xl p-5 shadow-sm">
           <p className="text-[11px] font-semibold text-text2 uppercase tracking-wider">Receita Total</p>
-          <p className="text-[28px] font-bold font-mono text-accent2 mt-1">{fmtMoeda(total)}</p>
+          <p className="text-[28px] font-bold text-accent2 mt-1">{fmtMoeda(total)}</p>
           <p className="text-[11px] text-text3">todos os registros</p>
         </div>
         <div className="bg-surface border border-accent/20 rounded-xl p-5 shadow-sm">
           <p className="text-[11px] font-semibold text-text2 uppercase tracking-wider">Este Mês</p>
-          <p className="text-[28px] font-bold font-mono text-accent mt-1">{fmtMoeda(totalMes)}</p>
+          <p className="text-[28px] font-bold text-accent mt-1">{fmtMoeda(totalMes)}</p>
           <p className="text-[11px] text-text3">{MESES[new Date().getMonth()]}</p>
         </div>
         <div className="bg-surface border border-warn/20 rounded-xl p-5 shadow-sm">
           <p className="text-[11px] font-semibold text-text2 uppercase tracking-wider">A Receber</p>
-          <p className="text-[28px] font-bold font-mono text-warn mt-1">{fmtMoeda(pendente)}</p>
+          <p className="text-[28px] font-bold text-warn mt-1">{fmtMoeda(pendente)}</p>
           <p className="text-[11px] text-text3">pagamentos pendentes</p>
         </div>
         <div className="bg-surface border border-border rounded-xl p-5 shadow-sm">
           <p className="text-[11px] font-semibold text-text2 uppercase tracking-wider">Recebimentos</p>
-          <p className="text-[28px] font-bold font-mono text-text mt-1">{recebimentos.length}</p>
+          <p className="text-[28px] font-bold text-text mt-1">{recebimentos.length}</p>
           <p className="text-[11px] text-text3">registros totais</p>
         </div>
       </div>
@@ -262,7 +262,7 @@ export default function FinanceiroPage() {
                       style={{ width: `${pct}%` }}
                     />
                   </div>
-                  <span className="text-[11px] font-mono text-text2 whitespace-nowrap w-24 text-right">
+                  <span className="text-[11px] text-text2 whitespace-nowrap w-24 text-right">
                     {m.pago > 0 ? fmtMoeda(m.pago) : "-"}
                     {m.pend > 0 && (
                       <span className="text-warn text-[9px]"> +{fmtMoeda(m.pend)}</span>
@@ -285,7 +285,7 @@ export default function FinanceiroPage() {
                 <div key={rp.plano}>
                   <div className="flex justify-between mb-1">
                     <span className="text-[13px] text-text capitalize">{rp.plano}</span>
-                    <span className="text-[13px] font-mono text-text2">
+                    <span className="text-[13px] text-text2">
                       {fmtMoeda(rp.valor)}{" "}
                       <span className="text-text3">{rp.pct}%</span>
                     </span>
@@ -334,7 +334,7 @@ export default function FinanceiroPage() {
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
                   <div className="text-right">
-                    <p className="font-mono text-sm font-semibold text-text">{fmtMoeda(Number(r.valor))}</p>
+                    <p className="text-sm font-semibold text-text">{fmtMoeda(Number(r.valor))}</p>
                     <p className={`text-[11px] ${r.status === "pago" ? "text-accent2" : "text-warn"}`}>{r.status}</p>
                   </div>
                   <button

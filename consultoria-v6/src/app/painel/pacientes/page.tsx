@@ -317,7 +317,7 @@ export default function PacientesPage() {
                   </td>
                   <td className="px-4 py-3 hidden sm:table-cell">
                     {p.plano ? (
-                      <span className="inline-flex px-2.5 py-0.5 rounded-full text-[11px] font-semibold font-mono bg-accent/15 text-accent capitalize">
+                      <span className="inline-flex px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-accent/15 text-accent capitalize">
                         {p.plano}
                       </span>
                     ) : (
@@ -325,12 +325,12 @@ export default function PacientesPage() {
                     )}
                   </td>
                   <td className="px-4 py-3 hidden md:table-cell">
-                    <span className="text-sm text-text2 font-mono">
+                    <span className="text-sm text-text2">
                       {fmtData(p.data_consulta)}
                     </span>
                   </td>
                   <td className="px-4 py-3 hidden md:table-cell">
-                    <span className="text-sm text-accent2 font-mono font-semibold">
+                    <span className="text-sm text-accent2 font-semibold">
                       {p.valor
                         ? `R$ ${Number(p.valor).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`
                         : "-"}

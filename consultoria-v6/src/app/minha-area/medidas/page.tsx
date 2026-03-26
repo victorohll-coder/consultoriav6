@@ -165,7 +165,7 @@ export default function MedidasPacientePage() {
                   const diff = v2 - v1;
                   return (
                     <div key={c.key} className="bg-bg border border-border rounded-lg p-3">
-                      <p className="text-[10px] text-text3 uppercase font-mono mb-1">{c.label}</p>
+                      <p className="text-[10px] text-text3 uppercase mb-1">{c.label}</p>
                       <p className="text-text text-sm font-bold">
                         {v1}{c.unit} → {v2}{c.unit}
                       </p>

@@ -179,7 +179,7 @@ export default function ProtocolosPage() {
                     key={i}
                     className="flex items-center gap-2 bg-surface2 border border-border rounded-lg px-3 py-2"
                   >
-                    <span className="w-7 h-7 rounded-full bg-accent/20 text-accent flex items-center justify-center text-[11px] font-bold font-mono">
+                    <span className="w-7 h-7 rounded-full bg-accent/20 text-accent flex items-center justify-center text-[11px] font-bold">
                       {step.dias}
                     </span>
                     <div>

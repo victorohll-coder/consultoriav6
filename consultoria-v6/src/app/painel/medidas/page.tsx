@@ -159,7 +159,7 @@ export default function MedidasPage() {
                   const pct = ((val - pesoMin) / pesoRange) * 100;
                   return (
                     <div key={m.id} className="flex-1 flex flex-col items-center gap-1">
-                      <span className="text-[10px] font-mono text-accent font-semibold">{val}</span>
+                      <span className="text-[10px] text-accent font-semibold">{val}</span>
                       <div className="w-full flex items-end" style={{ height: "120px" }}>
                         <div
                           className="w-full bg-accent/30 rounded-t transition-all duration-500 hover:bg-accent/50"
@@ -187,7 +187,7 @@ export default function MedidasPage() {
                   return (
                     <div key={c.key} className="bg-bg border border-border rounded-lg p-3 text-center">
                       <p className="text-[10px] text-text3 uppercase font-semibold mb-1">{c.label}</p>
-                      <p className="font-mono text-sm text-text">
+                      <p className="text-sm text-text">
                         {v1}{c.unit} → {v2}{c.unit}
                       </p>
                       <p className={`text-xs font-semibold mt-0.5 ${diff < 0 ? "text-accent2" : diff > 0 ? "text-danger" : "text-text3"}`}>
@@ -224,9 +224,9 @@ export default function MedidasPage() {
                   ) : (
                     [...medidas].reverse().map((m) => (
                       <tr key={m.id} className="border-b border-border last:border-0 hover:bg-surface2 transition-colors">
-                        <td className="px-3 py-2.5 text-xs font-mono text-text2">{fmtData(m.data)}</td>
+                        <td className="px-3 py-2.5 text-xs text-text2">{fmtData(m.data)}</td>
                         {CAMPOS.map((c) => (
-                          <td key={c.key} className="px-3 py-2.5 text-center text-xs font-mono text-text">
+                          <td key={c.key} className="px-3 py-2.5 text-center text-xs text-text">
                             {m[c.key] != null ? `${m[c.key]}` : "-"}
                           </td>
                         ))}

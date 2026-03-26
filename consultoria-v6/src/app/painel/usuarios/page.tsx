@@ -152,7 +152,7 @@ export default function UsuariosPage() {
                 <td className="px-4 py-3 text-sm text-text2">{u.email}</td>
                 <td className="px-4 py-3">
                   <span
-                    className={`inline-flex px-2.5 py-0.5 rounded-full text-[11px] font-semibold font-mono ${
+                    className={`inline-flex px-2.5 py-0.5 rounded-full text-[11px] font-semibold ${
                       u.role === "admin"
                         ? "bg-accent/20 text-accent"
                         : "bg-accent2/20 text-accent2"

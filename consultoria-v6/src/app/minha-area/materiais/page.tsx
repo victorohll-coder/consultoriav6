@@ -124,7 +124,7 @@ export default function MateriaisPacientePage() {
                       </span>
                       <div className="flex-1 min-w-0">
                         <p className="text-text text-sm font-medium truncate">{mat.titulo}</p>
-                        <p className="text-text3 text-[10px] uppercase font-mono">{mat.tipo}</p>
+                        <p className="text-text3 text-[10px] uppercase">{mat.tipo}</p>
                       </div>
 
                       {(mat.tipo === "pdf" || mat.tipo === "arquivo") && mat.conteudo && (
