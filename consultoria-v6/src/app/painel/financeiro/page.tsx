@@ -389,7 +389,7 @@ export default function FinanceiroPage() {
               onChange={(e) => {
                 setPacienteId(e.target.value);
                 const pac = pacientes.find((p) => p.id === e.target.value);
-                if (pac?.plano && !plano) setPlano(pac.plano);
+                if (pac?.plano) setPlano(pac.plano);
               }}
               required
               className="w-full px-3 py-2.5 bg-bg border border-border rounded-lg text-text text-sm focus:border-accent focus:outline-none transition-colors"
