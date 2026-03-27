@@ -105,8 +105,8 @@ export default function PatientHeader({ nome, email, nomePaciente }: PatientHead
         </div>
       </header>
 
-      {/* Desktop tab nav — refined with gold active indicator */}
-      <nav className="hidden md:flex bg-white/90 backdrop-blur-sm border-b border-[#e0eaf5]/80 px-8 gap-0.5 sticky top-0 z-40">
+      {/* Desktop tab nav — pill style, centered */}
+      <nav className="hidden md:flex items-center justify-center gap-1 bg-white/95 backdrop-blur-sm border-b border-[#e0eaf5]/80 px-8 py-2.5 sticky top-0 z-40 shadow-sm">
         {navItems.map((item) => {
           const active = item.exact
             ? pathname === item.href
@@ -115,11 +115,12 @@ export default function PatientHeader({ nome, email, nomePaciente }: PatientHead
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-2 px-5 py-3.5 text-[13px] font-medium border-b-[2.5px] transition-all duration-200 ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-medium transition-all duration-200 ${
                 active
-                  ? "border-[#c8a96e] text-[#0f2d52]"
-                  : "border-transparent text-[#94a3b8] hover:text-[#475569] hover:border-[#e0eaf5]"
+                  ? "text-white shadow-md"
+                  : "text-[#94a3b8] hover:text-[#0f2d52] hover:bg-[#f1f5f9]"
               }`}
+              style={active ? { background: "linear-gradient(135deg, #0f2d52 0%, #163a5f 100%)" } : {}}
             >
               <span className={`transition-colors duration-200 ${active ? "text-[#c8a96e]" : ""}`}>{item.icon}</span>
               {item.label}
