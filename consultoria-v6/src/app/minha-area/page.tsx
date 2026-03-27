@@ -22,9 +22,9 @@ const SvgFolder = () => (
     <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
   </svg>
 );
-const SvgScale = () => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 3v17M5 8l7-5 7 5"/><path d="M5 8c0 3-2 5-2 5h4s-2-2-2-5zM19 8c0 3 2 5 2 5h-4s2-2 2-5z"/>
+const SvgStar = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
   </svg>
 );
 const SvgCheck = () => (
@@ -48,7 +48,7 @@ export default function MinhaAreaPage() {
   const [questionarioPendente, setQuestionarioPendente] = useState(false);
   const [anamnesePreenchida, setAnamnesePreenchida] = useState(false);
   const [totalMateriais, setTotalMateriais] = useState(0);
-  const [ultimaMedida, setUltimaMedida] = useState<{ peso: number | null; data: string } | null>(null);
+  const [habitScore, setHabitScore] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
 
   const loadData = useCallback(async () => {
@@ -92,13 +92,22 @@ export default function MinhaAreaPage() {
       .select("*", { count: "exact", head: true });
     setTotalMateriais(count || 0);
 
-    const { data: medidas } = await supabase
-      .from("medidas")
-      .select("peso, data")
-      .eq("paciente_id", paciente.id)
-      .order("data", { ascending: false })
-      .limit(1);
-    if (medidas && medidas.length > 0) setUltimaMedida(medidas[0]);
+    // Pontuação de hábitos do mês atual
+    const hoje2 = new Date();
+    const ano = hoje2.getFullYear();
+    const mes = String(hoje2.getMonth() + 1).padStart(2, "0");
+    const totalDias = new Date(ano, hoje2.getMonth() + 1, 0).getDate();
+    const { data: habitos } = await supabase
+      .from("habitos_registros")
+      .select("status")
+      .eq("paciente_id", user.id)
+      .gte("dia", `${ano}-${mes}-01`)
+      .lte("dia", `${ano}-${mes}-${String(totalDias).padStart(2, "0")}`);
+    if (habitos) {
+      const totalCelulas = 10 * totalDias;
+      const totalFeitos = habitos.filter((r: { status: number }) => r.status === 1).length;
+      setHabitScore((totalFeitos / totalCelulas) * 10);
+    }
 
     setLoading(false);
   }, [supabase]);
@@ -176,15 +185,30 @@ export default function MinhaAreaPage() {
           </div>
         </Link>
 
-        <Link href="/minha-area/medidas">
-          <div className="relative rounded-2xl overflow-hidden hover-lift cursor-pointer group" style={{ height: 170 }}>
-            <img src="/cards/peso.jpg" alt="" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-            <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(15,45,82,0.92) 0%, rgba(15,45,82,0.5) 50%, rgba(15,45,82,0.15) 100%)" }} />
-            <div className="relative z-10 h-full flex flex-col justify-end p-5">
-              <p className="text-3xl font-bold text-white tracking-tight drop-shadow-lg">
-                {ultimaMedida?.peso ? `${ultimaMedida.peso}kg` : "\u2014"}
-              </p>
-              <p className="text-[12px] text-white/70 mt-0.5 font-semibold uppercase tracking-wider">Último peso</p>
+        <Link href="/minha-area/habitos">
+          <div className="relative rounded-2xl overflow-hidden hover-lift cursor-pointer group" style={{ height: 170, background: "linear-gradient(135deg, #0d4f3c 0%, #1D9E75 60%, #26c48e 100%)" }}>
+            {/* Brilho decorativo */}
+            <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full opacity-20" style={{ background: "radial-gradient(circle, #fff 0%, transparent 70%)" }} />
+            <div className="absolute bottom-0 left-0 right-0 h-1/2" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.35) 0%, transparent 100%)" }} />
+            <div className="relative z-10 h-full flex flex-col justify-between p-5">
+              {/* Score no topo */}
+              <div className="flex items-center justify-between">
+                <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center text-white">
+                  <SvgStar />
+                </div>
+                {habitScore !== null && (
+                  <span className="text-[11px] font-bold text-white/60 uppercase tracking-wider">
+                    {habitScore >= 7 ? "🔥 Ótimo" : habitScore >= 4 ? "👍 Bom" : "💪 Vamos lá"}
+                  </span>
+                )}
+              </div>
+              {/* Número e label */}
+              <div>
+                <p className="text-3xl font-black text-white tracking-tight drop-shadow-lg">
+                  {habitScore !== null ? `${habitScore.toFixed(1)}/10` : "—"}
+                </p>
+                <p className="text-[12px] text-white/70 mt-0.5 font-semibold uppercase tracking-wider">Desafio de Hábitos</p>
+              </div>
             </div>
           </div>
         </Link>
