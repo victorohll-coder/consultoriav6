@@ -186,9 +186,10 @@ export default function MinhaAreaPage() {
         </Link>
 
         <Link href="/minha-area/habitos">
-          <div className="relative rounded-2xl overflow-hidden hover-lift cursor-pointer group" style={{ height: 170, background: "linear-gradient(135deg, #0d4f3c 0%, #1D9E75 60%, #26c48e 100%)" }}>
-            {/* Brilho decorativo */}
-            <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full opacity-20" style={{ background: "radial-gradient(circle, #fff 0%, transparent 70%)" }} />
+          <div className="relative rounded-2xl overflow-hidden hover-lift cursor-pointer group" style={{ height: 170 }}>
+            <img src="/cards/peso.jpg" alt="" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+            {/* Overlay verde gamificado */}
+            <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(13,79,60,0.82) 0%, rgba(29,158,117,0.75) 60%, rgba(38,196,142,0.65) 100%)" }} />
             <div className="absolute bottom-0 left-0 right-0 h-1/2" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.35) 0%, transparent 100%)" }} />
             <div className="relative z-10 h-full flex flex-col justify-between p-5">
               {/* Score no topo */}
