@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, type ReactElement } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 interface MatDirect {
@@ -69,10 +69,10 @@ const SvgX = () => (
   </svg>
 );
 
-const CAT_ICONS: Record<string, JSX.Element> = {};
+const CAT_ICONS: Record<string, ReactElement> = {};
 function getCatIcon() { return <SvgFolder />; }
 
-const TYPE_STYLES: Record<string, { icon: JSX.Element; color: string; bg: string; border: string; label: string }> = {
+const TYPE_STYLES: Record<string, { icon: ReactElement; color: string; bg: string; border: string; label: string }> = {
   pdf: { icon: <SvgPdf />, color: "text-rose-600", bg: "bg-rose-50", border: "border-rose-200/60", label: "PDF" },
   video: { icon: <SvgVideo />, color: "text-blue-600", bg: "bg-blue-50", border: "border-blue-200/60", label: "Video" },
   texto: { icon: <SvgText />, color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-200/60", label: "Texto" },

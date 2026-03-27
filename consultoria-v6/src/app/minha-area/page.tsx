@@ -163,75 +163,75 @@ export default function MinhaAreaPage() {
         </Link>
       )}
 
-      {/* Cards grid — premium stat cards */}
+      {/* Cards grid — premium image cards */}
       <div className="grid grid-cols-2 gap-3 animate-fade-in-up-d2">
         <Link href="/minha-area/materiais">
-          <div className="bg-white border border-[#e0eaf5] rounded-2xl p-5 shadow-sm hover-lift cursor-pointer group relative overflow-hidden">
-            <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-[#2563eb]/[0.03]" />
-            <div className="w-10 h-10 rounded-xl bg-[#eff6ff] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300 text-[#2563eb]">
-              <SvgFolder />
+          <div className="relative rounded-2xl overflow-hidden hover-lift cursor-pointer group" style={{ height: 170 }}>
+            <img src="/cards/materiais.jpg" alt="" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+            <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(15,45,82,0.92) 0%, rgba(15,45,82,0.5) 50%, rgba(15,45,82,0.15) 100%)" }} />
+            <div className="relative z-10 h-full flex flex-col justify-end p-5">
+              <p className="text-3xl font-bold text-white tracking-tight drop-shadow-lg">{totalMateriais}</p>
+              <p className="text-[12px] text-white/70 mt-0.5 font-semibold uppercase tracking-wider">Materiais liberados</p>
             </div>
-            <p className="text-2xl font-bold text-[#0f172a] tracking-tight">{totalMateriais}</p>
-            <p className="text-[11px] text-[#94a3b8] mt-0.5 font-medium uppercase tracking-wider">Materiais</p>
           </div>
         </Link>
 
         <Link href="/minha-area/medidas">
-          <div className="bg-white border border-[#e0eaf5] rounded-2xl p-5 shadow-sm hover-lift cursor-pointer group relative overflow-hidden">
-            <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-[#059669]/[0.03]" />
-            <div className="w-10 h-10 rounded-xl bg-[#ecfdf5] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300 text-[#059669]">
-              <SvgScale />
+          <div className="relative rounded-2xl overflow-hidden hover-lift cursor-pointer group" style={{ height: 170 }}>
+            <img src="/cards/peso.jpg" alt="" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+            <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(15,45,82,0.92) 0%, rgba(15,45,82,0.5) 50%, rgba(15,45,82,0.15) 100%)" }} />
+            <div className="relative z-10 h-full flex flex-col justify-end p-5">
+              <p className="text-3xl font-bold text-white tracking-tight drop-shadow-lg">
+                {ultimaMedida?.peso ? `${ultimaMedida.peso}kg` : "\u2014"}
+              </p>
+              <p className="text-[12px] text-white/70 mt-0.5 font-semibold uppercase tracking-wider">Ultimo peso</p>
             </div>
-            <p className="text-2xl font-bold text-[#0f172a] tracking-tight">
-              {ultimaMedida?.peso ? `${ultimaMedida.peso}kg` : "\u2014"}
-            </p>
-            <p className="text-[11px] text-[#94a3b8] mt-0.5 font-medium uppercase tracking-wider">Ultimo peso</p>
           </div>
         </Link>
 
         <Link href="/minha-area/questionario">
-          <div className="bg-white border border-[#e0eaf5] rounded-2xl p-5 shadow-sm hover-lift cursor-pointer group relative overflow-hidden">
-            <div className={`absolute -top-6 -right-6 w-20 h-20 rounded-full ${questionarioPendente ? "bg-[#d97706]/[0.03]" : "bg-[#059669]/[0.03]"}`} />
-            <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300 ${questionarioPendente ? "bg-[#fef3c7] text-[#d97706]" : "bg-[#ecfdf5] text-[#059669]"}`}>
-              <SvgClipboard />
+          <div className="relative rounded-2xl overflow-hidden hover-lift cursor-pointer group" style={{ height: 170 }}>
+            <img src="/cards/questionario.jpg" alt="" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+            <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(15,45,82,0.92) 0%, rgba(15,45,82,0.5) 50%, rgba(15,45,82,0.15) 100%)" }} />
+            <div className="relative z-10 h-full flex flex-col justify-end p-5">
+              <div className="flex items-center gap-2">
+                {questionarioPendente ? (
+                  <>
+                    <span className="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-lg shadow-amber-400/50 animate-pulse" />
+                    <span className="text-xl font-bold text-amber-300 drop-shadow-lg">Pendente</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-emerald-400 drop-shadow-lg"><SvgCheck /></span>
+                    <span className="text-xl font-bold text-emerald-400 drop-shadow-lg">Em dia</span>
+                  </>
+                )}
+              </div>
+              <p className="text-[12px] text-white/70 mt-0.5 font-semibold uppercase tracking-wider">Questionario quinzenal</p>
             </div>
-            <div className="flex items-center gap-1.5">
-              {questionarioPendente ? (
-                <>
-                  <span className="text-[#d97706]"><SvgClock /></span>
-                  <span className="text-lg font-bold text-[#d97706]">Pendente</span>
-                </>
-              ) : (
-                <>
-                  <span className="text-[#059669]"><SvgCheck /></span>
-                  <span className="text-lg font-bold text-[#059669]">Em dia</span>
-                </>
-              )}
-            </div>
-            <p className="text-[11px] text-[#94a3b8] mt-1 font-medium uppercase tracking-wider">Questionario</p>
           </div>
         </Link>
 
         <Link href="/minha-area/anamnese">
-          <div className="bg-white border border-[#e0eaf5] rounded-2xl p-5 shadow-sm hover-lift cursor-pointer group relative overflow-hidden">
-            <div className={`absolute -top-6 -right-6 w-20 h-20 rounded-full ${anamnesePreenchida ? "bg-[#059669]/[0.03]" : "bg-[#d97706]/[0.03]"}`} />
-            <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300 ${anamnesePreenchida ? "bg-[#ecfdf5] text-[#059669]" : "bg-[#fef3c7] text-[#d97706]"}`}>
-              <SvgFileText />
+          <div className="relative rounded-2xl overflow-hidden hover-lift cursor-pointer group" style={{ height: 170 }}>
+            <img src="/cards/anamnese.jpg" alt="" className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+            <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(15,45,82,0.92) 0%, rgba(15,45,82,0.5) 50%, rgba(15,45,82,0.15) 100%)" }} />
+            <div className="relative z-10 h-full flex flex-col justify-end p-5">
+              <div className="flex items-center gap-2">
+                {anamnesePreenchida ? (
+                  <>
+                    <span className="text-emerald-400 drop-shadow-lg"><SvgCheck /></span>
+                    <span className="text-xl font-bold text-emerald-400 drop-shadow-lg">Preenchida</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-lg shadow-amber-400/50 animate-pulse" />
+                    <span className="text-xl font-bold text-amber-300 drop-shadow-lg">Pendente</span>
+                  </>
+                )}
+              </div>
+              <p className="text-[12px] text-white/70 mt-0.5 font-semibold uppercase tracking-wider">Anamnese inicial</p>
             </div>
-            <div className="flex items-center gap-1.5">
-              {anamnesePreenchida ? (
-                <>
-                  <span className="text-[#059669]"><SvgCheck /></span>
-                  <span className="text-lg font-bold text-[#059669]">Feita</span>
-                </>
-              ) : (
-                <>
-                  <span className="text-[#d97706]"><SvgClock /></span>
-                  <span className="text-lg font-bold text-[#d97706]">Pendente</span>
-                </>
-              )}
-            </div>
-            <p className="text-[11px] text-[#94a3b8] mt-1 font-medium uppercase tracking-wider">Anamnese</p>
           </div>
         </Link>
       </div>
