@@ -3,23 +3,20 @@
 import { useState, useEffect, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 
-interface MatItem {
-  material_id: string;
-  materiais: {
-    id: string;
-    titulo: string;
-    tipo: "pdf" | "video" | "texto" | "arquivo";
-    conteudo: string | null;
-    categoria_id: string;
-    categorias_material: {
-      nome: string;
-    };
+interface MatDirect {
+  id: string;
+  titulo: string;
+  tipo: "pdf" | "video" | "texto" | "arquivo";
+  conteudo: string | null;
+  categoria_id: string;
+  categorias_material: {
+    nome: string;
   };
 }
 
 interface GroupedMat {
   categoria: string;
-  items: MatItem["materiais"][];
+  items: MatDirect[];
 }
 
 const CAT_ICONS: Record<string, string> = {
@@ -58,33 +55,20 @@ export default function MateriaisPacientePage() {
   const loadData = useCallback(async () => {
     setLoading(true);
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+    if (!user) { setLoading(false); return; }
 
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("email")
-      .eq("id", user.id)
-      .single();
-    if (!profile) return;
-
-    const { data: paciente } = await supabase
-      .from("pacientes")
-      .select("id")
-      .eq("email", profile.email)
-      .single();
-    if (!paciente) return;
-
+    // Fetch ALL materials directly — all patients see everything
     const { data } = await supabase
-      .from("materiais_paciente")
-      .select("material_id, materiais(id, titulo, tipo, conteudo, categoria_id, categorias_material(nome))")
-      .eq("paciente_id", paciente.id);
+      .from("materiais")
+      .select("id, titulo, tipo, conteudo, categoria_id, categorias_material(nome)")
+      .order("ordem");
 
     if (data) {
-      const map: Record<string, MatItem["materiais"][]> = {};
-      for (const row of data as unknown as MatItem[]) {
-        const cat = row.materiais?.categorias_material?.nome || "Sem categoria";
+      const map: Record<string, MatDirect[]> = {};
+      for (const row of data as unknown as MatDirect[]) {
+        const cat = row.categorias_material?.nome || "Sem categoria";
         if (!map[cat]) map[cat] = [];
-        map[cat].push(row.materiais);
+        map[cat].push(row);
       }
       const groups = Object.entries(map).map(([categoria, items]) => ({ categoria, items }));
       setGrouped(groups);

@@ -49,9 +49,8 @@ export default function MinhaAreaPage() {
     setAnamnesePreenchida((anamnese?.length || 0) > 0);
 
     const { count } = await supabase
-      .from("materiais_paciente")
-      .select("*", { count: "exact", head: true })
-      .eq("paciente_id", paciente.id);
+      .from("materiais")
+      .select("*", { count: "exact", head: true });
     setTotalMateriais(count || 0);
 
     const { data: medidas } = await supabase

@@ -137,9 +137,14 @@ export default function QuestionarioPacientePage() {
               <div key={bloco} className="mb-5">
                 <h3 className="text-xs font-bold text-[#2563eb] uppercase tracking-wider mb-3">{bloco}</h3>
                 <div className="flex flex-col gap-4">
-                  {perguntas.map((p) => (
+                  {perguntas.map((p) => {
+                    const globalIndex = PERGUNTAS.indexOf(p) + 1;
+                    return (
                     <div key={p.id} className="bg-[#f8fafc] border border-[#e0eaf5] rounded-lg p-4">
-                      <p className="text-sm text-[#0f172a] font-medium mb-2">{p.texto}</p>
+                      <p className="text-sm text-[#0f172a] font-medium mb-2">
+                        <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#2563eb]/10 text-[#2563eb] text-xs font-bold mr-2 shrink-0">{globalIndex}</span>
+                        {p.texto}
+                      </p>
 
                       {p.tipo === "escala" && (
                         <div>
@@ -193,7 +198,8 @@ export default function QuestionarioPacientePage() {
                         />
                       )}
                     </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             );
@@ -244,14 +250,17 @@ export default function QuestionarioPacientePage() {
                       return (
                         <div key={bloco} className="mb-4">
                           <h4 className="text-[10px] font-bold text-[#2563eb] uppercase tracking-wider mb-2">{bloco}</h4>
-                          {perguntas.map((p) => (
+                          {perguntas.map((p) => {
+                            const gIdx = PERGUNTAS.indexOf(p) + 1;
+                            return (
                             <div key={p.id} className="flex justify-between py-1.5 border-b border-[#e0eaf5]/30 last:border-0">
-                              <span className="text-[#475569] text-xs">{p.texto}</span>
+                              <span className="text-[#475569] text-xs"><span className="text-[#2563eb] font-bold mr-1.5">{gIdx}.</span>{p.texto}</span>
                               <span className="text-[#0f172a] text-xs font-semibold ml-4 shrink-0">
                                 {q.respostas![p.id] !== undefined ? String(q.respostas![p.id]) : "—"}
                               </span>
                             </div>
-                          ))}
+                            );
+                          })}
                         </div>
                       );
                     })}

@@ -132,12 +132,20 @@ export default function MateriaisPage() {
       }).eq("id", editMatId);
       if (updErr) { setError("Erro ao atualizar: " + updErr.message); setLoading(false); return; }
     } else {
-      const { error: insErr } = await supabase.from("materiais").insert({
+      const { data: inserted, error: insErr } = await supabase.from("materiais").insert({
         profissional_id: user!.id, categoria_id: selectedCat!,
         titulo: matTitulo.trim(), tipo: matTipo,
         conteudo: conteudoFinal, ordem: catMats.length,
-      });
+      }).select("id").single();
       if (insErr) { setError("Erro ao salvar: " + insErr.message); setLoading(false); return; }
+
+      // Auto-assign ALL patients to new material
+      if (inserted && pacientes.length > 0) {
+        const rows = pacientes.map((p) => ({
+          paciente_id: p.id, material_id: inserted.id,
+        }));
+        await supabase.from("materiais_paciente").insert(rows);
+      }
     }
     setMatModalOpen(false); setLoading(false); setMatFile(null); loadData();
   }
@@ -148,14 +156,11 @@ export default function MateriaisPage() {
     loadData();
   }
 
-  // Liberacao
+  // Liberacao — all patients pre-selected by default
   async function openLibModal(materialId: string) {
     setLibMaterialId(materialId);
-    const { data } = await supabase
-      .from("materiais_paciente")
-      .select("paciente_id")
-      .eq("material_id", materialId);
-    setLibPacientes(new Set((data || []).map((d) => d.paciente_id)));
+    // Pre-select ALL patients (todos liberados por padrão)
+    setLibPacientes(new Set(pacientes.map((p) => p.id)));
     setLibModalOpen(true);
   }
 

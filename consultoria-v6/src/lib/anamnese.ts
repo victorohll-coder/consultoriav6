@@ -30,6 +30,7 @@ export const CAMPOS_ANAMNESE: CampoAnamnese[] = [
   { id: "agua_diaria", label: "Quanta água você bebe por dia?", tipo: "opcao", bloco: "Alimentação Atual", opcoes: ["Menos de 1 litro", "1 a 2 litros", "2 a 3 litros", "Mais de 3 litros"] },
   { id: "alcool", label: "Com que frequência consome bebida alcoólica?", tipo: "opcao", bloco: "Alimentação Atual", opcoes: ["Não bebo", "Socialmente (1-2x mês)", "Semanalmente", "Várias vezes por semana"] },
   { id: "dietas_passadas", label: "Já seguiu alguma dieta ou protocolo alimentar antes? Qual e como foi?", tipo: "textarea", bloco: "Alimentação Atual", placeholder: "Ex: low carb, jejum, cetogênica... Funcionou? Porque parou?" },
+  { id: "nao_come_gosto", label: "Quais alimentos você não come por gosto pessoal? (não por alergia ou intolerância)", tipo: "textarea", bloco: "Alimentação Atual", placeholder: "Ex: beterraba, fígado, quiabo, berinjela..." },
 
   // === BLOCO 4: TREINO E ATIVIDADE FÍSICA ===
   { id: "treina_atualmente", label: "Você treina atualmente?", tipo: "opcao", bloco: "Treino e Atividade Física", opcoes: ["Sim, regularmente", "Sim, mas irregular", "Parei recentemente", "Não treino há muito tempo", "Nunca treinei"] },
@@ -37,6 +38,7 @@ export const CAMPOS_ANAMNESE: CampoAnamnese[] = [
   { id: "frequencia_treino", label: "Quantas vezes por semana treina ou pretende treinar?", tipo: "opcao", bloco: "Treino e Atividade Física", opcoes: ["1 a 2 vezes", "3 a 4 vezes", "5 a 6 vezes", "Todos os dias"] },
   { id: "cardio", label: "Faz ou pretende incluir aeróbico/cardio na rotina?", tipo: "opcao", bloco: "Treino e Atividade Física", opcoes: ["Sim, já faço", "Quero começar", "Não gosto mas posso tentar", "Não pretendo"] },
   { id: "lesoes", label: "Tem alguma lesão, dor ou limitação física que atrapalhe o treino?", tipo: "textarea", bloco: "Treino e Atividade Física", placeholder: "Ex: dor no joelho, hérnia de disco, tendinite..." },
+  { id: "problemas_exercicio", label: "Tem algum problema ao executar algum exercício específico? Qual exercício e descreva o problema.", tipo: "textarea", bloco: "Treino e Atividade Física", placeholder: "Ex: dor no ombro ao fazer supino, desconforto no joelho ao agachar, formigamento ao correr..." },
 
   // === BLOCO 5: ROTINA E BEM-ESTAR ===
   { id: "sono_horas", label: "Quantas horas dorme por noite em média?", tipo: "opcao", bloco: "Rotina e Bem-estar", opcoes: ["Menos de 5h", "5 a 6h", "6 a 7h", "7 a 8h", "Mais de 8h"] },
