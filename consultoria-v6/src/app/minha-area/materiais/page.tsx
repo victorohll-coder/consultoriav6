@@ -142,8 +142,8 @@ export default function MateriaisPacientePage() {
         <div className="w-16 h-16 rounded-2xl bg-[#eff6ff] flex items-center justify-center mx-auto mb-4 text-[#94a3b8]">
           <SvgFolder />
         </div>
-        <p className="text-[#0f172a] font-semibold text-base">Nenhum material disponivel</p>
-        <p className="text-[#94a3b8] text-sm mt-1">Seu nutricionista vai liberar os materiais para voce.</p>
+        <p className="text-[#0f172a] font-semibold text-base">Nenhum material disponível</p>
+        <p className="text-[#94a3b8] text-sm mt-1">Seu nutricionista vai liberar os materiais para você.</p>
       </div>
     );
   }
@@ -250,11 +250,11 @@ export default function MateriaisPacientePage() {
                           onClick={() => setExpandedTexto(expandedTexto === mat.id ? null : mat.id)}
                           className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-white border border-emerald-200 text-sm font-semibold text-emerald-700 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 transition-all duration-200 active-press"
                         >
-                          {expandedTexto === mat.id ? <><SvgX /> Fechar</> : <><SvgBook /> Ler conteudo</>}
+                          {expandedTexto === mat.id ? <><SvgX /> Fechar</> : <><SvgBook /> Ler conteúdo</>}
                         </button>
                         {expandedTexto === mat.id && (
                           <div className="mt-3 bg-[#f8fafc] border border-[#e0eaf5] rounded-xl p-4 text-[#475569] text-sm whitespace-pre-wrap leading-relaxed animate-fade-in-up">
-                            {mat.conteudo || "Sem conteudo."}
+                            {mat.conteudo || "Sem conteúdo."}
                           </div>
                         )}
                       </>

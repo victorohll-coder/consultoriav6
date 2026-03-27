@@ -51,10 +51,10 @@ const icons = {
 };
 
 const navItems = [
-  { href: "/minha-area", label: "Inicio", icon: icons.home, exact: true },
+  { href: "/minha-area", label: "Início", icon: icons.home, exact: true },
   { href: "/minha-area/materiais", label: "Materiais", icon: icons.folder },
   { href: "/minha-area/medidas", label: "Medidas", icon: icons.ruler },
-  { href: "/minha-area/questionario", label: "Questionario", icon: icons.clipboard },
+  { href: "/minha-area/questionario", label: "Questionário", icon: icons.clipboard },
   { href: "/minha-area/anamnese", label: "Anamnese", icon: icons.fileText },
 ];
 
@@ -86,7 +86,7 @@ export default function PatientHeader({ nome, email, nomePaciente }: PatientHead
             <p className="text-white text-[15px] font-semibold tracking-tight">
               {displayName}
             </p>
-            <p className="text-white/30 text-[10px] uppercase tracking-[0.2em] font-medium">Area do Paciente</p>
+            <p className="text-white/30 text-[10px] uppercase tracking-[0.2em] font-medium">Área do Paciente</p>
           </div>
         </div>
         <div className="flex items-center gap-4 relative z-10">

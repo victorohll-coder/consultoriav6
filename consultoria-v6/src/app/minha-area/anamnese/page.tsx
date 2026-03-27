@@ -130,7 +130,7 @@ export default function AnamnesePacientePage() {
           <div>
             <p className="text-emerald-700 text-sm font-semibold">Anamnese preenchida</p>
             <p className="text-[#475569] text-xs mt-0.5">
-              Enviada em {new Date(anamnese.created_at).toLocaleDateString("pt-BR")}. Suas respostas nao podem ser alteradas.
+              Enviada em {new Date(anamnese.created_at).toLocaleDateString("pt-BR")}. Suas respostas não podem ser alteradas.
             </p>
           </div>
         </div>
@@ -152,7 +152,7 @@ export default function AnamnesePacientePage() {
                       {campo.label}
                     </p>
                     <p className="text-sm text-[#0f172a] whitespace-pre-wrap pl-4">
-                      {campo.tipo === "escala" && val ? `${val}/10` : val || <span className="text-[#94a3b8] italic">Nao informado</span>}
+                      {campo.tipo === "escala" && val ? `${val}/10` : val || <span className="text-[#94a3b8] italic">Não informado</span>}
                     </p>
                   </div>
                 );
@@ -174,7 +174,7 @@ export default function AnamnesePacientePage() {
     <div className="animate-fade-in-up">
       <h1 style={{fontFamily:"var(--font-display)"}} className="text-xl font-bold text-[#0f172a] mb-1">Anamnese</h1>
       <p className="text-[#475569] text-sm mb-6">
-        Responda com calma e honestidade. Suas respostas ajudam a montar o melhor plano para voce.
+        Responda com calma e honestidade. Suas respostas ajudam a montar o melhor plano para você.
       </p>
 
       {success && (
@@ -269,7 +269,7 @@ export default function AnamnesePacientePage() {
                 <div className="flex justify-between text-[10px] text-[#94a3b8] font-medium">
                   <span>1 — Pouco</span>
                   <span className="text-[#0f2d52] font-bold text-base">{respostas[campo.id] || 5}</span>
-                  <span>10 — Maximo</span>
+                  <span>10 — Máximo</span>
                 </div>
               </div>
             )}
@@ -295,7 +295,7 @@ export default function AnamnesePacientePage() {
             className="flex-1 flex items-center justify-center gap-2 text-white font-semibold py-3.5 rounded-2xl text-sm transition-all duration-200 shadow-md hover:shadow-lg active-press"
             style={{ background: "linear-gradient(135deg, #0f2d52 0%, #1e3a5f 100%)" }}
           >
-            Proximo <SvgArrowRight />
+            Próximo <SvgArrowRight />
           </button>
         ) : (
           <button

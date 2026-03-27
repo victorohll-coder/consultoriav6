@@ -100,7 +100,7 @@ export default function QuestionarioPacientePage() {
       return val === undefined || val === "" || val === null;
     });
     if (missing.length > 0) {
-      alert(`Responda todas as perguntas obrigatorias. Faltam ${missing.length}.`);
+      alert(`Responda todas as perguntas obrigatórias. Faltam ${missing.length}.`);
       return;
     }
 
@@ -149,7 +149,7 @@ export default function QuestionarioPacientePage() {
 
   return (
     <div>
-      <h1 style={{fontFamily:"var(--font-display)"}} className="text-xl font-bold text-[#0f172a] mb-4 animate-fade-in-up">Questionario</h1>
+      <h1 style={{fontFamily:"var(--font-display)"}} className="text-xl font-bold text-[#0f172a] mb-4 animate-fade-in-up">Questionário</h1>
 
       {/* Success message */}
       {success && (
@@ -158,7 +158,7 @@ export default function QuestionarioPacientePage() {
             <span className="text-emerald-600"><SvgCheck /></span>
             <p className="text-emerald-700 text-sm font-semibold">Respostas enviadas com sucesso!</p>
           </div>
-          <p className="text-[#475569] text-xs mt-1 ml-6">Obrigado por responder. Seu proximo questionario sera em 15 dias.</p>
+          <p className="text-[#475569] text-xs mt-1 ml-6">Obrigado por responder. Seu próximo questionário será em 15 dias.</p>
         </div>
       )}
 
@@ -275,15 +275,15 @@ export default function QuestionarioPacientePage() {
           <div className="w-16 h-16 rounded-2xl bg-[#eff6ff] flex items-center justify-center mx-auto mb-4 text-[#94a3b8]">
             <SvgClipboard />
           </div>
-          <p className="text-[#0f172a] font-semibold text-base">Nenhum questionario disponivel</p>
-          <p className="text-[#94a3b8] text-sm mt-1">Seu proximo questionario sera liberado automaticamente.</p>
+          <p className="text-[#0f172a] font-semibold text-base">Nenhum questionário disponível</p>
+          <p className="text-[#94a3b8] text-sm mt-1">Seu próximo questionário será liberado automaticamente.</p>
         </div>
       )}
 
       {/* Historico */}
       {historico.length > 0 && (
         <div className="mt-6 animate-fade-in-up-d2">
-          <h2 className="text-sm font-bold text-[#0f2d52] mb-3 uppercase tracking-wider">Historico de Respostas</h2>
+          <h2 className="text-sm font-bold text-[#0f2d52] mb-3 uppercase tracking-wider">Histórico de Respostas</h2>
           <div className="flex flex-col gap-2">
             {historico.map((q) => (
               <div key={q.id} className="bg-white border border-[#e0eaf5] rounded-2xl overflow-hidden shadow-sm">

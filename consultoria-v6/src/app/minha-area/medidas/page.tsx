@@ -90,7 +90,7 @@ function MiniChart({ medidas, campo }: { medidas: Medida[]; campo: keyof Medida 
   }, [medidas, campo]);
 
   if (medidas.length < 2) {
-    return <p className="text-[#94a3b8] text-xs text-center py-6">Minimo 2 medidas para grafico.</p>;
+    return <p className="text-[#94a3b8] text-xs text-center py-6">Mínimo 2 medidas para gráfico.</p>;
   }
 
   return <canvas ref={canvasRef} width={400} height={160} className="w-full h-40" />;
@@ -99,7 +99,7 @@ function MiniChart({ medidas, campo }: { medidas: Medida[]; campo: keyof Medida 
 const CAMPOS: { key: keyof Medida; label: string; unit: string }[] = [
   { key: "peso", label: "Peso", unit: "kg" },
   { key: "cintura", label: "Cintura", unit: "cm" },
-  { key: "abdominal", label: "Abdomen", unit: "cm" },
+  { key: "abdominal", label: "Abdômen", unit: "cm" },
   { key: "quadril", label: "Quadril", unit: "cm" },
 ];
 
@@ -163,7 +163,7 @@ export default function MedidasPacientePage() {
             <SvgRuler />
           </div>
           <p className="text-[#0f172a] font-semibold text-base">Nenhuma medida registrada ainda</p>
-          <p className="text-[#94a3b8] text-sm mt-1">Seu nutricionista vai lancar suas medidas.</p>
+          <p className="text-[#94a3b8] text-sm mt-1">Seu nutricionista vai lançar suas medidas.</p>
         </div>
       ) : (
         <>
@@ -187,7 +187,7 @@ export default function MedidasPacientePage() {
           {/* Chart */}
           <div className="bg-white border border-[#e0eaf5] rounded-2xl p-5 mb-4 shadow-sm animate-fade-in-up-d2">
             <h2 className="text-xs font-bold text-[#0f2d52] mb-3 uppercase tracking-wider">
-              Evolucao: {CAMPOS.find((c) => c.key === selectedCampo)?.label}
+              Evolução: {CAMPOS.find((c) => c.key === selectedCampo)?.label}
             </h2>
             <MiniChart medidas={medidas} campo={selectedCampo} />
           </div>
@@ -223,7 +223,7 @@ export default function MedidasPacientePage() {
 
           {/* Historico */}
           <div className="bg-white border border-[#e0eaf5] rounded-2xl p-5 shadow-sm animate-fade-in-up-d4">
-            <h2 className="text-xs font-bold text-[#0f2d52] mb-3 uppercase tracking-wider">Historico</h2>
+            <h2 className="text-xs font-bold text-[#0f2d52] mb-3 uppercase tracking-wider">Histórico</h2>
             <div className="overflow-x-auto">
               <table className="w-full text-xs">
                 <thead>

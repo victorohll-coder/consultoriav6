@@ -131,8 +131,8 @@ export default function MinhaAreaPage() {
                 <SvgClipboard />
               </div>
               <div className="flex-1">
-                <p className="text-[#0f172a] font-bold text-[15px]">Questionario pendente</p>
-                <p className="text-[#475569] text-[12px] mt-0.5">Responda para seu nutricionista acompanhar sua evolucao</p>
+                <p className="text-[#0f172a] font-bold text-[15px]">Questionário pendente</p>
+                <p className="text-[#475569] text-[12px] mt-0.5">Responda para seu nutricionista acompanhar sua evolução</p>
               </div>
               <span className="text-[#2563eb] shrink-0 group-hover:translate-x-1 transition-transform duration-200">
                 <SvgArrowRight />
@@ -184,7 +184,7 @@ export default function MinhaAreaPage() {
               <p className="text-3xl font-bold text-white tracking-tight drop-shadow-lg">
                 {ultimaMedida?.peso ? `${ultimaMedida.peso}kg` : "\u2014"}
               </p>
-              <p className="text-[12px] text-white/70 mt-0.5 font-semibold uppercase tracking-wider">Ultimo peso</p>
+              <p className="text-[12px] text-white/70 mt-0.5 font-semibold uppercase tracking-wider">Último peso</p>
             </div>
           </div>
         </Link>
@@ -207,7 +207,7 @@ export default function MinhaAreaPage() {
                   </>
                 )}
               </div>
-              <p className="text-[12px] text-white/70 mt-0.5 font-semibold uppercase tracking-wider">Questionario quinzenal</p>
+              <p className="text-[12px] text-white/70 mt-0.5 font-semibold uppercase tracking-wider">Questionário quinzenal</p>
             </div>
           </div>
         </Link>
