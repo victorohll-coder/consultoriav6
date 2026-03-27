@@ -12,6 +12,13 @@ interface PatientHeaderProps {
 
 /* SVG Icons — clean, modern, no emojis */
 const icons = {
+  habits: (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="4" width="18" height="18" rx="2"/>
+      <path d="M16 2v4M8 2v4M3 10h18"/>
+      <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/>
+    </svg>
+  ),
   home: (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
@@ -52,6 +59,7 @@ const icons = {
 
 const navItems = [
   { href: "/minha-area", label: "Início", icon: icons.home, exact: true },
+  { href: "/minha-area/habitos", label: "Hábitos", icon: icons.habits },
   { href: "/minha-area/materiais", label: "Materiais", icon: icons.folder },
   { href: "/minha-area/medidas", label: "Medidas", icon: icons.ruler },
   { href: "/minha-area/questionario", label: "Questionário", icon: icons.clipboard },

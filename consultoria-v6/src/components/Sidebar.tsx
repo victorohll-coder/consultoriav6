@@ -11,6 +11,7 @@ const navItems = [
   { href: "/painel/financeiro", label: "Financeiro", icon: "\uD83D\uDCB0" },
   { href: "/painel/protocolos", label: "Protocolos", icon: "\uD83D\uDCCB" },
   { href: "/painel/materiais", label: "Materiais", icon: "\uD83D\uDCC1" },
+  { href: "/painel/habitos", label: "Hábitos", icon: "📅" },
   { href: "/painel/questionarios", label: "Questionários", icon: "\uD83D\uDCCA" },
   { href: "/painel/medidas", label: "Medidas", icon: "\uD83D\uDCCF" },
   { href: "/painel/anamnese", label: "Anamnese", icon: "\uD83D\uDCC4" },
