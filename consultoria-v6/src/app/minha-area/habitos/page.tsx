@@ -13,12 +13,12 @@ const HABITOS: { slug: string; label: string }[] = [
   { slug: "treino",           label: "Treino"              },
   { slug: "cardio",           label: "Cardio"              },
   { slug: "frutas_verduras",  label: "Frutas e verduras"   },
-  { slug: "horas_sono",       label: "Horas de sono"       },
+  { slug: "horas_sono",       label: "Sono reparador"      },
   { slug: "agua",             label: "Quantidade de água"  },
-  { slug: "alcool",           label: "Álcool (evitado)"    },
+  { slug: "alcool",           label: "Sem álcool"          },
   { slug: "suplementacao",    label: "Suplementação"       },
   { slug: "intestino",        label: "Intestino"           },
-  { slug: "refeicao_livre",   label: "Refeição livre"      },
+  { slug: "refeicao_livre",   label: "Sem ref. livre"      },
 ];
 
 const MESES = [
@@ -310,7 +310,10 @@ export default function HabitosPage() {
                       <span className="text-[12px] font-semibold text-[#0f172a] truncate block">{h.label}</span>
                     </td>
                     {dias.map(d => {
-                      const isFuturo = isCurrentMonth && d > hoje.getDate();
+                      const diaHoje = hoje.getDate();
+                      const isFuturo = isCurrentMonth && d > diaHoje;
+                      const isEditavel = isCurrentMonth && (d === diaHoje || d === diaHoje - 1);
+                      const disabled = isFuturo || !isEditavel;
                       const cellKey = `${h.slug}-${d}`;
                       const status = getStatus(h.slug, d);
                       return (
@@ -318,7 +321,7 @@ export default function HabitosPage() {
                           <HabitCell
                             status={status}
                             onClick={() => handleClick(h.slug, d)}
-                            disabled={isFuturo}
+                            disabled={disabled}
                             loading={loadingCell === cellKey}
                           />
                         </td>

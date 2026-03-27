@@ -12,12 +12,12 @@ const HABITOS: { slug: string; label: string }[] = [
   { slug: "treino",           label: "Treino"             },
   { slug: "cardio",           label: "Cardio"             },
   { slug: "frutas_verduras",  label: "Frutas e verduras"  },
-  { slug: "horas_sono",       label: "Horas de sono"      },
+  { slug: "horas_sono",       label: "Sono reparador"     },
   { slug: "agua",             label: "Quantidade de água" },
-  { slug: "alcool",           label: "Álcool (evitado)"   },
+  { slug: "alcool",           label: "Sem álcool"         },
   { slug: "suplementacao",    label: "Suplementação"      },
   { slug: "intestino",        label: "Intestino"          },
-  { slug: "refeicao_livre",   label: "Refeição livre"     },
+  { slug: "refeicao_livre",   label: "Sem ref. livre"     },
 ];
 
 const MESES = [
