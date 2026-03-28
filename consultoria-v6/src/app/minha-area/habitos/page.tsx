@@ -249,7 +249,8 @@ function RankingPreview({ pacienteId, semanaIdx, weeks }: { pacienteId: string; 
       setLoadingRank(false);
     }
     load();
-  }, [pacienteId, semanaIdx, weeks, supabase]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pacienteId, semanaIdx]);
 
   if (loadingRank || (weekRanking.length === 0 && monthRanking.length === 0)) return null;
 

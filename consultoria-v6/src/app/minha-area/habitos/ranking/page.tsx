@@ -118,7 +118,8 @@ export default function RankingPage() {
       setLoading(false);
     }
     load();
-  }, [myId, selectedHabito, periodo, semanaIdx, supabase, ano, mesNum, totalDias, weeks]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [myId, selectedHabito, periodo, semanaIdx]);
 
   const currentWeek = weeks[semanaIdx] || [];
 
