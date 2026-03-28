@@ -175,62 +175,96 @@ function calcStreak(registros: Registro[], hoje: Date): number {
   return streak;
 }
 
-/* ─── Ranking Preview ────────────────────────────────── */
-function RankingPreview({ pacienteId }: { pacienteId: string }) {
+/* ─── Helper: fetch ranking data ─────────────────────── */
+async function fetchRanking(
+  supabase: ReturnType<typeof createClient>,
+  pacienteId: string,
+  diaInicio: string,
+  diaFim: string,
+  totalCelulas: number,
+) {
+  const { data: allRegs } = await supabase
+    .from("habitos_registros").select("paciente_id, status")
+    .gte("dia", diaInicio).lte("dia", diaFim).eq("status", 1);
+  if (!allRegs || allRegs.length === 0) return { ranked: [], myPos: 0 };
+
+  const byPaciente: Record<string, number> = {};
+  allRegs.forEach((r: { paciente_id: string }) => { byPaciente[r.paciente_id] = (byPaciente[r.paciente_id] || 0) + 1; });
+  const ids = Object.keys(byPaciente);
+  const { data: profiles } = await supabase.from("profiles").select("id, email").in("id", ids);
+  const emails = profiles?.map(p => p.email) || [];
+  const { data: pacientesData } = await supabase.from("pacientes").select("nome, email").in("email", emails);
+  const emailToName: Record<string, string> = {};
+  pacientesData?.forEach((p: { nome: string; email: string }) => { emailToName[p.email] = p.nome; });
+
+  const ranked = ids.map(id => {
+    const pontuacao = (byPaciente[id] / totalCelulas) * 10;
+    const profile = profiles?.find(p => p.id === id);
+    const nome = profile ? (emailToName[profile.email] || profile.email.split("@")[0]) : "Anônimo";
+    const nArr = nome.split(" ");
+    return { nome: nArr.length > 1 ? `${nArr[0]} ${nArr[1][0]}.` : nArr[0], pontuacao, isMe: id === pacienteId };
+  }).sort((a, b) => b.pontuacao - a.pontuacao);
+
+  return { ranked: ranked.slice(0, 5), myPos: ranked.findIndex(r => r.isMe) + 1 };
+}
+
+/* ─── Ranking Preview (com abas semanal/mensal) ──────── */
+function RankingPreview({ pacienteId, semanaIdx, weeks }: { pacienteId: string; semanaIdx: number; weeks: number[][] }) {
   const supabase = createClient();
-  const [ranking, setRanking] = useState<{ nome: string; pontuacao: number; isMe: boolean }[]>([]);
-  const [myPos, setMyPos] = useState(0);
+  type RankEntry = { nome: string; pontuacao: number; isMe: boolean };
+  const [tab, setTab] = useState<"semanal" | "mensal">("semanal");
+  const [weekRanking, setWeekRanking] = useState<RankEntry[]>([]);
+  const [monthRanking, setMonthRanking] = useState<RankEntry[]>([]);
+  const [weekPos, setWeekPos] = useState(0);
+  const [monthPos, setMonthPos] = useState(0);
   const [loadingRank, setLoadingRank] = useState(true);
 
   useEffect(() => {
     async function load() {
+      setLoadingRank(true);
       const hoje = new Date();
       const ano = hoje.getFullYear();
       const mesNum = hoje.getMonth() + 1;
       const mesStr = pad(mesNum);
       const totalDias = diasNoMes(ano, mesNum);
-      const ultimoDia = pad(totalDias);
-      const { data: allRegs } = await supabase
-        .from("habitos_registros").select("paciente_id, status")
-        .gte("dia", `${ano}-${mesStr}-01`).lte("dia", `${ano}-${mesStr}-${ultimoDia}`).eq("status", 1);
-      if (!allRegs || allRegs.length === 0) { setLoadingRank(false); return; }
 
-      const byPaciente: Record<string, number> = {};
-      allRegs.forEach((r: { paciente_id: string }) => { byPaciente[r.paciente_id] = (byPaciente[r.paciente_id] || 0) + 1; });
-      const totalCelulas = HABITOS.length * totalDias;
-      const ids = Object.keys(byPaciente);
-      const { data: profiles } = await supabase.from("profiles").select("id, email").in("id", ids);
-      const emails = profiles?.map(p => p.email) || [];
-      const { data: pacientesData } = await supabase.from("pacientes").select("nome, email").in("email", emails);
-      const emailToName: Record<string, string> = {};
-      pacientesData?.forEach((p: { nome: string; email: string }) => { emailToName[p.email] = p.nome; });
+      // Monthly
+      const monthResult = await fetchRanking(supabase, pacienteId,
+        `${ano}-${mesStr}-01`, `${ano}-${mesStr}-${pad(totalDias)}`,
+        HABITOS.length * totalDias);
+      setMonthRanking(monthResult.ranked);
+      setMonthPos(monthResult.myPos);
 
-      const ranked = ids.map(id => {
-        const pontuacao = (byPaciente[id] / totalCelulas) * 10;
-        const profile = profiles?.find(p => p.id === id);
-        const nome = profile ? (emailToName[profile.email] || profile.email.split("@")[0]) : "Anônimo";
-        const nArr = nome.split(" ");
-        return { nome: nArr.length > 1 ? `${nArr[0]} ${nArr[1][0]}.` : nArr[0], pontuacao, isMe: id === pacienteId };
-      }).sort((a, b) => b.pontuacao - a.pontuacao);
+      // Weekly
+      const weekDays = weeks[semanaIdx] || [];
+      if (weekDays.length > 0) {
+        const weekResult = await fetchRanking(supabase, pacienteId,
+          `${ano}-${mesStr}-${pad(weekDays[0])}`,
+          `${ano}-${mesStr}-${pad(weekDays[weekDays.length - 1])}`,
+          HABITOS.length * weekDays.length);
+        setWeekRanking(weekResult.ranked);
+        setWeekPos(weekResult.myPos);
+      }
 
-      setRanking(ranked.slice(0, 5));
-      setMyPos(ranked.findIndex(r => r.isMe) + 1);
       setLoadingRank(false);
     }
     load();
-  }, [pacienteId, supabase]);
+  }, [pacienteId, semanaIdx, weeks, supabase]);
 
-  if (loadingRank || ranking.length === 0) return null;
+  if (loadingRank || (weekRanking.length === 0 && monthRanking.length === 0)) return null;
+
+  const ranking = tab === "semanal" ? weekRanking : monthRanking;
+  const myPos = tab === "semanal" ? weekPos : monthPos;
 
   return (
     <div className="bg-white border border-[#e0eaf5] rounded-2xl overflow-hidden shadow-sm animate-fade-in-up-d2 mb-4">
       {/* Header com imagem */}
-      <div className="relative h-16 overflow-hidden" style={{ background: "linear-gradient(135deg, #0a1e3d 0%, #0f2d52 40%, #1a4975 100%)" }}>
+      <div className="relative h-14 overflow-hidden" style={{ background: "linear-gradient(135deg, #0a1e3d 0%, #0f2d52 40%, #1a4975 100%)" }}>
         <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "url('/cards/peso.jpg')", backgroundSize: "cover", backgroundPosition: "center" }} />
         <div className="relative z-10 flex items-center justify-between h-full px-4">
           <div className="flex items-center gap-2 text-white">
             <SvgTrophy />
-            <span className="text-xs font-bold uppercase tracking-wider">Ranking do mês</span>
+            <span className="text-xs font-bold uppercase tracking-wider">Ranking</span>
           </div>
           {myPos > 0 && (
             <span className="text-[11px] font-bold text-[#c8a96e] bg-white/10 backdrop-blur-sm px-2.5 py-1 rounded-lg">
@@ -239,25 +273,46 @@ function RankingPreview({ pacienteId }: { pacienteId: string }) {
           )}
         </div>
       </div>
-      <div className="p-3 flex flex-col gap-1">
-        {ranking.map((r, i) => (
-          <div key={i} className={`flex items-center justify-between px-3 py-2 rounded-xl ${r.isMe ? "bg-[#0f2d52]/5 border border-[#0f2d52]/10" : ""}`}>
-            <div className="flex items-center gap-2.5">
-              <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black ${
-                i === 0 ? "bg-amber-100 text-amber-700" : i === 1 ? "bg-gray-100 text-gray-500" : i === 2 ? "bg-orange-100 text-orange-600" : "text-[#94a3b8]"
-              }`}>
-                {i + 1}
+
+      {/* Tabs */}
+      <div className="flex border-b border-[#e0eaf5]">
+        <button
+          onClick={() => setTab("semanal")}
+          className={`flex-1 py-2.5 text-[11px] font-bold transition-all ${tab === "semanal" ? "text-[#0f2d52] border-b-2 border-[#c8a96e]" : "text-[#94a3b8] hover:text-[#475569]"}`}
+        >
+          Semanal
+        </button>
+        <button
+          onClick={() => setTab("mensal")}
+          className={`flex-1 py-2.5 text-[11px] font-bold transition-all ${tab === "mensal" ? "text-[#0f2d52] border-b-2 border-[#c8a96e]" : "text-[#94a3b8] hover:text-[#475569]"}`}
+        >
+          Mensal
+        </button>
+      </div>
+
+      {ranking.length === 0 ? (
+        <div className="p-4 text-center">
+          <p className="text-[12px] text-[#94a3b8]">Sem dados {tab === "semanal" ? "nesta semana" : "neste mês"} ainda</p>
+        </div>
+      ) : (
+        <div className="p-3 flex flex-col gap-1">
+          {ranking.map((r, i) => (
+            <div key={i} className={`flex items-center justify-between px-3 py-2 rounded-xl ${r.isMe ? "bg-[#0f2d52]/5 border border-[#0f2d52]/10" : ""}`}>
+              <div className="flex items-center gap-2.5">
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black ${
+                  i === 0 ? "bg-amber-100 text-amber-700" : i === 1 ? "bg-gray-100 text-gray-500" : i === 2 ? "bg-orange-100 text-orange-600" : "text-[#94a3b8]"
+                }`}>{i + 1}</div>
+                <span className={`text-[13px] font-semibold ${r.isMe ? "text-[#0f2d52]" : "text-[#475569]"}`}>
+                  {r.isMe ? `${r.nome} (você)` : r.nome}
+                </span>
               </div>
-              <span className={`text-[13px] font-semibold ${r.isMe ? "text-[#0f2d52]" : "text-[#475569]"}`}>
-                {r.isMe ? `${r.nome} (você)` : r.nome}
+              <span className={`text-[13px] font-black ${r.pontuacao >= 7 ? "text-[#1D9E75]" : r.pontuacao >= 4 ? "text-[#D4AC0D]" : "text-[#E24B4A]"}`}>
+                {r.pontuacao.toFixed(1)}
               </span>
             </div>
-            <span className={`text-[13px] font-black ${r.pontuacao >= 7 ? "text-[#1D9E75]" : r.pontuacao >= 4 ? "text-[#D4AC0D]" : "text-[#E24B4A]"}`}>
-              {r.pontuacao.toFixed(1)}
-            </span>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
       <Link href="/minha-area/habitos/ranking" className="block text-center text-[11px] text-[#c8a96e] font-bold py-2.5 border-t border-[#e0eaf5] hover:bg-[#fafbfc] transition-colors">
         Ver ranking completo →
       </Link>
@@ -395,6 +450,16 @@ export default function HabitosPage() {
   const streak = calcStreak(allTimeRegistros, hoje);
   const scoreColor = score >= 7 ? "#1D9E75" : score >= 4 ? "#D4AC0D" : "#E24B4A";
 
+  /* Weekly score */
+  const weekCelulas = HABITOS.length * currentWeekDays.length;
+  const weekFeitos = currentWeekDays.reduce((sum, d) => {
+    const dStr = `${ano}-${pad(mes)}-${pad(d)}`;
+    return sum + registros.filter(r => r.dia === dStr && r.status === 1).length;
+  }, 0);
+  const weekScore = weekCelulas > 0 ? (weekFeitos / weekCelulas) * 10 : 0;
+  const weekPct = weekCelulas > 0 ? Math.round((weekFeitos / weekCelulas) * 100) : 0;
+  const weekScoreColor = weekScore >= 7 ? "#1D9E75" : weekScore >= 4 ? "#D4AC0D" : "#E24B4A";
+
   /* Day resume */
   const hojeStr = `${hoje.getFullYear()}-${pad(hoje.getMonth() + 1)}-${pad(hoje.getDate())}`;
   const feitosHoje = registros.filter(r => r.dia === hojeStr && r.status === 1).length;
@@ -482,17 +547,36 @@ export default function HabitosPage() {
         </div>
       )}
 
-      {/* ─── Progresso mensal ──────────────────────────── */}
+      {/* ─── Progresso semanal + mensal ─────────────────── */}
       {!loading && (
-        <div className="bg-white border border-[#e0eaf5] rounded-2xl p-4 mb-3 shadow-sm">
-          <div className="flex items-center justify-between mb-2">
-            <p className="text-[10px] font-bold text-[#94a3b8] uppercase tracking-wider">Progresso mensal</p>
-            {recorde > 0 && <p className="text-[10px] text-[#c8a96e] font-bold">Recorde: {recorde.toFixed(1)}</p>}
+        <div className="grid grid-cols-2 gap-2.5 mb-3">
+          {/* Semanal */}
+          <div className="bg-white border border-[#e0eaf5] rounded-2xl p-3.5 shadow-sm">
+            <p className="text-[9px] font-bold text-[#94a3b8] uppercase tracking-wider mb-2">Semana {semanaIdx + 1}</p>
+            <div className="flex items-end gap-1 mb-2">
+              <span className="text-2xl font-black" style={{ color: weekScoreColor, fontFamily: "var(--font-display)" }}>{weekScore.toFixed(1)}</span>
+              <span className="text-[#94a3b8] text-xs font-semibold mb-0.5">/10</span>
+            </div>
+            <div className="w-full bg-[#f1f3f5] rounded-full h-1.5 mb-1">
+              <div className="h-1.5 rounded-full transition-all duration-500" style={{ width: `${weekPct}%`, backgroundColor: weekScoreColor }} />
+            </div>
+            <p className="text-[9px] text-[#94a3b8]">{weekFeitos}/{weekCelulas} ({weekPct}%)</p>
           </div>
-          <div className="w-full bg-[#f1f3f5] rounded-full h-2 mb-1.5">
-            <div className="h-2 rounded-full transition-all duration-700" style={{ width: `${pct}%`, backgroundColor: scoreColor }} />
+          {/* Mensal */}
+          <div className="bg-white border border-[#e0eaf5] rounded-2xl p-3.5 shadow-sm">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-[9px] font-bold text-[#94a3b8] uppercase tracking-wider">Mês</p>
+              {recorde > 0 && <p className="text-[8px] text-[#c8a96e] font-bold">Rec: {recorde.toFixed(1)}</p>}
+            </div>
+            <div className="flex items-end gap-1 mb-2">
+              <span className="text-2xl font-black" style={{ color: scoreColor, fontFamily: "var(--font-display)" }}>{score.toFixed(1)}</span>
+              <span className="text-[#94a3b8] text-xs font-semibold mb-0.5">/10</span>
+            </div>
+            <div className="w-full bg-[#f1f3f5] rounded-full h-1.5 mb-1">
+              <div className="h-1.5 rounded-full transition-all duration-500" style={{ width: `${pct}%`, backgroundColor: scoreColor }} />
+            </div>
+            <p className="text-[9px] text-[#94a3b8]">{totalFeitos}/{totalCelulas} ({pct}%)</p>
           </div>
-          <p className="text-[10px] text-[#94a3b8]">{totalFeitos} de {totalCelulas} hábitos cumpridos ({pct}%)</p>
         </div>
       )}
 
@@ -519,7 +603,7 @@ export default function HabitosPage() {
       )}
 
       {/* ─── Ranking ──────────────────────────────────── */}
-      {!loading && pacienteId && isCurrentMonth && <RankingPreview pacienteId={pacienteId} />}
+      {!loading && pacienteId && isCurrentMonth && <RankingPreview pacienteId={pacienteId} semanaIdx={semanaIdx} weeks={weeks} />}
 
       {/* ─── Grid de hábitos — semana a semana ────────── */}
       {loading ? (
