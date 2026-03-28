@@ -143,7 +143,7 @@ function HabitCell({ status, onClick, disabled, loading }: {
 
   let cls = "bg-[#f1f3f5] border-transparent text-transparent";
   let icon: React.ReactNode = null;
-  if (status === 1) { cls = "bg-[#1D9E75] border-[#1D9E75] text-white shadow-sm shadow-emerald-200/50"; icon = <SvgCheck size={10} />; }
+  if (status === 1) { cls = "bg-[#1D9E75] border-[#1D9E75] text-white shadow-sm shadow-emerald-200/50"; icon = <SvgCheck size={14} />; }
   else if (status === -1) { cls = "bg-[#E24B4A] border-[#E24B4A] text-white shadow-sm shadow-red-200/50"; icon = <SvgX />; }
   if (disabled) cls += " !opacity-30 cursor-not-allowed";
 
@@ -151,7 +151,7 @@ function HabitCell({ status, onClick, disabled, loading }: {
     <button
       onClick={handleClick}
       disabled={disabled || loading}
-      className={`w-full aspect-square max-w-[28px] rounded-[5px] border flex items-center justify-center transition-all duration-100 ${cls} ${!disabled ? "hover:brightness-110 active:scale-90" : ""} ${pop ? "scale-[1.3]" : ""}`}
+      className={`w-[34px] h-[34px] min-w-[34px] rounded-lg border flex items-center justify-center transition-all duration-100 ${cls} ${!disabled ? "hover:brightness-110 active:scale-90" : ""} ${pop ? "scale-[1.3]" : ""}`}
       style={{ transition: "transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1)" }}
     >
       {loading ? (
@@ -282,6 +282,7 @@ export default function HabitosPage() {
   const [showConfetti, setShowConfetti] = useState(false);
   const [recorde, setRecorde] = useState(0);
   const prevFeitosRef = useRef(0);
+  const [semanaIdx, setSemanaIdx] = useState(0); // which week chunk to show
 
   const totalDias = diasNoMes(ano, mes);
   const dias = Array.from({ length: totalDias }, (_, i) => i + 1);
@@ -364,6 +365,28 @@ export default function HabitosPage() {
   function prevMes() { if (mes === 1) { setMes(12); setAno(a => a - 1); } else setMes(m => m - 1); }
   function nextMes() { const n = new Date(ano, mes, 1); if (n > hoje) return; if (mes === 12) { setMes(1); setAno(a => a + 1); } else setMes(m => m + 1); }
   const isCurrentMonth = mes === hoje.getMonth() + 1 && ano === hoje.getFullYear();
+
+  /* Split days into weeks of 7 */
+  const weeks: number[][] = [];
+  for (let i = 0; i < totalDias; i += 7) {
+    weeks.push(dias.slice(i, Math.min(i + 7, totalDias)));
+  }
+  const totalWeeks = weeks.length;
+
+  /* Auto-set to current week when current month */
+  useEffect(() => {
+    if (isCurrentMonth) {
+      const currentWeekIdx = Math.floor((hoje.getDate() - 1) / 7);
+      setSemanaIdx(currentWeekIdx);
+    } else {
+      setSemanaIdx(0);
+    }
+  }, [mes, ano, isCurrentMonth]);
+
+  const currentWeekDays = weeks[semanaIdx] || weeks[0] || [];
+  const weekStart = currentWeekDays[0];
+  const weekEnd = currentWeekDays[currentWeekDays.length - 1];
+  const DIAS_SEMANA_NOMES = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
 
   const totalCelulas = HABITOS.length * totalDias;
   const totalFeitos = registros.filter(r => r.status === 1).length;
@@ -498,68 +521,117 @@ export default function HabitosPage() {
       {/* ─── Ranking ──────────────────────────────────── */}
       {!loading && pacienteId && isCurrentMonth && <RankingPreview pacienteId={pacienteId} />}
 
-      {/* ─── Grid de hábitos (responsivo, sem scroll) ── */}
+      {/* ─── Grid de hábitos — semana a semana ────────── */}
       {loading ? (
         <div className="flex flex-col gap-2">{[1,2,3,4].map(i => <div key={i} className="h-10 shimmer rounded-xl" />)}</div>
       ) : (
         <div className="bg-white border border-[#e0eaf5] rounded-2xl shadow-sm overflow-hidden animate-fade-in-up-d1">
-          {/* Dias header */}
-          <div className="grid border-b border-[#e0eaf5]" style={{ gridTemplateColumns: `80px repeat(${totalDias}, 1fr)` }}>
-            <div className="px-2 py-2 border-r border-[#e0eaf5]">
-              <span className="text-[8px] font-bold text-[#94a3b8] uppercase tracking-wider">Hábito</span>
+          {/* Week navigator */}
+          <div className="flex items-center justify-between px-4 py-3 border-b border-[#e0eaf5] bg-[#fafbfc]">
+            <button
+              onClick={() => setSemanaIdx(s => Math.max(0, s - 1))}
+              disabled={semanaIdx === 0}
+              className={`w-8 h-8 rounded-lg bg-white border border-[#e0eaf5] flex items-center justify-center transition-all active:scale-95 ${semanaIdx === 0 ? "opacity-30 cursor-not-allowed" : "text-[#475569] hover:bg-[#f1f5f9]"}`}
+            >
+              <SvgChevronLeft />
+            </button>
+            <div className="text-center">
+              <p className="text-[13px] font-bold text-[#0f172a]">
+                Dias {weekStart} — {weekEnd}
+              </p>
+              <p className="text-[10px] text-[#94a3b8] font-medium">
+                Semana {semanaIdx + 1} de {totalWeeks}
+              </p>
             </div>
-            {dias.map(d => (
-              <div key={d} className="flex items-center justify-center py-2">
-                <span className={`text-[8px] font-bold ${isCurrentMonth && d === hoje.getDate() ? "text-[#c8a96e] bg-[#c8a96e]/10 w-5 h-5 rounded-full flex items-center justify-center" : "text-[#b0bcc8]"}`}>
-                  {d}
-                </span>
-              </div>
+            <button
+              onClick={() => setSemanaIdx(s => Math.min(totalWeeks - 1, s + 1))}
+              disabled={semanaIdx >= totalWeeks - 1}
+              className={`w-8 h-8 rounded-lg bg-white border border-[#e0eaf5] flex items-center justify-center transition-all active:scale-95 ${semanaIdx >= totalWeeks - 1 ? "opacity-30 cursor-not-allowed" : "text-[#475569] hover:bg-[#f1f5f9]"}`}
+            >
+              <SvgChevronRight />
+            </button>
+          </div>
+
+          {/* Week dots indicator */}
+          <div className="flex items-center justify-center gap-1.5 py-2 border-b border-[#f0f3f6]">
+            {weeks.map((_, wi) => (
+              <button
+                key={wi}
+                onClick={() => setSemanaIdx(wi)}
+                className={`w-2 h-2 rounded-full transition-all ${wi === semanaIdx ? "bg-[#0f2d52] scale-125" : "bg-[#dde3ea] hover:bg-[#b0bcc8]"}`}
+              />
             ))}
           </div>
 
-          {/* Rows */}
-          {HABITOS.map((h, idx) => (
-            <div
-              key={h.slug}
-              className={`grid ${idx < HABITOS.length - 1 ? "border-b border-[#f0f3f6]" : ""}`}
-              style={{ gridTemplateColumns: `80px repeat(${totalDias}, 1fr)` }}
-            >
-              <div className={`px-2 py-1.5 border-r border-[#f0f3f6] flex items-center ${idx % 2 === 0 ? "bg-white" : "bg-[#fafbfc]"}`}>
-                <span className="text-[10px] font-semibold text-[#0f172a] leading-tight">{h.short}</span>
-              </div>
-              {dias.map(d => {
-                const diaHoje = hoje.getDate();
-                const isFuturo = isCurrentMonth && d > diaHoje;
-                const isEditavel = isCurrentMonth && (d === diaHoje || d === diaHoje - 1);
-                const disabled = isFuturo || !isEditavel;
-                const status = getStatus(h.slug, d);
-                return (
-                  <div key={d} className={`flex items-center justify-center p-[2px] ${idx % 2 === 0 ? "bg-white" : "bg-[#fafbfc]"}`}>
-                    <HabitCell
-                      status={status}
-                      onClick={() => handleClick(h.slug, d)}
-                      disabled={disabled}
-                      loading={loadingCell === `${h.slug}-${d}`}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          ))}
+          {/* Table */}
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse" style={{ minWidth: 420 }}>
+              <thead>
+                <tr className="border-b border-[#e0eaf5]">
+                  <th className="sticky left-0 bg-white z-10 min-w-[110px] w-[110px] text-left px-4 py-3 border-r border-[#e0eaf5]">
+                    <span className="text-[10px] font-bold text-[#94a3b8] uppercase tracking-wider">Hábito</span>
+                  </th>
+                  {currentWeekDays.map(d => {
+                    const dayDate = new Date(ano, mes - 1, d);
+                    const dayName = DIAS_SEMANA_NOMES[dayDate.getDay()];
+                    const isToday = isCurrentMonth && d === hoje.getDate();
+                    return (
+                      <th key={d} className="px-1 py-3 text-center min-w-[42px]">
+                        <div className={`flex flex-col items-center gap-0.5 ${isToday ? "text-[#c8a96e]" : "text-[#94a3b8]"}`}>
+                          <span className="text-[9px] font-bold uppercase">{dayName}</span>
+                          <span className={`text-[12px] font-black ${isToday ? "bg-[#c8a96e] text-white w-6 h-6 rounded-full flex items-center justify-center" : ""}`}>
+                            {d}
+                          </span>
+                        </div>
+                      </th>
+                    );
+                  })}
+                </tr>
+              </thead>
+              <tbody>
+                {HABITOS.map((h, idx) => (
+                  <tr key={h.slug} className={idx % 2 === 0 ? "bg-white" : "bg-[#fafbfc]"}>
+                    <td className={`sticky left-0 z-10 min-w-[110px] w-[110px] px-4 py-2.5 border-r border-[#f0f3f6] ${idx % 2 === 0 ? "bg-white" : "bg-[#fafbfc]"}`}>
+                      <span className="text-[12px] font-semibold text-[#0f172a] leading-tight block">{h.label}</span>
+                    </td>
+                    {currentWeekDays.map(d => {
+                      const diaHoje = hoje.getDate();
+                      const isFuturo = isCurrentMonth && d > diaHoje;
+                      const isEditavel = isCurrentMonth && (d === diaHoje || d === diaHoje - 1);
+                      const disabled = isFuturo || !isEditavel;
+                      const status = getStatus(h.slug, d);
+                      return (
+                        <td key={d} className="px-1 py-2 text-center">
+                          <div className="flex justify-center">
+                            <HabitCell
+                              status={status}
+                              onClick={() => handleClick(h.slug, d)}
+                              disabled={disabled}
+                              loading={loadingCell === `${h.slug}-${d}`}
+                            />
+                          </div>
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
           {/* Legenda */}
-          <div className="flex items-center gap-3 px-3 py-2.5 border-t border-[#e0eaf5] bg-[#fafbfc]">
-            <div className="flex items-center gap-1">
-              <div className="w-4 h-4 rounded-[4px] bg-[#1D9E75]" />
-              <span className="text-[9px] text-[#475569] font-medium">Feito</span>
+          <div className="flex items-center gap-3 px-4 py-2.5 border-t border-[#e0eaf5] bg-[#fafbfc]">
+            <div className="flex items-center gap-1.5">
+              <div className="w-4 h-4 rounded-[5px] bg-[#1D9E75]" />
+              <span className="text-[10px] text-[#475569] font-medium">Feito</span>
             </div>
-            <div className="flex items-center gap-1">
-              <div className="w-4 h-4 rounded-[4px] bg-[#E24B4A]" />
-              <span className="text-[9px] text-[#475569] font-medium">Não feito</span>
+            <div className="flex items-center gap-1.5">
+              <div className="w-4 h-4 rounded-[5px] bg-[#E24B4A]" />
+              <span className="text-[10px] text-[#475569] font-medium">Não feito</span>
             </div>
-            <div className="flex items-center gap-1">
-              <div className="w-4 h-4 rounded-[4px] bg-[#f1f3f5]" />
-              <span className="text-[9px] text-[#475569] font-medium">Vazio</span>
+            <div className="flex items-center gap-1.5">
+              <div className="w-4 h-4 rounded-[5px] bg-[#f1f3f5]" />
+              <span className="text-[10px] text-[#475569] font-medium">Vazio</span>
             </div>
           </div>
         </div>
