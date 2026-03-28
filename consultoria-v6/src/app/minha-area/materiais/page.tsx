@@ -91,10 +91,12 @@ export default function MateriaisPacientePage() {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) { setLoading(false); return; }
 
-    const { data } = await supabase
+    const { data, error: matErr } = await supabase
       .from("materiais")
       .select("id, titulo, tipo, conteudo, categoria_id, categorias_material(nome)")
       .order("ordem");
+
+    if (matErr) { console.error("Erro ao buscar materiais:", matErr); }
 
     if (data) {
       const map: Record<string, MatDirect[]> = {};

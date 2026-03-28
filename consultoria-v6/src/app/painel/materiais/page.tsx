@@ -110,7 +110,12 @@ export default function MateriaisPage() {
     if (matTipo === "arquivo" && matFile) {
       setUploading(true);
       const ext = matFile.name.split(".").pop() || "bin";
-      const path = `materiais/${user!.id}/${Date.now()}_${matFile.name}`;
+      // Sanitize filename: remove spaces, accents, special chars
+      const safeName = matFile.name
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z0-9._-]/g, "_")
+        .replace(/_+/g, "_");
+      const path = `materiais/${user!.id}/${Date.now()}_${safeName}`;
       const { error: upErr } = await supabase.storage.from("materiais").upload(path, matFile, { upsert: true });
       if (upErr) {
         // If bucket doesn't exist, try creating it
