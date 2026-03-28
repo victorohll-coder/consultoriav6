@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { DM_Sans, DM_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 
 const dmSans = DM_Sans({
   variable: "--font-sans",
@@ -22,18 +21,18 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Consultoria V6",
-  description: "Sistema de Gestão Nutricional",
+  title: "Consultoria V8",
+  description: "Sistema de Gestao Nutricional",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "ConsV6",
+    title: "Protocolo V8",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#1e40af",
+  themeColor: "#1E3A5F",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -52,7 +51,6 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen font-sans antialiased">
         {children}
-        <ServiceWorkerRegister />
       </body>
     </html>
   );

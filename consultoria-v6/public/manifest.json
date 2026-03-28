@@ -1,11 +1,11 @@
 {
-  "name": "Consultoria V6",
-  "short_name": "ConsV6",
+  "name": "Consultoria V8",
+  "short_name": "Protocolo V8",
   "description": "Sistema de Gestao Nutricional",
   "start_url": "/login",
   "display": "standalone",
-  "background_color": "#0e1117",
-  "theme_color": "#3b82f6",
+  "background_color": "#FFFFFF",
+  "theme_color": "#1E3A5F",
   "orientation": "portrait-primary",
   "icons": [
     {
