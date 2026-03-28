@@ -181,7 +181,8 @@ async function fetchRanking(
 ) {
   const { data: allRegs } = await supabase
     .from("habitos_registros").select("paciente_id, status")
-    .gte("dia", diaInicio).lte("dia", diaFim).eq("status", 1);
+    .gte("dia", diaInicio).lte("dia", diaFim).eq("status", 1)
+    .in("habito", HABITOS.map(h => h.slug));
   if (!allRegs || allRegs.length === 0) return { ranked: [], myPos: 0 };
 
   const byPaciente: Record<string, number> = {};
@@ -347,7 +348,8 @@ export default function HabitosPage() {
     const mesStr = pad(mes); const ultimoDia = pad(totalDias);
     const { data } = await supabase.from("habitos_registros").select("habito, dia, status")
       .eq("paciente_id", pacienteId).gte("dia", `${ano}-${mesStr}-01`).lte("dia", `${ano}-${mesStr}-${ultimoDia}`);
-    const regs = (data as Registro[]) || [];
+    const slugsValidos = new Set(HABITOS.map(h => h.slug));
+    const regs = ((data as Registro[]) || []).filter(r => slugsValidos.has(r.habito));
     setRegistros(regs);
     prevFeitosRef.current = regs.filter(r => r.status === 1).length;
     setLoading(false);
@@ -359,7 +361,10 @@ export default function HabitosPage() {
     if (!pacienteId) return;
     supabase.from("habitos_registros").select("habito, dia, status").eq("paciente_id", pacienteId)
       .order("dia", { ascending: false }).limit(1000)
-      .then(({ data }) => { setAllTimeRegistros((data as Registro[]) || []); });
+      .then(({ data }) => {
+        const slugsValidos = new Set(HABITOS.map(h => h.slug));
+        setAllTimeRegistros(((data as Registro[]) || []).filter(r => slugsValidos.has(r.habito)));
+      });
   }, [pacienteId, registros, supabase]);
 
   useEffect(() => {

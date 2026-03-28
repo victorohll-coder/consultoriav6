@@ -84,6 +84,7 @@ export default function RankingPage() {
         .eq("status", 1);
 
       if (selectedHabito) query = query.eq("habito", selectedHabito);
+      else query = query.in("habito", HABITOS.map(h => h.slug));
 
       const { data: allRegs } = await query;
       if (!allRegs || allRegs.length === 0) { setRanking([]); setLoading(false); return; }

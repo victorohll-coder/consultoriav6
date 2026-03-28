@@ -115,7 +115,8 @@ export default function HabitosPainelPage() {
     const { data: allRegs } = await supabase
       .from("habitos_registros")
       .select("paciente_id, status")
-      .gte("dia", diaInicio).lte("dia", diaFim).eq("status", 1);
+      .gte("dia", diaInicio).lte("dia", diaFim).eq("status", 1)
+      .in("habito", HABITOS.map(h => h.slug));
 
     if (!allRegs || allRegs.length === 0) { setRanking([]); setLoadingRanking(false); return; }
 
@@ -181,7 +182,8 @@ export default function HabitosPainelPage() {
       .eq("paciente_id", profile.id)
       .gte("dia", `${ano}-${mesStr}-01`).lte("dia", `${ano}-${mesStr}-${ultimoDia}`);
 
-    setRegistros((data as Registro[]) || []);
+    const slugsValidos = new Set(HABITOS.map(h => h.slug));
+    setRegistros(((data as Registro[]) || []).filter(r => slugsValidos.has(r.habito)));
     setLoading(false);
   }, [selectedPaciente, pacientes, mes, ano, totalDias, supabase]);
 
