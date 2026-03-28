@@ -13,12 +13,8 @@ const HABITOS: { slug: string; label: string; short: string }[] = [
   { slug: "plano_alimentar",  label: "Plano alimentar",   short: "Plano" },
   { slug: "treino",           label: "Treino",             short: "Treino" },
   { slug: "cardio",           label: "Cardio",             short: "Cardio" },
-  { slug: "frutas_verduras",  label: "Frutas e verduras",  short: "Frutas" },
-  { slug: "horas_sono",       label: "Sono reparador",     short: "Sono" },
-  { slug: "agua",             label: "Qtd. de água",       short: "Água" },
+  { slug: "agua",             label: "3L de água",         short: "Água" },
   { slug: "alcool",           label: "Sem álcool",         short: "S/álcool" },
-  { slug: "suplementacao",    label: "Suplementação",      short: "Suplem." },
-  { slug: "intestino",        label: "Intestino",          short: "Intest." },
   { slug: "refeicao_livre",   label: "Sem ref. livre",     short: "S/ref.liv" },
 ];
 
@@ -44,7 +40,7 @@ const BADGES: Badge[] = [
   { id: "score7",    label: "Consistente",     icon: "7+",  desc: "Pontuação acima de 7",       check: (c) => c.score >= 7 },
   { id: "score9",    label: "Excelência",      icon: "9+",  desc: "Pontuação acima de 9",       check: (c) => c.score >= 9 },
   { id: "score10",   label: "Perfeição",       icon: "10",  desc: "Pontuação 10.0",             check: (c) => c.score === 10 },
-  { id: "dia100",    label: "Dia perfeito",    icon: "D",   desc: "10/10 hábitos em 1 dia",     check: (c) => c.diasCompletados >= 1 },
+  { id: "dia100",    label: "Dia perfeito",    icon: "D",   desc: "6/6 hábitos em 1 dia",       check: (c) => c.diasCompletados >= 1 },
   { id: "dia7_100",  label: "Semana perfeita", icon: "7D",  desc: "7 dias perfeitos no mês",   check: (c) => c.diasCompletados >= 7 },
   { id: "habPerf",   label: "Especialista",    icon: "H",   desc: "100% em um hábito no mês",  check: (c) => c.habitoPerfeito !== null },
   { id: "first",     label: "Primeiro passo",  icon: "1",   desc: "Primeiro hábito marcado",    check: (c) => c.totalFeitos >= 1 },
@@ -58,12 +54,12 @@ function getMotivationalMessage(feitos: number, total: number): { text: string; 
     sub: "Todos os hábitos cumpridos. Você é referência.",
     color: "text-emerald-700", bg: "bg-gradient-to-r from-emerald-50 to-teal-50", border: "border-emerald-200/60",
   };
-  if (feitos >= 8) return {
+  if (feitos >= 5) return {
     text: "Quase perfeito!",
     sub: `Faltam apenas ${total - feitos}. Você está no topo.`,
     color: "text-emerald-600", bg: "bg-gradient-to-r from-emerald-50/80 to-teal-50/50", border: "border-emerald-200/40",
   };
-  if (feitos >= 5) return {
+  if (feitos >= 3) return {
     text: "Bom ritmo, continue!",
     sub: `${feitos} hábitos feitos. Mais ${total - feitos} e você fecha o dia forte.`,
     color: "text-[#0f2d52]", bg: "bg-gradient-to-r from-blue-50/80 to-slate-50", border: "border-blue-200/40",

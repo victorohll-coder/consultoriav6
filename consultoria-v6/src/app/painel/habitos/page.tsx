@@ -11,12 +11,8 @@ const HABITOS: { slug: string; label: string }[] = [
   { slug: "plano_alimentar",  label: "Plano alimentar"   },
   { slug: "treino",           label: "Treino"             },
   { slug: "cardio",           label: "Cardio"             },
-  { slug: "frutas_verduras",  label: "Frutas e verduras"  },
-  { slug: "horas_sono",       label: "Sono reparador"     },
-  { slug: "agua",             label: "Quantidade de água" },
+  { slug: "agua",             label: "3L de água"         },
   { slug: "alcool",           label: "Sem álcool"         },
-  { slug: "suplementacao",    label: "Suplementação"      },
-  { slug: "intestino",        label: "Intestino"          },
   { slug: "refeicao_livre",   label: "Sem ref. livre"     },
 ];
 
