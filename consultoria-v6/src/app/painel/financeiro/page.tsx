@@ -400,13 +400,12 @@ export default function FinanceiroPage() {
             <div>
               <label className="block text-xs font-semibold text-text2 uppercase tracking-wider mb-1.5">Valor (R$) *</label>
               <input
-                type="number"
-                step="0.01"
-                min="0"
+                type="text"
+                inputMode="decimal"
                 value={valor}
                 onChange={(e) => setValor(e.target.value)}
                 required
-                placeholder="580"
+                placeholder="2500,20"
                 className="w-full px-3 py-2.5 bg-bg border border-border rounded-lg text-text text-sm focus:border-accent focus:outline-none transition-colors"
               />
             </div>

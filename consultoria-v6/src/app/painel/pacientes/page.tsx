@@ -512,12 +512,11 @@ export default function PacientesPage() {
               Valor Pago
             </label>
             <input
-              type="number"
-              step="0.01"
-              min="0"
+              type="text"
+              inputMode="decimal"
               value={valor}
               onChange={(e) => setValor(e.target.value)}
-              placeholder="0.00"
+              placeholder="2500,20"
               className="w-full px-3 py-2.5 bg-bg border border-border rounded-lg text-text text-sm focus:border-accent focus:outline-none transition-colors"
             />
           </div>
