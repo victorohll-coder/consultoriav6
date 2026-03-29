@@ -118,7 +118,7 @@ export default function PacientesPage() {
       telefone: telefone.trim() || null,
       plano: plano || null,
       data_consulta: dataConsulta || null,
-      valor: valor ? parseFloat(valor) : 0,
+      valor: valor ? parseFloat(valor.replace(/\./g, "").replace(",", ".")) : 0,
       observacoes: observacoes.trim() || null,
     };
 
@@ -197,11 +197,12 @@ export default function PacientesPage() {
       }
 
       // Auto-create recebimento if valor > 0
-      if (newPaciente && valor && parseFloat(valor) > 0) {
+      const valorNumReceb = valor ? parseFloat(valor.replace(/\./g, "").replace(",", ".")) : 0;
+      if (newPaciente && valorNumReceb > 0) {
         await supabase.from("recebimentos").insert({
           paciente_id: newPaciente.id,
           profissional_id: user!.id,
-          valor: parseFloat(valor),
+          valor: valorNumReceb,
           data: dataConsulta || new Date().toISOString().split("T")[0],
           plano: plano || null,
           forma: null,
